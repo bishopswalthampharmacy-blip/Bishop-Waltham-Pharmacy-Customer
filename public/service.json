@@ -1,0 +1,20 @@
+[
+  {
+    "heading": "Your Trusted Travel Health Clinic",
+    "subheading": "Ensure your health abroad with our dedicated Travel Clinic at Bishops Waltham's Pharmacy. We provide specialist travel advice and necessary vaccinations. Book a quick, friendly appointment; no GP referral needed.",
+    "imageUrl": "https://bishops-services.s3.eu-west-2.amazonaws.com/Images/Travel-vaccination-scaled.jpg",
+    "service": "Travel Clinic"
+  },
+  {
+    "heading": "Your Trusted Ear Microsuction Clinic",
+    "subheading": "Restore your hearing comfort at our Ear Microsuction Clinic in Bishops Waltham. We safely remove earwax using precision tools in a clean, calm environment. Book a fast, professional appointment with no GP referral required.",
+    "imageUrl": "https://bishops-services.s3.eu-west-2.amazonaws.com/Images/travell.webp",
+    "service": "Ear Microsuction"
+  },
+  {
+    "heading": "Your Trusted Weight Loss Clinic",
+    "subheading": "Take control of your weight with support from our friendly team in Bishops Waltham. We offer tailored advice and clinical solutions to help you lose weight safely and effectively. No GP referral needed book today.",
+    "imageUrl": "https://bishops-services.s3.eu-west-2.amazonaws.com/Images/weight.svg",
+    "service": "Weight Loss"
+  }
+]
