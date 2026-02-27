@@ -14,9 +14,7 @@ const Hero = ({ onHeroLoaded }) => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch(
-          "/service.json"
-        );
+        const response = await fetch("/service.json");
         const data = await response.json();
         setServices(data);
       } catch (error) {
@@ -34,7 +32,6 @@ const Hero = ({ onHeroLoaded }) => {
     fetchServices();
   }, []);
 
-
   useEffect(() => {
     if (services.length > 0 && !heroReady) {
       const fallbackTimer = setTimeout(() => {
@@ -42,7 +39,6 @@ const Hero = ({ onHeroLoaded }) => {
           setHeroReady(true);
         }
       }, 1500);
-
 
       if (imageLoaded) {
         clearTimeout(fallbackTimer);
@@ -97,7 +93,6 @@ const Hero = ({ onHeroLoaded }) => {
               className="object-cover object-bottom"
               priority
               onLoad={() => {
-                console.log("Hero image loaded successfully");
                 setImageLoaded(true);
               }}
               onError={() => {
@@ -105,7 +100,7 @@ const Hero = ({ onHeroLoaded }) => {
                 setImageLoaded(true); // Still mark as loaded to prevent blocking
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/80 to-black/50 z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/70 to-black/40 z-10" />
           </motion.div>
         </AnimatePresence>
 
@@ -192,8 +187,8 @@ const Hero = ({ onHeroLoaded }) => {
                     }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     className={`text-lg ${isActive
-                      ? "font-semibold text-white"
-                      : "font-normal text-white/60"
+                        ? "font-semibold text-white"
+                        : "font-normal text-white/60"
                       }`}
                   >
                     {labelItem.service}

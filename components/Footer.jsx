@@ -69,7 +69,6 @@ export default function Footer() {
       )
       .then(
         (result) => {
-          console.log("SUCCESS!", result.text);
           setIsFormSubmitted(true);
           setTimeout(() => {
             setName("");
@@ -81,7 +80,6 @@ export default function Footer() {
           }, 3000);
         },
         (error) => {
-          console.log("FAILED...", error);
         }
       );
   };
@@ -870,7 +868,7 @@ export default function Footer() {
                   <div className="space-y-2">
                     <div className="text-gray-500 text-sm">
                       <span className="text-gray-700 font-medium">Phone: </span>
-                      <span>01489 892599</span>
+                      <span>01489 892499</span>
                     </div>
                     <div className="text-gray-500 text-sm">
                       <span className="text-gray-700 font-medium">Email: </span>

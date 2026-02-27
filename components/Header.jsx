@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import Image from 'next/image';
@@ -55,6 +53,7 @@ const Header = () => {
 
         {/* Right: Contact + Icons */}
         <div className="flex items-center gap-6 pr-4">
+          {/* Contact info on desktop */}
           <div className="hidden md:flex items-center gap-2">
             <div className="bg-[#037F91] p-2 rounded-full text-white">
               <Phone size={18} />
@@ -120,13 +119,31 @@ const Header = () => {
             </div>
           )}
 
+          {/* Mobile: Menu button on top, contact info below in one row */}
+          <div className="flex flex-col items-end gap-8 lg:hidden">
+            <div
+              className="text-2xl text-[#0B5C64] cursor-pointer"
+              onClick={toggleMenu}
+            >
+              {menuOpen ? <X /> : <Menu />}
+            </div>
 
-
-          <div
-            className="text-2xl text-[#0B5C64] cursor-pointer lg:hidden"
-            onClick={toggleMenu}
-          >
-            {menuOpen ? <X /> : <Menu />}
+            {/* Contact info on mobile - Email and Phone in same row */}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <div className="bg-[#037F91] p-1 rounded-full text-white">
+                  <Mail size={11} />
+                </div>
+                <p className="text-[10px] font-medium text-[#4C4C4C]">pharmacy.frn21@nhs.net</p>
+              </div>
+              
+              <div className="flex items-center gap-1">
+                <div className="bg-[#037F91] p-1 rounded-full text-white">
+                  <Phone size={11} />
+                </div>
+                <p className="text-[10px] font-medium text-[#4C4C4C]">01489892499</p>
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -134,39 +151,96 @@ const Header = () => {
       {/* Mobile Slide Menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed top-0 right-0 h-full w-[80%] bg-white shadow-lg z-40 flex flex-col gap-6 px-6 py-10 text-gray-800"
-          >
-            <Link href="/" onClick={toggleMenu}>Home</Link>
-            <Link href="/services" onClick={toggleMenu}>Services</Link>
-            <Link href="/book-vaccination" onClick={toggleMenu}>Book Vaccination</Link>
-            {/* <Link href="/blog" onClick={toggleMenu}>Blogs</Link> */}
-            <Link href="/locations" onClick={toggleMenu}>Locations</Link>
-            <Link href="/about" onClick={toggleMenu}>About</Link>
-            <Link href="/help" onClick={toggleMenu}>Help</Link>
-
-            {isAuthenticated && (
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <div className="text-sm text-gray-500 mb-2">
-                  Signed in as {user?.email || user?.name || 'User'}
-                </div>
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/50 z-[60]"
+              onClick={toggleMenu}
+            />
+            
+            {/* Slide Menu */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.3 }}
+              className="fixed top-0 right-0 h-full w-[85%] max-w-sm bg-white shadow-2xl z-[70] flex flex-col overflow-y-auto"
+            >
+              {/* Close Button */}
+              <div className="flex justify-between items-center px-6 py-6 border-b border-gray-200">
+                <h2 className="text-lg font-semibold text-gray-800">Menu</h2>
                 <button
-                  onClick={() => {
-                    logout();
-                    toggleMenu();
-                    window.location.href = "/";
-                  }}
-                  className="text-red-500 flex items-center gap-2"
+                  onClick={toggleMenu}
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
-                  <LogOut size={16} /> Logout
+                  <X size={24} />
                 </button>
               </div>
-            )}
-          </motion.div>
+
+              {/* Menu Items */}
+              <nav className="flex flex-col gap-1 px-6 py-4 flex-1">
+                <Link 
+                  href="/#home" 
+                  onClick={toggleMenu}
+                  className="py-3 text-gray-800 hover:text-[#0B5C64] hover:bg-gray-50 rounded-md px-3 transition-colors font-medium"
+                >
+                  Home
+                </Link>
+                <Link 
+                  href="/#services" 
+                  onClick={toggleMenu}
+                  className="py-3 text-gray-800 hover:text-[#0B5C64] hover:bg-gray-50 rounded-md px-3 transition-colors font-medium"
+                >
+                  Services
+                </Link>
+                <Link 
+                  href="/booking" 
+                  onClick={toggleMenu}
+                  className="py-3 text-gray-800 hover:text-[#0B5C64] hover:bg-gray-50 rounded-md px-3 transition-colors font-medium"
+                >
+                  Book Vaccination
+                </Link>
+                {/* <Link href="/blog" onClick={toggleMenu}>Blogs</Link> */}
+                <Link 
+                  href="/#about" 
+                  onClick={toggleMenu}
+                  className="py-3 text-gray-800 hover:text-[#0B5C64] hover:bg-gray-50 rounded-md px-3 transition-colors font-medium"
+                >
+                  About
+                </Link>
+                <Link 
+                  href="/#faq" 
+                  onClick={toggleMenu}
+                  className="py-3 text-gray-800 hover:text-[#0B5C64] hover:bg-gray-50 rounded-md px-3 transition-colors font-medium"
+                >
+                  Help
+                </Link>
+
+                {isAuthenticated && (
+                  <div className="mt-auto pt-4 border-t border-gray-200">
+                    <div className="text-sm text-gray-500 mb-3 px-3">
+                      Signed in as <br />
+                      <span className="font-semibold text-gray-700">{user?.email || user?.name || 'User'}</span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        logout();
+                        toggleMenu();
+                        window.location.href = "/";
+                      }}
+                      className="w-full text-left py-3 px-3 text-red-500 hover:bg-red-50 rounded-md flex items-center gap-2 font-medium transition-colors"
+                    >
+                      <LogOut size={16} /> Logout
+                    </button>
+                  </div>
+                )}
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
