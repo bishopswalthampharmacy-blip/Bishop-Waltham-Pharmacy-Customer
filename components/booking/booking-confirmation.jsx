@@ -1,14 +1,23 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { X, Check, Calendar, Clock } from "lucide-react"
-import confetti from "canvas-confetti"
-import { useEffect,useState } from "react"
-import { useCart } from "@/src/contexts" // Import useCart
+import { motion } from "framer-motion";
+import { X, Check, Calendar, Clock } from "lucide-react";
+import confetti from "canvas-confetti";
+import { useEffect, useState, useRef } from "react";
+import { useCart } from "@/src/contexts";
 
-export default function BookingConfirmation({ appointmentId, serviceName, selectedDate, selectedTime, onClose, bookingId,bookingDate }) {
-
+export default function BookingConfirmation({
+  appointmentId,
+  serviceName,
+  selectedDate,
+  selectedTime,
+  onClose,
+  bookingId,
+  bookingDate,
+}) {
   const [isLoading, setIsLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
+  const isNavigatingToPayment = useRef(false);
   const {
     cart,
     addToCart,
@@ -18,170 +27,266 @@ export default function BookingConfirmation({ appointmentId, serviceName, select
     subtotal,
     tax,
     clearCart,
-    grandTotal
-  } = useCart()
+    grandTotal,
+  } = useCart();
 
-
-
-
-  // Trigger confetti effect when component mounts
   useEffect(() => {
-    // Only clear cart if there's something to clear
-    // This prevents an infinite loop by not calling clearCart if the cart is already empty
-    if (typeof window !== 'undefined') {
+    setIsLoading(false);
+    setPaymentError("");
+    isNavigatingToPayment.current = false;
+
+    if (typeof window !== "undefined") {
+      const wasNavigatingToPayment = sessionStorage.getItem(
+        "navigating_to_payment"
+      );
+      if (wasNavigatingToPayment) {
+        sessionStorage.removeItem("navigating_to_payment");
+        setIsLoading(false);
+        setPaymentError("");
+      }
+    }
+
+    const handlePageShow = (event) => {
+      if (event.persisted || isNavigatingToPayment.current) {
+        setIsLoading(false);
+        setPaymentError("");
+        isNavigatingToPayment.current = false;
+
+        if (typeof window !== "undefined") {
+          sessionStorage.removeItem("navigating_to_payment");
+        }
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (
+        document.visibilityState === "visible" &&
+        isNavigatingToPayment.current
+      ) {
+        setTimeout(() => {
+          setIsLoading(false);
+          setPaymentError("");
+          isNavigatingToPayment.current = false;
+          if (typeof window !== "undefined") {
+            sessionStorage.removeItem("navigating_to_payment");
+          }
+        }, 100);
+      }
+    };
+
+    const handleFocus = () => {
+      if (isNavigatingToPayment.current) {
+        setTimeout(() => {
+          setIsLoading(false);
+          setPaymentError("");
+          isNavigatingToPayment.current = false;
+          if (typeof window !== "undefined") {
+            sessionStorage.removeItem("navigating_to_payment");
+          }
+        }, 100);
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.removeEventListener("pageshow", handlePageShow);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
       const cartData = localStorage.getItem("vaccineCart");
 
-      // Only clear if cart isn't already empty
       if (cartData && cartData !== "[]") {
-        // Clear cart only once
         clearCart();
 
-        // Set a flag to indicate we've cleared the cart
         localStorage.setItem("cart_cleared", "true");
       }
     }
 
-    // Add event listener to prevent navigation
     const handleBeforeUnload = (event) => {
-      // Only prevent navigation if the user hasn't clicked "Done"
       if (!sessionStorage.getItem("booking_success")) {
-        const message = "Your booking is complete! Please click 'Done' to continue.";
+        const message =
+          "Your booking is complete! Please click 'Done' to continue.";
         event.returnValue = message;
         return message;
       }
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-    // Set flags to indicate we're showing confirmation - do only once
-    if (typeof window !== 'undefined' && !sessionStorage.getItem("showing_confirmation")) {
-      console.log("Setting confirmation flags in BookingConfirmation component");
+    if (
+      typeof window !== "undefined" &&
+      !sessionStorage.getItem("showing_confirmation")
+    ) {
       sessionStorage.setItem("showing_confirmation", "true");
       localStorage.setItem("booking_success", "true");
       sessionStorage.setItem("in_booking_process", "true");
     }
 
-    const duration = 3 * 1000
-    const animationEnd = Date.now() + duration
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
     function randomInRange(min, max) {
-      return Math.random() * (max - min) + min
+      return Math.random() * (max - min) + min;
     }
 
     const interval = setInterval(() => {
-      const timeLeft = animationEnd - Date.now()
+      const timeLeft = animationEnd - Date.now();
 
       if (timeLeft <= 0) {
-        return clearInterval(interval)
+        return clearInterval(interval);
       }
 
-      const particleCount = 50 * (timeLeft / duration)
+      const particleCount = 50 * (timeLeft / duration);
 
-      // Since particles fall down, start a bit higher than random
       confetti({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.1, 0.3), y: randomInRange(0, 0.2) },
-      })
+      });
       confetti({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.7, 0.9), y: randomInRange(0, 0.2) },
-      })
-    }, 250)
+      });
+    }, 250);
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    }
-  }, [])
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
-  // Handle the close button click
   const handleClose = (e) => {
-    // Prevent default link behavior
     if (e) e.preventDefault();
 
-    // Only clear cart if it hasn't been cleared already
-    if (typeof window !== 'undefined' && !localStorage.getItem("cart_cleared")) {
+    if (
+      typeof window !== "undefined" &&
+      !localStorage.getItem("cart_cleared")
+    ) {
       clearCart();
       localStorage.setItem("cart_cleared", "true");
     }
 
-    // Set a session flag to indicate we had a successful booking
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       sessionStorage.setItem("booking_success", "true");
       sessionStorage.setItem("booking_completed", "true");
     }
-
-    // Call the onClose function provided by the parent
     if (onClose) onClose();
-  }
+  };
 
-  // Default date display if none provided
   const displayDate = selectedDate || "19 Apr, 2025";
 
-  // Default time display if none provided (convert 24h to 12h format if needed)
   let displayTime = selectedTime || "10:15";
   if (selectedTime) {
-    // Convert 24h to 12h format with AM/PM
-    const timeParts = selectedTime.split(':');
+    const timeParts = selectedTime.split(":");
     const hour = parseInt(timeParts[0], 10);
     const minute = timeParts[1];
-    const period = hour >= 12 ? '' : '';
-    const hour12 = hour % 12 || 12; // Convert 0 to 12
+    const period = hour >= 12 ? "" : "";
+    const hour12 = hour % 12 || 12;
     displayTime = `${hour12}:${minute} ${period}`;
   } else {
     displayTime = "10:15 AM";
   }
 
-
   const handlePayment = async () => {
+    setIsLoading(true);
+    setPaymentError("");
+    isNavigatingToPayment.current = true;
 
-    
     try {
-      const response = await fetch('https://7n0wver1gl.execute-api.eu-west-2.amazonaws.com/dev/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
 
+      const response = await fetch(
+        "https://7n0wver1gl.execute-api.eu-west-2.amazonaws.com/dev/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            bookingId: bookingId,
+            bookingDate: bookingDate,
+            returnUrl: window.location.href,
+          }),
+          signal: controller.signal,
+        }
+      );
 
+      clearTimeout(timeoutId);
 
+      if (!response.ok) {
+        throw new Error(
+          `Server error: ${response.status} ${response.statusText}`
+        );
+      }
 
-        body: JSON.stringify({
-          bookingId: bookingId,
-          bookingDate: bookingDate,
-          returnUrl : window.location.href
-        }),
-      });
-
-      const { sessionUrl } = await response.json();
-      console.log(sessionUrl)
+      const data = await response.json();
+      const { sessionUrl } = data;
 
       if (sessionUrl) {
+        // Store that we're navigating to payment
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("navigating_to_payment", "true");
+        }
         window.location.href = sessionUrl;
       } else {
-        throw new Error('No checkout URL returned');
+        throw new Error("No checkout URL returned from server");
       }
     } catch (error) {
-      console.error('Payment processing error:', error);
-      alert('Failed to initiate payment: ' + error.message);
-    } finally {
+      console.error("Payment processing error:", error);
+      setIsLoading(false);
+      isNavigatingToPayment.current = false;
 
+      let errorMessage = "Failed to initiate payment. Please try again.";
+
+      if (error.name === "AbortError") {
+        errorMessage =
+          "Payment request timed out. Please check your connection and try again.";
+      } else if (error.message.includes("Server error")) {
+        errorMessage =
+          "Server error occurred. Please try again or contact support.";
+      } else if (error.message.includes("Failed to fetch")) {
+        errorMessage = "Network error. Please check your internet connection.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
+      setPaymentError(errorMessage);
+
+      // Show alert as fallback
+      alert(errorMessage);
     }
   };
 
-
   return (
-<div className="p-6 text-center w-full lg:w-1/2 xl:w-1/2 mx-auto">
-
+    <div className="p-6 text-center w-full lg:w-1/2 xl:w-1/2 mx-auto">
       <button
         onClick={handleClose}
         className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full p-1 transition-colors"
       >
         <X size={18} />
       </button>
+
+      {/* Payment Error Message */}
+      {paymentError && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+        >
+          <p className="font-medium">Payment Error</p>
+          <p className="mt-1">{paymentError}</p>
+        </motion.div>
+      )}
 
       {/* Success animation */}
       <div className="relative w-24 h-24 mx-auto mb-8">
@@ -248,8 +353,14 @@ export default function BookingConfirmation({ appointmentId, serviceName, select
         </motion.div>
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-        <h3 className="text-[#E18180] font-medium text-lg mb-2">Booking Confirmed!</h3>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
+        <h3 className="text-[#E18180] font-medium text-lg mb-2">
+          Booking Confirmed!
+        </h3>
 
         <h2 className="text-xl font-bold mb-6 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
           {serviceName}
@@ -300,67 +411,74 @@ export default function BookingConfirmation({ appointmentId, serviceName, select
         </div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="text-center">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="text-center"
+      >
         <p className="text-xs text-gray-500 mb-6">
-          A confirmation has been sent to your mobile number. Please arrive 10 minutes before your appointment time.
+          A confirmation has been sent to your mobile number. Please arrive 10
+          minutes before your appointment time.
         </p>
 
         <div className="space-y-3">
-       <motion.button
-  whileHover={!isLoading ? { scale: 1.02, y: -1 } : {}}
-  whileTap={!isLoading ? { scale: 0.98 } : {}}
-  disabled={isLoading}
-  onClick={async (e) => {
-    setIsLoading(true); // Start loader
-    try {
-      await handlePayment(); // Redirects to Stripe checkout
-    } catch (error) {
-      console.error("Error during payment or post-payment logic:", error);
-      setIsLoading(false); // Stop loader on error
-    }
-  }}
-  className={`w-full py-3 rounded-xl font-medium transition-all duration-300 shadow-md ${
-    isLoading
-      ? "bg-gray-400 cursor-not-allowed text-white"
-      : "bg-gradient-to-r from-[#00ACC1] to-[#0097A7] hover:from-[#0097A7] hover:to-[#00ACC1] text-white hover:shadow-lg"
-  }`}
->
-  {isLoading ? (
-    <span className="flex items-center justify-center gap-2">
-      <svg
-        className="animate-spin h-5 w-5 text-white"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        ></circle>
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v8H4z"
-        ></path>
-      </svg>
-      Processing...
-    </span>
-  ) : (
-    "Pay Now"
-  )}
-</motion.button>
-
+          <motion.button
+            whileHover={!isLoading ? { scale: 1.02, y: -1 } : {}}
+            whileTap={!isLoading ? { scale: 0.98 } : {}}
+            disabled={isLoading}
+            onClick={async (e) => {
+              setIsLoading(true);
+              try {
+                await handlePayment();
+              } catch (error) {
+                console.error(
+                  "Error during payment or post-payment logic:",
+                  error
+                );
+                setIsLoading(false);
+              }
+            }}
+            className={`w-full py-3 rounded-xl font-medium transition-all duration-300 shadow-md ${isLoading
+              ? "bg-gray-400 cursor-not-allowed text-white"
+              : "bg-gradient-to-r from-[#00ACC1] to-[#0097A7] hover:from-[#0097A7] hover:to-[#00ACC1] text-white hover:shadow-lg"
+              }`}
+          >
+            {isLoading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+                Processing...
+              </span>
+            ) : (
+              "Pay Now"
+            )}
+          </motion.button>
 
           <motion.button
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
             onClick={(e) => {
               // Set the completion flag first
-              if (typeof window !== 'undefined') {
+              if (typeof window !== "undefined") {
                 sessionStorage.setItem("booking_success", "true");
                 sessionStorage.setItem("booking_completed", "true");
                 // Clear the booking process flag since we're done
@@ -377,8 +495,8 @@ export default function BookingConfirmation({ appointmentId, serviceName, select
                 window.location.href = "/vaccines";
               }, 100);
             }}
-           /* className="w-full py-3 border border-[#00ACC1] text-[#00ACC1] bg-white hover:bg-[#E8F5F7] rounded-xl font-medium transition-colors duration-300"*/
-             className="w-full py-3 bg-gradient-to-r from-[#00ACC1] to-[#0097A7] hover:from-[#0097A7] hover:to-[#00ACC1] text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300"
+            /* className="w-full py-3 border border-[#00ACC1] text-[#00ACC1] bg-white hover:bg-[#E8F5F7] rounded-xl font-medium transition-colors duration-300"*/
+            className="w-full py-3 bg-gradient-to-r from-[#00ACC1] to-[#0097A7] hover:from-[#0097A7] hover:to-[#00ACC1] text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300"
           >
             Pay later
           </motion.button>
@@ -388,7 +506,7 @@ export default function BookingConfirmation({ appointmentId, serviceName, select
             whileTap={{ scale: 0.98 }}
             onClick={(e) => {
               // Set the completion flag first
-              if (typeof window !== 'undefined') {
+              if (typeof window !== "undefined") {
                 sessionStorage.setItem("booking_success", "true");
                 sessionStorage.setItem("booking_completed", "true");
                 // Clear the booking process flag since we're done
@@ -396,10 +514,10 @@ export default function BookingConfirmation({ appointmentId, serviceName, select
                 // Also set cart_cleared to prevent multiple clearCart calls
                 localStorage.setItem("cart_cleared", "true");
               }
-              
+
               // Handle close without clearing cart again
               handleClose(e);
-              
+
               // Redirect to vaccines page with short delay to ensure state updates
               setTimeout(() => {
                 window.location.href = "/";
@@ -409,11 +527,8 @@ export default function BookingConfirmation({ appointmentId, serviceName, select
           >
             Book Another Appointment
           </motion.button>
-
-       
-        
         </div>
       </motion.div>
     </div>
-  )
+  );
 }

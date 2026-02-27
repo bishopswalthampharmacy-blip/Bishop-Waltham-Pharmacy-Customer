@@ -38,9 +38,6 @@ export default function Booking() {
 
     // Only redirect if cart is empty AND we're not in booking confirmation
     if (!loading && !cartLoading && cart.length === 0 && !inBookingProcess) {
-      console.log(
-        "No items in cart and not in booking process. Redirecting to vaccines page."
-      );
       setRedirect(true);
       router.push("/vaccines");
     }

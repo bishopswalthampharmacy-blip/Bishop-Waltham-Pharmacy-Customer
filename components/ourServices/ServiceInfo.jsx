@@ -681,7 +681,7 @@ export default function ServiceInfo({ service }) {
                                                     Call Us Now
                                                 </p>
                                                 <p className="text-white/90 font-average">
-                                                 01489892599
+                                                 01489892499
                                                 </p>
                                                 <p className="text-white/70 font-average text-sm mt-1">
                                                     Mon-Fri: 9AM-6PM | Sat: 9AM-5PM

@@ -85,11 +85,9 @@ export default function TimeSelection({ onTimeSelect, onBack, selectedDate, prel
         ? date 
         : `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
       
-      console.log("Fetching slots for date:", formattedDate);
       const result = await fetchSlotsForDay(formattedDate);
       
       if (result.success && result.data) {
-        console.log("Slots fetched successfully:", result.data);
         processSlots(result.data);
       } else {
         console.error("Failed to fetch slots:", result.message);

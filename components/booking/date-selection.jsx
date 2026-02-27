@@ -4,32 +4,31 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
 
-export default function DateSelection({ onDateSelect }) {
-  const [currentMonth, setCurrentMonth] = useState(new Date())
-
-  // Get current date for highlighting today
+export default function DateSelection({ onDateSelect, loading = false }) {
+  // Normalize today
   const today = new Date()
   today.setHours(0, 0, 0, 0)
+
+  // Current month (default: today’s month)
+  const [currentMonth, setCurrentMonth] = useState(new Date(today))
+
+  // ✅ Selected date (default: today)
+  const [selectedDate, setSelectedDate] = useState(new Date(today))
 
   // Generate calendar data
   const generateCalendarData = (date) => {
     const year = date.getFullYear()
     const month = date.getMonth()
 
-    // Get first day of month and last day of month
     const firstDay = new Date(year, month, 1)
     const lastDay = new Date(year, month + 1, 0)
 
-    // Get day of week for first day (0 = Sunday, 6 = Saturday)
     const firstDayOfWeek = firstDay.getDay()
-
-    // Calculate days from previous month to show
     const daysFromPrevMonth = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1
 
-    // Generate array of dates to display
     const calendarDays = []
 
-    // Add days from previous month
+    // Previous month days
     const prevMonth = new Date(year, month, 0)
     const prevMonthDays = prevMonth.getDate()
 
@@ -37,27 +36,23 @@ export default function DateSelection({ onDateSelect }) {
       calendarDays.push({
         date: new Date(year, month - 1, i),
         isCurrentMonth: false,
-        isToday: false,
       })
     }
 
-    // Add days from current month
+    // Current month days
     for (let i = 1; i <= lastDay.getDate(); i++) {
-      const date = new Date(year, month, i)
       calendarDays.push({
-        date,
+        date: new Date(year, month, i),
         isCurrentMonth: true,
-        isToday: date.getTime() === today.getTime(),
       })
     }
 
-    // Add days from next month to complete the grid (6 rows x 7 days = 42 cells)
+    // Next month days
     const remainingDays = 42 - calendarDays.length
     for (let i = 1; i <= remainingDays; i++) {
       calendarDays.push({
         date: new Date(year, month + 1, i),
         isCurrentMonth: false,
-        isToday: false,
       })
     }
 
@@ -66,115 +61,113 @@ export default function DateSelection({ onDateSelect }) {
 
   const calendarDays = generateCalendarData(currentMonth)
 
-  // Format month and year for display
-  const monthYearFormat = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" })
+  const monthYearFormat = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    year: "numeric",
+  })
 
-  // Navigate to previous month
   const goToPrevMonth = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))
   }
 
-  // Navigate to next month
   const goToNextMonth = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))
   }
 
-  // Check if date is selectable (not in the past)
-  const isSelectable = (date) => {
-    return date >= today
-  }
+  const isSelectable = (date) => date >= today
 
-  // Handle date selection
   const handleDateClick = (date) => {
-    if (isSelectable(date)) {
-      onDateSelect(date)
-    }
+    if (!isSelectable(date)) return
+    setSelectedDate(date)
+    onDateSelect?.(date)
   }
 
   return (
     <div className="p-6 pt-2">
-      {/* Calendar container bigger */}
       <div className="bg-white p-5 rounded-2xl shadow-md border border-gray-100 max-w-[360px] mx-auto">
-        {/* Calendar header */}
+        {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <button 
-            onClick={goToPrevMonth} 
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          <button
+            onClick={goToPrevMonth}
+            className="p-2 rounded-full hover:bg-gray-100"
           >
-            <ChevronLeft size={20} className="text-gray-600" />
+            <ChevronLeft size={20} />
           </button>
 
-          <h4 className="text-base font-semibold flex items-center text-gray-800">
+          <h4 className="text-base font-semibold flex items-center">
             <Calendar size={18} className="mr-2 text-[#00ACC1]" />
             {monthYearFormat.format(currentMonth)}
           </h4>
 
-          <button 
-            onClick={goToNextMonth} 
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          <button
+            onClick={goToNextMonth}
+            className="p-2 rounded-full hover:bg-gray-100"
           >
-            <ChevronRight size={20} className="text-gray-600" />
+            <ChevronRight size={20} />
           </button>
         </div>
 
-        {/* Weekday headers */}
-        <div className="grid grid-cols-7 text-center text-[12px] font-medium text-gray-500 mb-2">
-          <div>M</div>
-          <div>T</div>
-          <div>W</div>
-          <div>T</div>
-          <div>F</div>
-          <div>S</div>
-          <div>S</div>
+        {/* Weekdays */}
+        <div className="grid grid-cols-7 text-center text-xs font-medium text-gray-500 mb-2">
+          <div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div>
         </div>
 
-        {/* Calendar grid bigger */}
+        {/* Calendar */}
         <div className="grid grid-cols-7 gap-1">
-          {calendarDays.map((day, index) => (
-            <motion.button
-              key={index}
-              whileHover={isSelectable(day.date) ? { scale: 1.08 } : {}}
-              whileTap={isSelectable(day.date) ? { scale: 0.95 } : {}}
-              onClick={() => handleDateClick(day.date)}
-              disabled={!isSelectable(day.date)}
-              className={`
-                relative h-10 w-10 rounded-full flex items-center justify-center text-sm
-                ${!day.isCurrentMonth ? "text-gray-300" : "text-gray-700"}
-                ${!isSelectable(day.date) ? "cursor-not-allowed opacity-40" : "cursor-pointer"}
-                ${day.isToday ? "border-2 border-[#00ACC1] text-[#00ACC1] font-semibold" : ""}
-                ${
-                  day.isCurrentMonth && isSelectable(day.date) && !day.isToday
-                    ? "hover:bg-[#00ACC1] hover:text-white"
-                    : ""
-                }
-                transition-all duration-150
-              `}
-            >
-              {day.date.getDate()}
+          {calendarDays.map((day, index) => {
+            const isToday = day.date.getTime() === today.getTime()
+            const isSelected = day.date.getTime() === selectedDate.getTime()
 
-              {/* Selected indicator dot */}
-              {day.date.getDate() === 19 && day.isCurrentMonth && (
-                <motion.div
-                  className="absolute -bottom-1.5 w-1.5 h-1.5 bg-[#00ACC1] rounded-full"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                />
-              )}
-            </motion.button>
-          ))}
+            return (
+              <motion.button
+                key={index}
+                whileHover={isSelectable(day.date) ? { scale: 1.08 } : {}}
+                whileTap={isSelectable(day.date) ? { scale: 0.95 } : {}}
+                onClick={() => handleDateClick(day.date)}
+                disabled={!isSelectable(day.date)}
+                className={`
+                  h-10 w-10 rounded-full flex items-center justify-center text-sm
+                  ${!day.isCurrentMonth ? "text-gray-300" : "text-gray-700"}
+                  ${!isSelectable(day.date) ? "opacity-40 cursor-not-allowed" : ""}
+                  ${isSelected ? "bg-[#00ACC1] text-white font-semibold" : ""}
+                  ${isToday && !isSelected ? "border-2 border-[#00ACC1] text-[#00ACC1]" : ""}
+                  ${
+                    day.isCurrentMonth && isSelectable(day.date) && !isSelected
+                      ? "hover:bg-[#00ACC1] hover:text-white"
+                      : ""
+                  }
+                  transition-all
+                `}
+              >
+                {day.date.getDate()}
+              </motion.button>
+            )
+          })}
         </div>
       </div>
 
-      {/* Next button bigger */}
+      {/* Select Button */}
       <div className="mt-6 max-w-[380px] mx-auto">
         <motion.button
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          onClick={() => handleDateClick(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 19))}
-          className="w-full bg-gradient-to-r from-[#00ACC1] to-[#0097A7] text-white py-3 rounded-lg font-semibold flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-200 text-base cursor-pointer"
+          whileHover={{ scale: loading ? 1 : 1.03 }}
+          whileTap={{ scale: loading ? 1 : 0.97 }}
+          onClick={() => handleDateClick(selectedDate)}
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-[#00ACC1] to-[#0097A7] text-white py-3 rounded-lg font-semibold flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          Select Time Slot <ChevronRight size={16} className="ml-2" />
+          {loading ? (
+            <>
+              <svg className="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Loading Slots...
+            </>
+          ) : (
+            <>
+              Select Time Slot <ChevronRight size={16} className="ml-2" />
+            </>
+          )}
         </motion.button>
       </div>
     </div>

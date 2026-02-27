@@ -7,16 +7,16 @@ import { ChevronDown, Stethoscope, Syringe, ArrowRight } from "lucide-react"
 export default function AppointmentTypeSelector({ 
   value = "consultation",
   onChange, 
-  consultancyValue="travel_clinc",
+  consultancyValue="Travel Clinic",
   onConsultancyChange,
   onSelectionComplete,
   consultancyTypes = [
-    { value: 'travel_clinic', label: 'Travel Clinic' },
-    { value: 'ear_microsection', label: 'Ear Microsection' },
-    { value: 'weight_loss', label: 'Weight Loss' }
+    { value: 'Travel Clinic', label: 'Travel Clinic' },
+    { value: 'Ear Microsuction', label: 'Ear Microsuction' },
+    { value: 'Weight Loss', label: 'Weight Loss' }
   ],
   showConsultancy = false,
-  hideVaccinationOption = false, // This prop is now effectively unused since we always show vaccination
+  hideVaccinationOption = false, 
   loading = false 
 }) {
   const [focused, setFocused] = useState(false)
@@ -34,7 +34,7 @@ export default function AppointmentTypeSelector({
 
    useEffect(() => {
     if (consultancyTypes.length > 0 && !consultancyValue) {
-      onConsultancyChange('travel_clinic')
+      onConsultancyChange('Travel Clinic')
     }
   }, [])
 
@@ -103,7 +103,7 @@ export default function AppointmentTypeSelector({
   }
 
   const selectedConsultancy = consultancyTypes.find(opt => opt.value === consultancyValue) || 
-                            { value: "travel_clinic", label: "Travel Clinic" }                           
+                            { value: "Travel Clinic", label: "Travel Clinic" }                           
 
   // Always use 2 columns since we always show both options
   const gridColumns = 'grid-cols-2'
@@ -247,15 +247,27 @@ export default function AppointmentTypeSelector({
       <motion.button
         type="button"
         onClick={handleSubmit}
-        whileHover={{ scale: 1.01 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ scale: loading ? 1 : 1.01 }}
+        whileTap={{ scale: loading ? 1 : 0.98 }}
         disabled={loading}
         className={`w-full flex items-center justify-center py-3 px-6 rounded-lg text-white font-medium ${
-          loading ? 'bg-gray-400' : 'bg-[#00ACC1] hover:bg-[#0097A7]'
+          loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#00ACC1] hover:bg-[#0097A7]'
         } shadow-md transition-colors`}
       >
-        Continue
-        <ArrowRight size={18} className="ml-2" />
+        {loading ? (
+          <>
+            <svg className="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Loading...
+          </>
+        ) : (
+          <>
+            Continue
+            <ArrowRight size={18} className="ml-2" />
+          </>
+        )}
       </motion.button>
     </div>
   )

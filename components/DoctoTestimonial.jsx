@@ -141,7 +141,7 @@ export default function DoctorTestimonial() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-white" />
-                <p className="font-medium">01489892599</p>
+                <p className="font-medium">01489892499</p>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-white" />
@@ -204,7 +204,7 @@ export default function DoctorTestimonial() {
           <div className="flex flex-col gap-2">
             <div className="flex items-center">
               <p className="mr-2 text-white/70 whitespace-nowrap">Contact No.:</p>
-              <p className="font-medium">01489892599</p>
+              <p className="font-medium">01489892499</p>
             </div>
             <div className="flex items-center">
               <p className="mr-2 text-white/70 whitespace-nowrap">Email Id:</p>

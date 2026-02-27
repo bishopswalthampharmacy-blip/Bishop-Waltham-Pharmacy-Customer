@@ -61,7 +61,7 @@ const Header = () => {
             </div>
             <div className="text-xs leading-4 text-black">
               <p className="font-bold">Phone Number</p>
-              <p className="font-medium text-[#4C4C4C]">01489892599</p>
+              <p className="font-medium text-[#4C4C4C]">01489892499</p>
             </div>
           </div>
 
