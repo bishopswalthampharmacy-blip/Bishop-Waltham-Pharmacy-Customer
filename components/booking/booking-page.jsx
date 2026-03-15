@@ -17,6 +17,9 @@ import {
   verifyOTP,
   createUser,
   fetchSlotsForDay,
+  sendBookingConfirmationEmail,
+  formatVaccinesSummary,
+  calculateTotalAmount,
 } from "@/lib/utils";
 import { useAuth, useCart } from "@/src/contexts";
 import { useSearchParams } from "next/navigation";
@@ -333,6 +336,35 @@ export default function BookingPage({ cartItems = [] }) {
         const result = await bookSlotForDay(bookingData);
 
         if (result.success) {
+          // Extract meridiem from selectedTime
+          const timeSlotParts = (time || selectedTime || "").split(" ");
+          const meridiem =
+            timeSlotParts.length > 1
+              ? timeSlotParts[timeSlotParts.length - 1]
+              : "AM";
+
+          // Send confirmation email
+          const emailData = {
+            appointmentNo: result.data.appointmentNo,
+            bookingDate: result.data.bookingDate,
+            type: "Consultation",
+            slot: time || selectedTime,
+            meridiem: meridiem,
+            userName: userDetails.name,
+            userEmail: userDetails.email || "bishopswalthampharmacy@gmail.com",
+            mobileNo: userDetails.mobile,
+            pharmacyNo: "PN1853278176",
+            vaccinesSummary: formatVaccinesSummary(
+              cartItems,
+              appointmentType,
+              consultancyType
+            ),
+            totalAmount:
+              userDetails.payment || calculateTotalAmount(cartItems),
+          };
+
+          await sendBookingConfirmationEmail(emailData);
+
           clearCart();
           setBookingDetails({
             ...result.data,
@@ -370,6 +402,35 @@ export default function BookingPage({ cartItems = [] }) {
           const result = await bookSlotForDay(bookingData);
 
           if (result.success) {
+            // Extract meridiem from selectedTime
+            const timeSlotParts = (time || selectedTime || "").split(" ");
+            const meridiem =
+              timeSlotParts.length > 1
+                ? timeSlotParts[timeSlotParts.length - 1]
+                : "AM";
+
+            // Send confirmation email
+            const emailData = {
+              appointmentNo: result.data.appointmentNo,
+              bookingDate: result.data.bookingDate,
+              type: "Vaccination",
+              slot: time || selectedTime,
+              meridiem: meridiem,
+              userName: userDetails.name,
+              userEmail: userDetails.email || "bishopswalthampharmacy@gmail.com",
+              mobileNo: userDetails.mobile,
+              pharmacyNo: "PN1853278176",
+              vaccinesSummary: formatVaccinesSummary(
+                cartItems,
+                appointmentType,
+                null
+              ),
+              totalAmount:
+                userDetails.payment || calculateTotalAmount(cartItems),
+            };
+
+            await sendBookingConfirmationEmail(emailData);
+
             clearCart();
             setBookingDetails(result.data);
             setAppointmentId(

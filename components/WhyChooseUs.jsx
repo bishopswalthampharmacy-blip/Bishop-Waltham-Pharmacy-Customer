@@ -232,7 +232,7 @@ export default function WhyChooseUs() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
             >
-              <span className="text-[#5BB9EC]">Why Bishops Pharmacy </span>
+              <span className="text-[#5BB9EC]"> Why Bishops Waltham Pharmacy </span>
               <span className="text-[#004488]"> Stands Out?</span>
             </motion.h2>
           </motion.div>
