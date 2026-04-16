@@ -50,9 +50,9 @@ const steps = {
 };
 
 const consultancyTypes = [
-  { value: "Travel Clinic", label: "Travel Clinic" },
-  { value: "Ear Microsuction", label: "Ear Microsuction" },
-  { value: "Weight Loss", label: "Weight Loss" },
+  { value: "Travel Clinic", label: "Travel Clinic (Free)" },
+  { value: "Ear Microsuction", label: "Ear Microsuction (Free)" },
+  { value: "Weight Loss", label: "Weight Loss (Free)" },
 ];
 
 export default function BookingPage({ cartItems = [] }) {
@@ -61,6 +61,7 @@ export default function BookingPage({ cartItems = [] }) {
   const [selectedTime, setSelectedTime] = useState(null);
   const [appointmentType, setAppointmentType] = useState("consultation");
   const [consultancyType, setConsultancyType] = useState("Travel Clinic");
+  const [earMicrosuctionType, setEarMicrosuctionType] = useState("");
   const { width, height } = useWindowSize();
   const [userDetails, setUserDetails] = useState({
     name: "",
@@ -267,12 +268,23 @@ export default function BookingPage({ cartItems = [] }) {
       return;
     }
 
-    if (type === "vaccination") {
-      if (!cartItems || cartItems.length === 0) {
+    if (type === "vaccination" || type === "weight-loss") {
+      setAppointmentTypeLoading(false);
+      if (type === "vaccination") {
+        router.push("/vaccines?filterType=vaccination");
+      } else {
+        router.push("/vaccines?category=Weightloss service");
+      }
+      return;
+    }
+
+    if (type === "ear-microsuction") {
+      setEarMicrosuctionType(specificType);
+      if (!specificType) {
         setAppointmentTypeLoading(false);
-        router.push("/vaccines");
         return;
       }
+
       setCurrentStep(steps.DATE);
       setAppointmentTypeLoading(false);
     }
@@ -317,6 +329,8 @@ export default function BookingPage({ cartItems = [] }) {
         appointmentType,
         consultancyType:
           appointmentType === "consultation" ? consultancyType : null,
+        earMicrosuctionType:
+          appointmentType === "ear-microsuction" ? earMicrosuctionType : null,
         userDetails: {
           ...userDetails,
           clientID: currentUser?.clientID || currentClientID || clientID,
@@ -390,6 +404,71 @@ export default function BookingPage({ cartItems = [] }) {
             const errorMsg =
               result.message ||
               "Failed to book consultation. Please try again.";
+            setError(errorMsg);
+            toast.error(errorMsg);
+          }
+        }
+        return;
+      }
+
+      if (appointmentType === "ear-microsuction") {
+        const result = await bookSlotForDay(bookingData);
+
+        if (result.success) {
+          // Extract meridiem from selectedTime
+          const timeSlotParts = (time || selectedTime || "").split(" ");
+          const meridiem =
+            timeSlotParts.length > 1
+              ? timeSlotParts[timeSlotParts.length - 1]
+              : "AM";
+
+          // Send confirmation email
+          const emailData = {
+            appointmentNo: result.data.appointmentNo,
+            bookingDate: result.data.bookingDate,
+            type: "Ear Microsuction",
+            slot: time || selectedTime,
+            meridiem: meridiem,
+            userName: userDetails.name,
+            userEmail: userDetails.email || "bishopswalthampharmacy@gmail.com",
+            mobileNo: userDetails.mobile,
+            pharmacyNo: "PN1853278176",
+            vaccinesSummary: formatVaccinesSummary(
+              cartItems,
+              appointmentType,
+              earMicrosuctionType
+            ),
+            totalAmount:
+              userDetails.payment || calculateTotalAmount(cartItems),
+          };
+
+          await sendBookingConfirmationEmail(emailData);
+
+          clearCart();
+          setBookingDetails({
+            ...result.data,
+            earMicrosuctionType: earMicrosuctionType,
+          });
+          setAppointmentId(
+            result.data.appointmentNo ||
+            Math.floor(Math.random() * 900000000) + 100000000
+          );
+          setbookingId(result.data.bookingId);
+          setbookingDate(result.data.bookingDate);
+          setCurrentStep(steps.CONFIRMATION);
+          toast.success("Booking confirmed successfully!");
+        } else {
+          if (result.slotUnavailable) {
+            const errorMsg =
+              result.message ||
+              "The selected time slot is not available. Please choose another time.";
+            setError(errorMsg);
+            toast.error(errorMsg);
+            setCurrentStep(steps.TIME);
+          } else {
+            const errorMsg =
+              result.message ||
+              "Failed to book ear microsuction. Please try again.";
             setError(errorMsg);
             toast.error(errorMsg);
           }
@@ -600,6 +679,10 @@ export default function BookingPage({ cartItems = [] }) {
           : consultancyType === "Weight Loss"
             ? "Weight Loss"
             : "Doctor Consultation";
+    }
+
+    if (appointmentType === "ear-microsuction") {
+      return `Ear Microsuction - ${earMicrosuctionType}`;
     }
 
     if (cartItems && cartItems.length === 1) {
@@ -893,6 +976,8 @@ export default function BookingPage({ cartItems = [] }) {
                       }}
                       consultancyValue={consultancyType}
                       onConsultancyChange={(type) => setConsultancyType(type)}
+                      earMicrosuctionValue={earMicrosuctionType}
+                      onEarMicrosuctionChange={(type) => setEarMicrosuctionType(type)}
                       onSelectionComplete={handleAppointmentTypeSelected}
                       consultancyTypes={consultancyTypes}
                       showConsultancy={appointmentType === "consultation"}

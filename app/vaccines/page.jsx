@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { fetchVaccines, fetchSlotsForDay } from "@/lib/utils";
 import { useCart } from "@/src/contexts/index";
 import VaccineTopBar from "@/components/vaccines/VaccineTopBar";
@@ -40,6 +40,7 @@ export default function VaccinesPage() {
   const [bookingLoading, setBookingLoading] = useState(false);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { cart, grandTotal } = useCart();
 
   useEffect(() => {
@@ -51,23 +52,47 @@ export default function VaccinesPage() {
 
         if (response && response.vaccineList) {
           const vaccineList = response.vaccineList;
-          setVaccines(vaccineList);
 
-          const dynamicCategories = Object.keys(vaccineList)
-            .filter(
-              (categoryKey) =>
-                Array.isArray(vaccineList[categoryKey]) &&
-                vaccineList[categoryKey].length > 0
-            )
-            .map((categoryKey) => ({
-              value: categoryKey,
-              label: formatCategoryLabel(categoryKey),
-            }));
+          const filterType = searchParams.get("filterType");
 
-          setCategories(dynamicCategories);
 
-          if (dynamicCategories.length > 0) {
-            setSelectedCategory(dynamicCategories[0].value);
+          if (filterType === "vaccination") {
+
+            const travelVaccines = vaccineList["Travel vaccines"] || [];
+            const otherVaccines = vaccineList["Other"] || [];
+            const mergedVaccines = [...travelVaccines, ...otherVaccines];
+
+
+            const mergedList = {
+              "All Vaccines": mergedVaccines
+            };
+
+            setVaccines(mergedList);
+            setCategories([{ value: "All Vaccines", label: "All Vaccines" }]);
+            setSelectedCategory("All Vaccines");
+          } else {
+
+            setVaccines(vaccineList);
+
+            const dynamicCategories = Object.keys(vaccineList)
+              .filter(
+                (categoryKey) =>
+                  Array.isArray(vaccineList[categoryKey]) &&
+                  vaccineList[categoryKey].length > 0
+              )
+              .map((categoryKey) => ({
+                value: categoryKey,
+                label: formatCategoryLabel(categoryKey),
+              }));
+
+            setCategories(dynamicCategories);
+
+            const requestedCategory = searchParams.get("category");
+            if (requestedCategory) {
+              setSelectedCategory(requestedCategory);
+            } else if (dynamicCategories.length > 0) {
+              setSelectedCategory(dynamicCategories[0].value);
+            }
           }
         } else {
           setVaccines({});
@@ -84,7 +109,7 @@ export default function VaccinesPage() {
     };
 
     loadVaccines();
-  }, []);
+  }, [searchParams]);
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);

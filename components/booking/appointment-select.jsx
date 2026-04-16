@@ -2,18 +2,24 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { ChevronDown, Stethoscope, Syringe, ArrowRight } from "lucide-react"
+import { ChevronDown, Stethoscope, Syringe, ArrowRight, Pill, Ear } from "lucide-react"
 
 export default function AppointmentTypeSelector({ 
   value = "consultation",
   onChange, 
   consultancyValue="Travel Clinic",
   onConsultancyChange,
+  earMicrosuctionValue="",
+  onEarMicrosuctionChange,
   onSelectionComplete,
   consultancyTypes = [
     { value: 'Travel Clinic', label: 'Travel Clinic' },
     { value: 'Ear Microsuction', label: 'Ear Microsuction' },
     { value: 'Weight Loss', label: 'Weight Loss' }
+  ],
+  earMicrosuctionTypes = [
+    { value: 'One Ear', label: '£40 for one ear' },
+    { value: 'Both Ears', label: '£50.00 for both' }
   ],
   showConsultancy = false,
   hideVaccinationOption = false, 
@@ -21,15 +27,20 @@ export default function AppointmentTypeSelector({
 }) {
   const [focused, setFocused] = useState(false)
   const [consultancyFocused, setConsultancyFocused] = useState(false)
+  const [earMicrosuctionFocused, setEarMicrosuctionFocused] = useState(false)
   const [error, setError] = useState("")
   const [consultancyError, setConsultancyError] = useState("")
+  const [earMicrosuctionError, setEarMicrosuctionError] = useState("")
   const [isConsultancyOpen, setIsConsultancyOpen] = useState(false)
+  const [isEarMicrosuctionOpen, setIsEarMicrosuctionOpen] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  // Always include both options - vaccination is now always visible
+
   const appointmentOptions = [
     { value: "consultation", label: "Consultation", icon: <Stethoscope size={16} className="mr-2" /> },
     { value: "vaccination", label: "Vaccination", icon: <Syringe size={16} className="mr-2" /> },
+    { value: "weight-loss", label: "Weight Loss", icon: <Pill size={16} className="mr-2" /> },
+    { value: "ear-microsuction", label: "Ear Microsuction", icon: <Ear size={16} className="mr-2" /> },
   ]
 
    useEffect(() => {
@@ -51,10 +62,13 @@ export default function AppointmentTypeSelector({
       if (isConsultancyOpen && !event.target.closest('.dropdown-container')) {
         setIsConsultancyOpen(false)
       }
+      if (isEarMicrosuctionOpen && !event.target.closest('.ear-microsuction-dropdown-container')) {
+        setIsEarMicrosuctionOpen(false)
+      }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [isConsultancyOpen])
+  }, [isConsultancyOpen, isEarMicrosuctionOpen])
 
   const handleChange = (selectedValue) => {
     onChange(selectedValue)
@@ -63,12 +77,22 @@ export default function AppointmentTypeSelector({
       onConsultancyChange("")
       setConsultancyError("")
     }
+    if (selectedValue !== "ear-microsuction") {
+      onEarMicrosuctionChange("")
+      setEarMicrosuctionError("")
+    }
   }
 
   const handleConsultancyChange = (selectedValue) => {
     onConsultancyChange(selectedValue)
     if (consultancyError) setConsultancyError("")
     setIsConsultancyOpen(false)
+  }
+
+  const handleEarMicrosuctionChange = (selectedValue) => {
+    onEarMicrosuctionChange(selectedValue)
+    if (earMicrosuctionError) setEarMicrosuctionError("")
+    setIsEarMicrosuctionOpen(false)
   }
 
   const validate = () => {
@@ -88,6 +112,13 @@ export default function AppointmentTypeSelector({
       setConsultancyError("")
     }
 
+    if (submitted && value === "ear-microsuction" && !earMicrosuctionValue) {
+      setEarMicrosuctionError("Please select an ear microsuction option")
+      isValid = false
+    } else {
+      setEarMicrosuctionError("")
+    }
+
     return isValid
   }
 
@@ -96,6 +127,8 @@ export default function AppointmentTypeSelector({
     if (validate()) {
       if (value === "consultation") {
         onSelectionComplete("consultation", consultancyValue)
+      } else if (value === "ear-microsuction") {
+        onSelectionComplete("ear-microsuction", earMicrosuctionValue)
       } else {
         onSelectionComplete(value, "")
       }
@@ -103,10 +136,13 @@ export default function AppointmentTypeSelector({
   }
 
   const selectedConsultancy = consultancyTypes.find(opt => opt.value === consultancyValue) || 
-                            { value: "Travel Clinic", label: "Travel Clinic" }                           
+                            { value: "Travel Clinic", label: "Travel Clinic" }
 
-  // Always use 2 columns since we always show both options
-  const gridColumns = 'grid-cols-2'
+  const selectedEarMicrosuction = earMicrosuctionTypes.find(opt => opt.value === earMicrosuctionValue) || 
+                            { value: "One Ear", label: "£40 for one ear" }                           
+
+ 
+  const gridColumns = 'grid-cols-1 sm:grid-cols-4 lg:grid-cols-2 md:grid-cols-2 xl:grid-cols-2'
 
   return (
     <div className="space-y-6 w-full">
@@ -123,7 +159,7 @@ export default function AppointmentTypeSelector({
             }}
             className={`rounded-lg overflow-hidden border-transparent`}
           > 
-            <div className={`grid ${gridColumns} gap-2 p-1 bg-gray-50 rounded-lg border border-gray-100`}>
+            <div className={`grid ${gridColumns} gap-1 p-1 bg-gray-50 rounded-lg border border-gray-100`}>
               {appointmentOptions.map((option) => (
                 <motion.button
                   key={option.value}
@@ -137,7 +173,7 @@ export default function AppointmentTypeSelector({
                     validate()
                   }}
                   disabled={loading}
-                  className={`flex items-center justify-center py-3 px-4 rounded-md transition-colors ${
+                  className={`flex items-center justify-center py-3 px-4 rounded-md cursor-pointer transition-colors whitespace-nowrap text-sm ${
                     value === option.value 
                       ? 'bg-[#00ACC1] text-white shadow-md' 
                       : 'bg-white text-gray-700 hover:bg-gray-100'
@@ -238,6 +274,85 @@ export default function AppointmentTypeSelector({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 {consultancyError}
+              </motion.p>
+            )}
+          </div>
+        )}
+
+        {(value === "ear-microsuction") && (
+          <div className="space-y-2 ear-microsuction-dropdown-container">
+            <label className="text-sm font-medium text-gray-700 mb-1 flex items-center">
+              <Ear size={14} className="mr-1 text-gray-500" />
+              Ear Microsuction Option*
+            </label>
+            
+            <div className="relative">
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setIsEarMicrosuctionOpen(!isEarMicrosuctionOpen)}
+                onFocus={() => setEarMicrosuctionFocused(true)}
+                onBlur={() => {
+                  setEarMicrosuctionFocused(false)
+                  validate()
+                }}
+                className={`w-full flex items-center justify-between py-3 px-4 rounded-md border ${
+                  earMicrosuctionValue ? 'bg-white border-gray-300' : 'bg-gray-50 border-gray-200'
+                } text-left`}
+                disabled={loading}
+              >
+                <div className="flex items-center">
+                  <Ear size={16} className="mr-2 text-gray-500" />
+                  {selectedEarMicrosuction.label}
+                </div>
+                <ChevronDown 
+                  size={16} 
+                  className={`text-gray-500 transition-transform ${isEarMicrosuctionOpen ? 'rotate-180' : ''}`}
+                />
+              </motion.button>
+
+              {isEarMicrosuctionOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute z-50 w-full mt-1 bg-white rounded-md shadow-lg border border-gray-200"
+                  style={{ maxHeight: '300px', overflowY: 'auto' }}
+                >
+                  <ul className="py-1">
+                    {earMicrosuctionTypes.map((option) => (
+                      <li key={option.value}>
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.01 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => handleEarMicrosuctionChange(option.value)}
+                          className={`w-full text-left px-4 py-3 text-sm flex items-center ${
+                            earMicrosuctionValue === option.value
+                              ? 'bg-[#00ACC1] text-white'
+                              : 'hover:bg-gray-100 text-gray-700'
+                          }`}
+                        >
+                          {option.label}
+                        </motion.button>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              )}
+            </div>
+
+            {submitted && earMicrosuctionError && (
+              <motion.p 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-1 text-xs text-red-500 flex items-center"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                {earMicrosuctionError}
               </motion.p>
             )}
           </div>
