@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
@@ -32,7 +33,7 @@ const formatCategoryLabel = (categoryKey) => {
     .trim();
 };
 
-export default function VaccinesPage() {
+function VaccinesContent() {
   const [vaccines, setVaccines] = useState({});
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -230,5 +231,21 @@ export default function VaccinesPage() {
         <VaccineTable vaccines={vaccines} selectedCategory={selectedCategory} />
       </div>
     </div>
+  );
+}
+
+function VaccinesLoadingFallback() {
+  return (
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0B5C64]"></div>
+    </div>
+  );
+}
+
+export default function VaccinesPage() {
+  return (
+    <Suspense fallback={<VaccinesLoadingFallback />}>
+      <VaccinesContent />
+    </Suspense>
   );
 }
