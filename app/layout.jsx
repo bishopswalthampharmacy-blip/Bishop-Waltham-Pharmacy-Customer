@@ -26,6 +26,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata = {
   title: "Bishops Waltham Pharmacy – Travel Clinic & Vaccination",
   description: "Best pharmacy in the world, located at the heart of Bishop's Waltham",
+  verification: {
+    google: "googlea41bbe258c383366.html",
+  },
 }
 
 export default function RootLayout({ children }) {
