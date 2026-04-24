@@ -1,5 +1,6 @@
 import { Instrument_Sans, Average_Sans, Plus_Jakarta_Sans } from "next/font/google"
 import Header from "@/components/Header"
+import ChatbotWidget from "@/components/ChatbotWidget"
 import "./globals.css"
 import { AuthProvider } from "@/src/contexts/AuthContext"
 import { CartProvider } from "@/src/contexts/CartContext"
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
             <CartProvider>
               <Header />
               {children}
+              <ChatbotWidget />
             </CartProvider>
           </AuthProvider>
         </AppProvider>

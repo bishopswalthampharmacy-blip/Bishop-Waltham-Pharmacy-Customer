@@ -20,6 +20,7 @@ import {
   sendBookingConfirmationEmail,
   formatVaccinesSummary,
   calculateTotalAmount,
+  isFreeConsultancyType,
 } from "@/lib/utils";
 import { useAuth, useCart } from "@/src/contexts";
 import { useSearchParams } from "next/navigation";
@@ -62,6 +63,8 @@ export default function BookingPage({ cartItems = [] }) {
   const [appointmentType, setAppointmentType] = useState("consultation");
   const [consultancyType, setConsultancyType] = useState("Travel Clinic");
   const [earMicrosuctionType, setEarMicrosuctionType] = useState("");
+  // ✅ Internal cart for ear microsuction — built from selected option
+  const [earMicrosuctionCartItems, setEarMicrosuctionCartItems] = useState([]);
   const { width, height } = useWindowSize();
   const [userDetails, setUserDetails] = useState({
     name: "",
@@ -85,6 +88,9 @@ export default function BookingPage({ cartItems = [] }) {
   const searchParams = useSearchParams();
   const [current, setCurrent] = useState(2);
   const [paymentStatus, setPaymentStatus] = useState(null);
+
+  // ✅ Resolve which cart to use — external cartItems (vaccination) or internal earMicrosuctionCartItems
+  const activeCartItems = cartItems.length > 0 ? cartItems : earMicrosuctionCartItems;
 
   useEffect(() => {
     const st = searchParams.get("st");
@@ -156,12 +162,7 @@ export default function BookingPage({ cartItems = [] }) {
         const storedUser = localStorage.getItem("pharmacy_user");
         if (storedUser) {
           const parsedUser = JSON.parse(storedUser);
-          if (
-            parsedUser &&
-            parsedUser.id &&
-            parsedUser.name &&
-            !isAuthenticated
-          ) {
+          if (parsedUser && parsedUser.id && parsedUser.name && !isAuthenticated) {
             window.dispatchEvent(new Event("storage"));
           }
         }
@@ -177,13 +178,8 @@ export default function BookingPage({ cartItems = [] }) {
         mobile: user.mobile || prevDetails.mobile,
       }));
 
-      if (user.id) {
-        setUserID(user.id);
-      }
-
-      if (user.clientID) {
-        setClientID(user.clientID);
-      }
+      if (user.id) setUserID(user.id);
+      if (user.clientID) setClientID(user.clientID);
     }
   }, [isAuthenticated, user]);
 
@@ -202,16 +198,11 @@ export default function BookingPage({ cartItems = [] }) {
       const formattedDate =
         typeof date === "string"
           ? date
-          : `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-            2,
-            "0"
-          )}-${String(date.getDate()).padStart(2, "0")}`;
+          : `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
-
       const result = await fetchSlotsForDay(formattedDate, controller.signal);
-
       clearTimeout(timeoutId);
 
       if (result.success) {
@@ -223,14 +214,11 @@ export default function BookingPage({ cartItems = [] }) {
     } catch (err) {
       console.error("Error fetching slots:", err);
       let errorMessage = "Failed to fetch available slots. Please try again.";
-
       if (err.name === "AbortError") {
-        errorMessage =
-          "Request timed out. Please check your connection and try again.";
+        errorMessage = "Request timed out. Please check your connection and try again.";
       } else if (err.message && err.message.includes("network")) {
         errorMessage = "Network error. Please check your internet connection.";
       }
-
       setError(errorMessage);
       toast.error(errorMessage);
     } finally {
@@ -241,7 +229,6 @@ export default function BookingPage({ cartItems = [] }) {
 
   const handleTimeSelect = async (time) => {
     setSelectedTime(time);
-
     if (isAuthenticated) {
       await proceedToBooking(time);
     } else {
@@ -249,11 +236,10 @@ export default function BookingPage({ cartItems = [] }) {
     }
   };
 
-  const handleAppointmentTypeSelected = async (type, specificType = "") => {
+  const handleAppointmentTypeSelected = async (type, specificType = "", selectedOption = null) => {
     setAppointmentType(type);
     setAppointmentTypeLoading(true);
 
-    // Simulate a brief loading for better UX
     await new Promise(resolve => setTimeout(resolve, 500));
 
     if (type === "consultation") {
@@ -262,31 +248,37 @@ export default function BookingPage({ cartItems = [] }) {
         setAppointmentTypeLoading(false);
         return;
       }
-
       setCurrentStep(steps.DATE);
       setAppointmentTypeLoading(false);
       return;
     }
 
-    if (type === "vaccination" || type === "weight-loss") {
+    if (type === "vaccination") {
       setAppointmentTypeLoading(false);
-      if (type === "vaccination") {
-        router.push("/vaccines?filterType=vaccination");
-      } else {
-        router.push("/vaccines?category=Weightloss service");
-      }
+      router.push("/vaccines?filterType=vaccination");
+      return;
+    }
+
+    if (type === "weight-loss") {
+      setAppointmentTypeLoading(false);
+      router.push("/vaccines?category=Weightloss service");
       return;
     }
 
     if (type === "ear-microsuction") {
-      setEarMicrosuctionType(specificType);
-      if (!specificType) {
-        setAppointmentTypeLoading(false);
-        return;
+      // ✅ Build a cart-like item from the selected option (One Ear £40 / Both Ears £50)
+      // and go straight to DATE step — same as vaccination with cartItems
+      if (selectedOption) {
+        setEarMicrosuctionType(specificType);
+        setEarMicrosuctionCartItems([{
+          name: `Ear Microsuction - ${selectedOption.label}`,
+          price: selectedOption.price,
+          quantity: 1,
+        }]);
+        setCurrentStep(steps.DATE);
       }
-
-      setCurrentStep(steps.DATE);
       setAppointmentTypeLoading(false);
+      return;
     }
   };
 
@@ -308,7 +300,6 @@ export default function BookingPage({ cartItems = [] }) {
               currentUser = storedUser;
               currentUserID = storedUser.id || storedUser.userID;
               currentClientID = storedUser.clientID;
-
               setUserID(currentUserID);
               setClientID(currentClientID);
               setUserDetails((prev) => ({
@@ -327,83 +318,58 @@ export default function BookingPage({ cartItems = [] }) {
         selectedDate,
         selectedTime: time || selectedTime,
         appointmentType,
-        consultancyType:
-          appointmentType === "consultation" ? consultancyType : null,
-        earMicrosuctionType:
-          appointmentType === "ear-microsuction" ? earMicrosuctionType : null,
+        consultancyType: appointmentType === "consultation" ? consultancyType : null,
+        earMicrosuctionType: appointmentType === "ear-microsuction" ? earMicrosuctionType : null,
         userDetails: {
           ...userDetails,
           clientID: currentUser?.clientID || currentClientID || clientID,
           userID: currentUser?.id || currentUserID || userID,
         },
-        cartItems,
-        vaccineNames:
-          appointmentType === "vaccination"
-            ? cartItems.map((item) => ({
-              vaccineName: item.name.trim(),
-              quantity: item.quantity,
-            }))
-            : [],
+        // ✅ Use activeCartItems — covers both vaccination and ear microsuction
+        cartItems: activeCartItems,
+        vaccineNames: activeCartItems.map((item) => ({
+          vaccineName: item.name.trim(),
+          quantity: item.quantity,
+        })),
       };
 
       if (appointmentType === "consultation") {
         const result = await bookSlotForDay(bookingData);
 
         if (result.success) {
-          // Extract meridiem from selectedTime
           const timeSlotParts = (time || selectedTime || "").split(" ");
-          const meridiem =
-            timeSlotParts.length > 1
-              ? timeSlotParts[timeSlotParts.length - 1]
-              : "AM";
+          const meridiem = timeSlotParts.length > 1 ? timeSlotParts[timeSlotParts.length - 1] : "AM";
 
-          // Send confirmation email
           const emailData = {
             appointmentNo: result.data.appointmentNo,
             bookingDate: result.data.bookingDate,
             type: "Consultation",
             slot: time || selectedTime,
-            meridiem: meridiem,
+            meridiem,
             userName: userDetails.name,
             userEmail: userDetails.email || "bishopswalthampharmacy@gmail.com",
             mobileNo: userDetails.mobile,
             pharmacyNo: "PN1853278176",
-            vaccinesSummary: formatVaccinesSummary(
-              cartItems,
-              appointmentType,
-              consultancyType
-            ),
-            totalAmount:
-              userDetails.payment || calculateTotalAmount(cartItems),
+            vaccinesSummary: formatVaccinesSummary(activeCartItems, appointmentType, consultancyType),
+            totalAmount: userDetails.payment || calculateTotalAmount(activeCartItems),
           };
 
           await sendBookingConfirmationEmail(emailData);
-
           clearCart();
-          setBookingDetails({
-            ...result.data,
-            consultancyType: consultancyType,
-          });
-          setAppointmentId(
-            result.data.appointmentNo ||
-            Math.floor(Math.random() * 900000000) + 100000000
-          );
+          setBookingDetails({ ...result.data, consultancyType });
+          setAppointmentId(result.data.appointmentNo || Math.floor(Math.random() * 900000000) + 100000000);
           setbookingId(result.data.bookingId);
           setbookingDate(result.data.bookingDate);
           setCurrentStep(steps.CONFIRMATION);
           toast.success("Booking confirmed successfully!");
         } else {
           if (result.slotUnavailable) {
-            const errorMsg =
-              result.message ||
-              "The selected time slot is not available. Please choose another time.";
+            const errorMsg = result.message || "The selected time slot is not available. Please choose another time.";
             setError(errorMsg);
             toast.error(errorMsg);
             setCurrentStep(steps.TIME);
           } else {
-            const errorMsg =
-              result.message ||
-              "Failed to book consultation. Please try again.";
+            const errorMsg = result.message || "Failed to book consultation. Please try again.";
             setError(errorMsg);
             toast.error(errorMsg);
           }
@@ -411,133 +377,52 @@ export default function BookingPage({ cartItems = [] }) {
         return;
       }
 
-      if (appointmentType === "ear-microsuction") {
-        const result = await bookSlotForDay(bookingData);
-
-        if (result.success) {
-          // Extract meridiem from selectedTime
-          const timeSlotParts = (time || selectedTime || "").split(" ");
-          const meridiem =
-            timeSlotParts.length > 1
-              ? timeSlotParts[timeSlotParts.length - 1]
-              : "AM";
-
-          // Send confirmation email
-          const emailData = {
-            appointmentNo: result.data.appointmentNo,
-            bookingDate: result.data.bookingDate,
-            type: "Ear Microsuction",
-            slot: time || selectedTime,
-            meridiem: meridiem,
-            userName: userDetails.name,
-            userEmail: userDetails.email || "bishopswalthampharmacy@gmail.com",
-            mobileNo: userDetails.mobile,
-            pharmacyNo: "PN1853278176",
-            vaccinesSummary: formatVaccinesSummary(
-              cartItems,
-              appointmentType,
-              earMicrosuctionType
-            ),
-            totalAmount:
-              userDetails.payment || calculateTotalAmount(cartItems),
-          };
-
-          await sendBookingConfirmationEmail(emailData);
-
-          clearCart();
-          setBookingDetails({
-            ...result.data,
-            earMicrosuctionType: earMicrosuctionType,
-          });
-          setAppointmentId(
-            result.data.appointmentNo ||
-            Math.floor(Math.random() * 900000000) + 100000000
-          );
-          setbookingId(result.data.bookingId);
-          setbookingDate(result.data.bookingDate);
-          setCurrentStep(steps.CONFIRMATION);
-          toast.success("Booking confirmed successfully!");
-        } else {
-          if (result.slotUnavailable) {
-            const errorMsg =
-              result.message ||
-              "The selected time slot is not available. Please choose another time.";
-            setError(errorMsg);
-            toast.error(errorMsg);
-            setCurrentStep(steps.TIME);
-          } else {
-            const errorMsg =
-              result.message ||
-              "Failed to book ear microsuction. Please try again.";
-            setError(errorMsg);
-            toast.error(errorMsg);
-          }
-        }
-        return;
-      }
-
-      if (appointmentType === "vaccination") {
-        if (cartItems && cartItems.length > 0) {
+      // ✅ Vaccination and Ear Microsuction — identical booking flow
+      if (appointmentType === "vaccination" || appointmentType === "ear-microsuction") {
+        if (activeCartItems && activeCartItems.length > 0) {
           const result = await bookSlotForDay(bookingData);
 
           if (result.success) {
-            // Extract meridiem from selectedTime
             const timeSlotParts = (time || selectedTime || "").split(" ");
-            const meridiem =
-              timeSlotParts.length > 1
-                ? timeSlotParts[timeSlotParts.length - 1]
-                : "AM";
+            const meridiem = timeSlotParts.length > 1 ? timeSlotParts[timeSlotParts.length - 1] : "AM";
 
-            // Send confirmation email
             const emailData = {
               appointmentNo: result.data.appointmentNo,
               bookingDate: result.data.bookingDate,
-              type: "Vaccination",
+              type: appointmentType === "ear-microsuction" ? "Ear Microsuction" : "Vaccination",
               slot: time || selectedTime,
-              meridiem: meridiem,
+              meridiem,
               userName: userDetails.name,
               userEmail: userDetails.email || "bishopswalthampharmacy@gmail.com",
               mobileNo: userDetails.mobile,
               pharmacyNo: "PN1853278176",
-              vaccinesSummary: formatVaccinesSummary(
-                cartItems,
-                appointmentType,
-                null
-              ),
-              totalAmount:
-                userDetails.payment || calculateTotalAmount(cartItems),
+              vaccinesSummary: formatVaccinesSummary(activeCartItems, appointmentType, earMicrosuctionType),
+              totalAmount: userDetails.payment || calculateTotalAmount(activeCartItems),
             };
 
             await sendBookingConfirmationEmail(emailData);
-
             clearCart();
+            setEarMicrosuctionCartItems([]);
             setBookingDetails(result.data);
-            setAppointmentId(
-              result.data.appointmentNo ||
-              Math.floor(Math.random() * 900000000) + 100000000
-            );
+            setAppointmentId(result.data.appointmentNo || Math.floor(Math.random() * 900000000) + 100000000);
             setbookingId(result.data.bookingId);
             setbookingDate(result.data.bookingDate);
             setCurrentStep(steps.CONFIRMATION);
             toast.success("Booking confirmed successfully!");
           } else {
             if (result.slotUnavailable) {
-              const errorMsg =
-                result.message ||
-                "The selected time slot is not available. Please choose another time.";
+              const errorMsg = result.message || "The selected time slot is not available. Please choose another time.";
               setError(errorMsg);
               toast.error(errorMsg);
               setCurrentStep(steps.TIME);
             } else {
-              const errorMsg =
-                result.message ||
-                "Failed to book appointment. Please try again.";
+              const errorMsg = result.message || "Failed to book appointment. Please try again.";
               setError(errorMsg);
               toast.error(errorMsg);
             }
           }
         } else {
-          router.push("/vaccines");
+          router.push(appointmentType === "ear-microsuction" ? "/vaccines?category=Ear Microsuction" : "/vaccines");
         }
         return;
       }
@@ -550,6 +435,7 @@ export default function BookingPage({ cartItems = [] }) {
       setLoading(false);
     }
   };
+
   const handleDetailsSubmit = async (details) => {
     setUserDetails(details);
     setLoading(true);
@@ -564,8 +450,7 @@ export default function BookingPage({ cartItems = [] }) {
         setCurrentStep(steps.VERIFICATION);
         toast.success("Verification code sent to your mobile!");
       } else {
-        const errorMsg =
-          userResult.message || "Failed to create user. Please try again.";
+        const errorMsg = userResult.message || "Failed to create user. Please try again.";
         setError(errorMsg);
         toast.error(errorMsg);
       }
@@ -587,24 +472,14 @@ export default function BookingPage({ cartItems = [] }) {
       const verifyResult = await verifyOTP(userDetails.mobile, otp, clientID);
 
       if (!verifyResult.success) {
-        const errorMsg =
-          verifyResult.message ||
-          "Invalid verification code. Please try again.";
+        const errorMsg = verifyResult.message || "Invalid verification code. Please try again.";
         setError(errorMsg);
         toast.error(errorMsg);
         setLoading(false);
         return;
       }
 
-      if (verifyResult.data?.userID) {
-        setUserID(verifyResult.data.userID);
-      }
-
-      const enhancedUserDetails = {
-        ...userDetails,
-        clientID: clientID,
-        userID: verifyResult.data?.userID || userID,
-      };
+      if (verifyResult.data?.userID) setUserID(verifyResult.data.userID);
 
       const userData = {
         id: verifyResult.data?.userID || userID,
@@ -638,11 +513,8 @@ export default function BookingPage({ cartItems = [] }) {
 
     try {
       const result = await sendOTP(userDetails.mobile);
-
       if (!result.success) {
-        const errorMsg =
-          result.message ||
-          "Failed to resend verification code. Please try again.";
+        const errorMsg = result.message || "Failed to resend verification code. Please try again.";
         setError(errorMsg);
         toast.error(errorMsg);
       } else {
@@ -658,81 +530,52 @@ export default function BookingPage({ cartItems = [] }) {
     }
   };
 
-  const handleBackToDate = () => {
-    setCurrentStep(steps.DATE);
-  };
-
-  const handleBackToTime = () => {
-    setCurrentStep(steps.TIME);
-  };
-
-  const handleBackToDetails = () => {
-    setCurrentStep(steps.DETAILS);
-  };
+  const handleBackToDate = () => setCurrentStep(steps.DATE);
+  const handleBackToTime = () => setCurrentStep(steps.TIME);
+  const handleBackToDetails = () => setCurrentStep(steps.DETAILS);
 
   const getServiceName = () => {
-    if (appointmentType === "consultancy") {
-      return consultancyType === "Travel Clinic"
-        ? "Travel Clinic"
-        : consultancyType === "Ear Microsuction"
-          ? "Ear Microsuction"
-          : consultancyType === "Weight Loss"
-            ? "Weight Loss"
-            : "Doctor Consultation";
+    if (appointmentType === "consultation") {
+      return consultancyType === "Travel Clinic" ? "Travel Clinic"
+        : consultancyType === "Ear Microsuction" ? "Ear Microsuction"
+        : consultancyType === "Weight Loss" ? "Weight Loss"
+        : "Doctor Consultation";
     }
-
     if (appointmentType === "ear-microsuction") {
-      return `Ear Microsuction - ${earMicrosuctionType}`;
+      return earMicrosuctionCartItems[0]?.name || `Ear Microsuction - ${earMicrosuctionType}`;
     }
-
-    if (cartItems && cartItems.length === 1) {
-      return `${cartItems[0].name} ${cartItems[0].subText || ""}`;
-    } else if (cartItems && cartItems.length > 1) {
+    if (activeCartItems && activeCartItems.length === 1) {
+      return `${activeCartItems[0].name} ${activeCartItems[0].subText || ""}`;
+    } else if (activeCartItems && activeCartItems.length > 1) {
       return "Vaccine Appointment";
     }
     return "Appointment";
   };
 
   const getCurrentStepNumber = () => {
-    if (cartItems && cartItems.length > 0) {
+    if (activeCartItems && activeCartItems.length > 0) {
       switch (currentStep) {
-        case steps.DATE:
-          return 1;
-        case steps.TIME:
-          return 2;
-        case steps.DETAILS:
-          return 3;
-        case steps.VERIFICATION:
-          return 4;
-        case steps.CONFIRMATION:
-          return isAuthenticated ? 4 : 5;
-        default:
-          return 1;
+        case steps.DATE: return 1;
+        case steps.TIME: return 2;
+        case steps.DETAILS: return 3;
+        case steps.VERIFICATION: return 4;
+        case steps.CONFIRMATION: return isAuthenticated ? 4 : 5;
+        default: return 1;
       }
     }
-
     switch (currentStep) {
-      case steps.APPOINTMENT_TYPE:
-        return 1;
-      case steps.DATE:
-        return 2;
-      case steps.TIME:
-        return 3;
-      case steps.DETAILS:
-        return 4;
-      case steps.VERIFICATION:
-        return 5;
-      case steps.CONFIRMATION:
-        return 6;
-      default:
-        return 1;
+      case steps.APPOINTMENT_TYPE: return 1;
+      case steps.DATE: return 2;
+      case steps.TIME: return 3;
+      case steps.DETAILS: return 4;
+      case steps.VERIFICATION: return 5;
+      case steps.CONFIRMATION: return 6;
+      default: return 1;
     }
   };
 
   const getTotalSteps = () => {
-    if (cartItems && cartItems.length > 0) {
-      return isAuthenticated ? 4 : 5;
-    }
+    if (activeCartItems && activeCartItems.length > 0) return isAuthenticated ? 4 : 5;
     return 6;
   };
 
@@ -753,40 +596,23 @@ export default function BookingPage({ cartItems = [] }) {
 
   const getStepLabel = (st) => {
     switch (st) {
-      case 1:
-        return "Appointment";
-      case 2:
-        return "Vaccination Appointment";
-      default:
-        return `St ${st}`;
+      case 1: return "Appointment";
+      case 2: return "Vaccination Appointment";
+      default: return `St ${st}`;
     }
   };
 
   const formatDisplayDate = (date) => {
     if (!date) return "";
-
     if (typeof date === "string") {
-      const parsedDate = new Date(date);
-      return parsedDate.toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      });
+      return new Date(date).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" });
     }
-
-    return date.toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
+    return date.toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" });
   };
 
   return (
     <>
-      <Dialog
-        open={!!paymentStatus}
-        onOpenChange={() => setPaymentStatus(null)}
-      >
+      <Dialog open={!!paymentStatus} onOpenChange={() => setPaymentStatus(null)}>
         {paymentStatus && (
           <DialogContent className="sm:max-w-md bg-gradient-to-br from-white via-slate-50 to-sky-50 shadow-2xl rounded-3xl p-8 border border-slate-200">
             <motion.div
@@ -797,40 +623,26 @@ export default function BookingPage({ cartItems = [] }) {
               className="flex flex-col items-center space-y-5 text-center"
             >
               {paymentStatus === "success" ? (
-                <motion.div
-                  initial={{ rotate: -15, scale: 0.9 }}
-                  animate={{ rotate: 0, scale: 1 }}
-                  transition={{ duration: 0.6, type: "spring" }}
-                >
+                <motion.div initial={{ rotate: -15, scale: 0.9 }} animate={{ rotate: 0, scale: 1 }} transition={{ duration: 0.6, type: "spring" }}>
                   <CheckCircle2 className="text-green-500 w-20 h-20 drop-shadow-lg" />
                 </motion.div>
               ) : (
                 <XCircle className="text-red-500 w-20 h-20 drop-shadow-lg" />
               )}
-
               <DialogTitle className="text-2xl font-semibold tracking-tight text-gray-800">
-                {paymentStatus === "success"
-                  ? "Payment Successful! 🎉"
-                  : "Payment Failed"}
+                {paymentStatus === "success" ? "Payment Successful! 🎉" : "Payment Failed"}
               </DialogTitle>
-
               <DialogDescription className="text-gray-600 text-base leading-relaxed max-w-sm">
                 {paymentStatus === "success"
                   ? "Your booking at Bishop Pharmacy has been confirmed. Thank you for choosing us!"
                   : "Something went wrong while processing your payment. Please try again or contact support."}
               </DialogDescription>
-
               {paymentStatus === "success" && (
                 <div className="bg-blue-50 text-blue-700 px-4 py-3 rounded-xl text-sm font-medium border border-blue-100 w-full max-w-sm">
-                  Please arrive at least{" "}
-                  <span className="font-semibold">10 minutes before</span> your
-                  booking slot.
+                  Please arrive at least <span className="font-semibold">10 minutes before</span> your booking slot.
                 </div>
               )}
-              <Button
-                onClick={handleGoHome}
-                className="bg-[#0B5C64] hover:bg-[#09494e] text-white font-medium px-10 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 mt-2"
-              >
+              <Button onClick={handleGoHome} className="bg-[#0B5C64] hover:bg-[#09494e] text-white font-medium px-10 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 mt-2">
                 OK
               </Button>
             </motion.div>
@@ -839,32 +651,16 @@ export default function BookingPage({ cartItems = [] }) {
       </Dialog>
 
       <div className="relative w-full h-48 sm:h-64 md:h-72 overflow-hidden">
-        <Image
-          src="/assets/dd2.jpg"
-          alt="Booking Background"
-          fill
-          className="object-cover"
-          priority
-        />
-
+        <Image src="/assets/dd2.jpg" alt="Booking Background" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-black/40" />
-
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide drop-shadow-lg">
-            Book Now
-          </h1>
+          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide drop-shadow-lg">Book Now</h1>
         </div>
       </div>
 
-      <div className="relative min-h-screen w-full flex  bg-gray-50 font-instrument">
+      <div className="relative min-h-screen w-full flex bg-gray-50 font-instrument">
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <Image
-            src="/assets/booknow.webp"
-            alt="Mountain landscape"
-            fill
-            className="object-cover"
-            priority
-          />
+          <Image src="/assets/booknow.webp" alt="Mountain landscape" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black/60" />
         </div>
 
@@ -881,9 +677,7 @@ export default function BookingPage({ cartItems = [] }) {
                 onClick={() => {
                   if (currentStep === steps.CONFIRMATION) {
                     clearCart();
-                    if (typeof window !== "undefined") {
-                      localStorage.removeItem("vaccineCart");
-                    }
+                    if (typeof window !== "undefined") localStorage.removeItem("vaccineCart");
                   }
                 }}
                 className="text-gray-500 hover:text-[#0D73A2] flex items-center text-sm font-medium transition-colors"
@@ -900,10 +694,11 @@ export default function BookingPage({ cartItems = [] }) {
                 {Array.from({ length: getTotalSteps() }).map((_, index) => (
                   <div
                     key={index}
-                    className={`h-1.5 rounded-full ${index + 1 <= getCurrentStepNumber()
-                      ? "bg-gradient-to-r from-[#00ACC1] to-[#0097A7] w-6"
-                      : "bg-gray-200 w-4"
-                      } transition-all duration-300`}
+                    className={`h-1.5 rounded-full ${
+                      index + 1 <= getCurrentStepNumber()
+                        ? "bg-gradient-to-r from-[#00ACC1] to-[#0097A7] w-6"
+                        : "bg-gray-200 w-4"
+                    } transition-all duration-300`}
                   />
                 ))}
               </div>
@@ -916,26 +711,15 @@ export default function BookingPage({ cartItems = [] }) {
           {currentStep !== steps.CONFIRMATION && (
             <div className="pt-12">
               <div className="mt-6">
-                <StepComponent
-                  label={getStepLabel(current)}
-                  currentStep={currentStep}
-                  steps={steps}
-                />
-
+                <StepComponent label={getStepLabel(current)} currentStep={currentStep} steps={steps} />
                 {currentStep === steps.TIME && (
-                  <h3 className="text-center text-xl md:text-2xl font-bold text-[#016472] my-4">
-                    Select Time Slot
-                  </h3>
+                  <h3 className="text-center text-xl md:text-2xl font-bold text-[#016472] my-4">Select Time Slot</h3>
                 )}
                 {currentStep === steps.APPOINTMENT_TYPE && (
-                  <h3 className="text-center text-xl md:text-2xl font-bold text-[#016472] my-4">
-                    Select Appointment Type
-                  </h3>
+                  <h3 className="text-center text-xl md:text-2xl font-bold text-[#016472] my-4">Select Appointment Type</h3>
                 )}
                 {currentStep === steps.DETAILS && (
-                  <h3 className="text-center text-xl md:text-2xl font-bold text-[#016472] my-4">
-                    Please Enter Your Basic Details
-                  </h3>
+                  <h3 className="text-center text-xl md:text-2xl font-bold text-[#016472] my-4">Please Enter Your Basic Details</h3>
                 )}
               </div>
             </div>
@@ -962,31 +746,32 @@ export default function BookingPage({ cartItems = [] }) {
             transition={{ duration: 0.3 }}
             className="mt-4"
           >
-            {currentStep === steps.APPOINTMENT_TYPE &&
-              !(cartItems && cartItems.length > 0) && (
-                <div className="w-full md:w-1/2 bg-white rounded-xl p-6 shadow-sm border border-gray-100 mx-auto">
-                  <div className="flex justify-center">
-                    <AppointmentTypeSelector
-                      value={appointmentType}
-                      onChange={(type) => {
-                        setAppointmentType(type);
-                        if (type !== "consultancy") {
-                          setConsultancyType("");
-                        }
-                      }}
-                      consultancyValue={consultancyType}
-                      onConsultancyChange={(type) => setConsultancyType(type)}
-                      earMicrosuctionValue={earMicrosuctionType}
-                      onEarMicrosuctionChange={(type) => setEarMicrosuctionType(type)}
-                      onSelectionComplete={handleAppointmentTypeSelected}
-                      consultancyTypes={consultancyTypes}
-                      showConsultancy={appointmentType === "consultation"}
-                      hideVaccinationOption={cartItems && cartItems.length > 0}
-                      loading={appointmentTypeLoading}
-                    />
-                  </div>
+            {currentStep === steps.APPOINTMENT_TYPE && !(cartItems && cartItems.length > 0) && (
+              <div className="w-full md:w-1/2 bg-white rounded-xl p-6 shadow-sm border border-gray-100 mx-auto">
+                <div className="flex justify-center">
+                  <AppointmentTypeSelector
+                    value={appointmentType}
+                    onChange={(type) => {
+                      setAppointmentType(type);
+                      if (type !== "consultation") setConsultancyType("");
+                      if (type !== "ear-microsuction") {
+                        setEarMicrosuctionType("");
+                        setEarMicrosuctionCartItems([]);
+                      }
+                    }}
+                    consultancyValue={consultancyType}
+                    onConsultancyChange={(type) => setConsultancyType(type)}
+                    earMicrosuctionValue={earMicrosuctionType}
+                    onEarMicrosuctionChange={(type) => setEarMicrosuctionType(type)}
+                    onSelectionComplete={handleAppointmentTypeSelected}
+                    consultancyTypes={consultancyTypes}
+                    showConsultancy={appointmentType === "consultation"}
+                    hideVaccinationOption={cartItems && cartItems.length > 0}
+                    loading={appointmentTypeLoading}
+                  />
                 </div>
-              )}
+              </div>
+            )}
 
             {currentStep === steps.DATE && (
               <DateSelection onDateSelect={handleDateSelect} loading={loading} />
@@ -1027,73 +812,50 @@ export default function BookingPage({ cartItems = [] }) {
                 selectedTime={selectedTime}
                 bookingId={bookingId}
                 bookingDate={bookingDate}
+                appointmentType={appointmentType}
+                consultancyType={consultancyType}
+                showPaymentActions={
+                  appointmentType !== "ear-microsuction" &&
+                  !(appointmentType === "consultation" && isFreeConsultancyType(consultancyType))
+                }
                 onClose={() => {
                   clearCart();
-                  if (typeof window !== "undefined") {
-                    localStorage.setItem("booking_success", "true");
-                  }
+                  setEarMicrosuctionCartItems([]);
+                  if (typeof window !== "undefined") localStorage.setItem("booking_success", "true");
                 }}
               />
             )}
+
             <div className="bg-[#00ACC1] py-10 px-6 sm:px-10 mt-16 rounded-xl shadow-xl max-w-6xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
                 <div className="border border-dashed border-white rounded-lg p-6 flex items-start space-x-4">
                   <div className="flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-8 w-8 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 5a2 2 0 012-2h1.6a1 1 0 01.92.608L9.7 7.27a1 1 0 01-.217 1.09l-1.2 1.2a16 16 0 006.57 6.57l1.2-1.2a1 1 0 011.09-.217l3.662 1.88a1 1 0 01.608.92V19a2 2 0 01-2 2h-1C9.163 21 3 14.837 3 7V5z"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h1.6a1 1 0 01.92.608L9.7 7.27a1 1 0 01-.217 1.09l-1.2 1.2a16 16 0 006.57 6.57l1.2-1.2a1 1 0 011.09-.217l3.662 1.88a1 1 0 01.608.92V19a2 2 0 01-2 2h-1C9.163 21 3 14.837 3 7V5z" />
                     </svg>
                   </div>
-
                   <div>
-                    <h3 className="text-xl font-semibold mb-1">
-                      Have a Question?
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-1">Have a Question?</h3>
                     <p className="text-sm">Call Now:</p>
                     <p className="text-2xl font-bold mt-1">01489892499</p>
                   </div>
                 </div>
-
                 <div className="border border-dashed border-white rounded-lg p-6 flex items-start space-x-4">
                   <div className="flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-8 w-8 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 7V3m8 4V3M5 11h14M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3M5 11h14M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
-
                   <div>
                     <h3 className="text-xl font-semibold mb-1">Visit Us</h3>
                     <p className="text-sm">Opening Hours</p>
-                    <p className="font-bold mt-1">
-                      Mon - Fri: 08:30 - 18:00 <br />
-                      Sat: 08:30 - 17:00
-                    </p>
+                    <p className="font-bold mt-1">Mon - Fri: 08:30 - 18:00 <br />Sat: 08:30 - 17:00</p>
                   </div>
                 </div>
               </div>
             </div>
           </motion.div>
+
           <ToastContainer
             position="top-right"
             autoClose={5000}

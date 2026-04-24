@@ -5,6 +5,7 @@ import { X, Check, Calendar, Clock } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useEffect, useState, useRef } from "react";
 import { useCart } from "@/src/contexts";
+import { isFreeConsultancyType } from "@/lib/utils";
 
 export default function BookingConfirmation({
   appointmentId,
@@ -14,6 +15,9 @@ export default function BookingConfirmation({
   onClose,
   bookingId,
   bookingDate,
+  appointmentType,
+  consultancyType,
+  showPaymentActions,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [paymentError, setPaymentError] = useState("");
@@ -29,6 +33,12 @@ export default function BookingConfirmation({
     clearCart,
     grandTotal,
   } = useCart();
+
+  const shouldShowPaymentActions =
+    typeof showPaymentActions === "boolean"
+      ? showPaymentActions
+      : appointmentType !== "ear-microsuction" &&
+        !(appointmentType === "consultation" && isFreeConsultancyType(consultancyType));
 
   useEffect(() => {
     setIsLoading(false);
@@ -423,83 +433,103 @@ export default function BookingConfirmation({
         </p>
 
         <div className="space-y-3">
-          <motion.button
-            whileHover={!isLoading ? { scale: 1.02, y: -1 } : {}}
-            whileTap={!isLoading ? { scale: 0.98 } : {}}
-            disabled={isLoading}
-            onClick={async (e) => {
-              setIsLoading(true);
-              try {
-                await handlePayment();
-              } catch (error) {
-                console.error(
-                  "Error during payment or post-payment logic:",
-                  error
-                );
-                setIsLoading(false);
-              }
-            }}
-            className={`w-full py-3 rounded-xl font-medium transition-all duration-300 shadow-md ${isLoading
-              ? "bg-gray-400 cursor-not-allowed text-white"
-              : "bg-gradient-to-r from-[#00ACC1] to-[#0097A7] hover:from-[#0097A7] hover:to-[#00ACC1] text-white hover:shadow-lg"
-              }`}
-          >
-            {isLoading ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg
-                  className="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v8H4z"
-                  ></path>
-                </svg>
-                Processing...
-              </span>
-            ) : (
-              "Pay Now"
-            )}
-          </motion.button>
+          {shouldShowPaymentActions ? (
+            <>
+              <motion.button
+                whileHover={!isLoading ? { scale: 1.02, y: -1 } : {}}
+                whileTap={!isLoading ? { scale: 0.98 } : {}}
+                disabled={isLoading}
+                onClick={async (e) => {
+                  setIsLoading(true);
+                  try {
+                    await handlePayment();
+                  } catch (error) {
+                    console.error(
+                      "Error during payment or post-payment logic:",
+                      error
+                    );
+                    setIsLoading(false);
+                  }
+                }}
+                className={`w-full py-3 rounded-xl font-medium transition-all duration-300 shadow-md ${isLoading
+                  ? "bg-gray-400 cursor-not-allowed text-white"
+                  : "bg-gradient-to-r from-[#00ACC1] to-[#0097A7] hover:from-[#0097A7] hover:to-[#00ACC1] text-white hover:shadow-lg"
+                  }`}
+              >
+                {isLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      ></path>
+                    </svg>
+                    Processing...
+                  </span>
+                ) : (
+                  "Pay Now"
+                )}
+              </motion.button>
 
-          <motion.button
-            whileHover={{ scale: 1.02, y: -1 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={(e) => {
-              // Set the completion flag first
-              if (typeof window !== "undefined") {
-                sessionStorage.setItem("booking_success", "true");
-                sessionStorage.setItem("booking_completed", "true");
-                // Clear the booking process flag since we're done
-                sessionStorage.removeItem("in_booking_process");
-                // Also set cart_cleared to prevent multiple clearCart calls
-                localStorage.setItem("cart_cleared", "true");
-              }
+              <motion.button
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={(e) => {
+                  if (typeof window !== "undefined") {
+                    sessionStorage.setItem("booking_success", "true");
+                    sessionStorage.setItem("booking_completed", "true");
+                    sessionStorage.removeItem("in_booking_process");
+                    localStorage.setItem("cart_cleared", "true");
+                  }
 
-              // Handle close without clearing cart again
-              handleClose(e);
+                  handleClose(e);
 
-              // Redirect to vaccines page with short delay to ensure state updates
-              setTimeout(() => {
-                window.location.href = "/vaccines";
-              }, 100);
-            }}
-            /* className="w-full py-3 border border-[#00ACC1] text-[#00ACC1] bg-white hover:bg-[#E8F5F7] rounded-xl font-medium transition-colors duration-300"*/
-            className="w-full py-3 bg-gradient-to-r from-[#00ACC1] to-[#0097A7] hover:from-[#0097A7] hover:to-[#00ACC1] text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300"
-          >
-            Pay later
-          </motion.button>
+                  setTimeout(() => {
+                    window.location.href = "/vaccines";
+                  }, 100);
+                }}
+                className="w-full py-3 bg-gradient-to-r from-[#00ACC1] to-[#0097A7] hover:from-[#0097A7] hover:to-[#00ACC1] text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300"
+              >
+                Pay later
+              </motion.button>
+            </>
+          ) : (
+            <motion.button
+              whileHover={{ scale: 1.02, y: -1 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={(e) => {
+                if (typeof window !== "undefined") {
+                  sessionStorage.setItem("booking_success", "true");
+                  sessionStorage.setItem("booking_completed", "true");
+                  sessionStorage.removeItem("in_booking_process");
+                  localStorage.setItem("cart_cleared", "true");
+                }
+
+                handleClose(e);
+
+                setTimeout(() => {
+                  window.location.href = "/";
+                }, 100);
+              }}
+              className="w-full py-3 bg-gradient-to-r from-[#00ACC1] to-[#0097A7] hover:from-[#0097A7] hover:to-[#00ACC1] text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300"
+            >
+              Done
+            </motion.button>
+          )}
 
           <motion.button
             whileHover={{ scale: 1.02, y: -1 }}
