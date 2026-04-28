@@ -1,98 +1,60 @@
-"use client"
+export const metadata = {
+  title: "Bishop's Waltham Pharmacy | Trusted Healthcare Services",
+  description: "Order medicines and access healthcare services at Bishop's Waltham Pharmacy with fast and reliable support.",
+};
 
-import { useState, useEffect, useCallback, Suspense } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { Suspense } from "react"
+import { promises as fs } from "fs"
+import path from "path"
 import AboutUs from "@/components/AboutUs"
-import BlogResources from "@/components/Blogs"
 import DoctorTestimonial from "@/components/DoctoTestimonial"
 import FAQComponent from "@/components/Faq"
 import Footer from "@/components/Footer"
-import Hero from "@/components/Hero"
 import SmartPrescriptionSection from "@/components/Prescriptions"
 import TravelClinic from "@/components/TravelClinic"
 import VaccinationComponent from "@/components/Vaccination"
 import WhyChooseUs from "@/components/WhyChooseUs"
-import LoadingAnimation from "@/components/LoadingAnimation"
-import { useAuth, useCart, useApp } from "@/src/contexts/index"
-import { useSearchParams } from 'next/navigation'
+import HomeClient from "@/components/HomeClient"
 
-function SearchParamHandler() {
-  const searchParams = useSearchParams()
-  const status = searchParams.get('status')
-
-  useEffect(() => {
-    if (status) {
-      console.log("object", status)
-    }
-  }, [status])
-
-  return null
+async function getServices() {
+  try {
+    const filePath = path.join(process.cwd(), "public", "service.json")
+    const fileContents = await fs.readFile(filePath, "utf8")
+    return JSON.parse(fileContents)
+  } catch (error) {
+    console.error("Failed to fetch services:", error)
+    return [
+      {
+        service: "Health Services",
+        heading: "Your Health",
+        subheading: "Professional healthcare services",
+        imageUrl: "/api/placeholder/800/600",
+      },
+    ]
+  }
 }
 
-export default function Home() {
-  const [loading, setLoading] = useState(true)
-  const [heroLoaded, setHeroLoaded] = useState(false)
-  const { user } = useAuth()
-  const { cart } = useCart()
-  const { addNotification } = useApp()
-
-  // Handle loading completion when hero is ready
-  useEffect(() => {
-    if (heroLoaded) {
-      const hasVisited = sessionStorage.getItem("hasVisited")
-      if (!hasVisited) {
-        sessionStorage.setItem("hasVisited", "true")
-      }
-      // Don't immediately set loading to false, let LoadingAnimation handle it
-    }
-  }, [heroLoaded])
-
-  // Handle welcome notification
-  useEffect(() => {
-    if (user && !sessionStorage.getItem("welcomeNotificationShown")) {
-      addNotification({
-        title: "Welcome back!",
-        message: `Good to see you again, ${user.name || "valued customer"}!`,
-        type: "success"
-      })
-      sessionStorage.setItem("welcomeNotificationShown", "true")
-    }
-  }, [user, addNotification])
-
-  // Callback functions for loading management
-  const handleHeroLoaded = useCallback(() => {
-    setHeroLoaded(true)
-  }, [])
-
-  const handleLoadingComplete = useCallback(() => {
-    setLoading(false)
-  }, [])
+export default async function Home() {
+  const services = await getServices()
+  const mainHeading = services[0]?.heading || "Bishop's Waltham Pharmacy - Your Trusted Local Healthcare Provider"
 
   return (
     <>
-      {loading && <LoadingAnimation onComplete={handleLoadingComplete} heroLoaded={heroLoaded} />}
+      {/* Server-rendered H1 for SEO - visually hidden but accessible to crawlers */}
+      <h1 className="sr-only">{mainHeading}</h1>
 
-      <AnimatePresence>
-        {!loading && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
-            <Suspense fallback={null}>
-              <SearchParamHandler />
-            </Suspense>
+      <Suspense fallback={null}>
+        <HomeClient services={services} />
+      </Suspense>
 
-            <section id="home"><Hero onHeroLoaded={handleHeroLoaded} /></section>
-            <section id="services"><SmartPrescriptionSection /></section>
-            <WhyChooseUs />
-            <section id="about"><AboutUs /></section>
-            <section id="locations"><TravelClinic /></section>
-            <DoctorTestimonial />
-            <section id="vaccination"><VaccinationComponent /></section>
-            <section id="faq"><FAQComponent /></section>
-            {/* <section id="blogs"><BlogSection /></section> */}
-            {/* <section id="blogs"><BlogResources /></section> */}
-            <Footer />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <section id="services"><SmartPrescriptionSection /></section>
+      <WhyChooseUs />
+      <section id="about"><AboutUs /></section>
+      <section id="locations"><TravelClinic /></section>
+      <DoctorTestimonial />
+      <section id="vaccination"><VaccinationComponent /></section>
+      <section id="faq"><FAQComponent /></section>
+      <Footer />
     </>
   )
 }
