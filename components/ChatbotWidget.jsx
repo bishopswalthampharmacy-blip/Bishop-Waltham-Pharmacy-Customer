@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bot, Send, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 
 const CHATBOT_API_URL =
     "https://j2p245nc7b.execute-api.us-east-1.amazonaws.com/prod/bishops-chatbot";
@@ -171,17 +172,16 @@ export default function ChatbotWidget() {
                 }
 
                 .bw-chat-btn {
-                    background: linear-gradient(135deg, #037F91, #0B5C64);
-                    background-size: 200% 200%;
-                    animation: bwGradShift 4s ease infinite, bwFloat 2.8s ease-in-out infinite;
-                    box-shadow: 0 8px 20px rgba(3,127,145,0.4);
+                    background: #5BB9EC;
+                    animation: bwFloat 2.8s ease-in-out infinite;
+                    box-shadow: 0 8px 20px rgba(91,185,236,0.4);
                 }
                 .bw-chat-btn:hover {
-                    animation: bwGradShift 4s ease infinite, bwWiggle 0.75s ease !important;
-                    box-shadow: 0 12px 28px rgba(3,127,145,0.55) !important;
+                    animation: bwWiggle 0.75s ease !important;
+                    box-shadow: 0 12px 28px rgba(91,185,236,0.55) !important;
                 }
                 .bw-chat-btn-wiggle {
-                    animation: bwGradShift 4s ease infinite, bwWiggle 0.75s ease !important;
+                    animation: bwWiggle 0.75s ease !important;
                 }
 
                 .bw-pulse-1 { animation: bwPulse1 2.4s ease-out infinite; }
@@ -237,7 +237,7 @@ export default function ChatbotWidget() {
                             exit={{ opacity: 0, y: 24, scale: 0.94 }}
                             transition={{ type: "spring", damping: 20, stiffness: 300 }}
                             className="mb-3 w-[calc(100vw-2.5rem)] max-w-[390px] overflow-hidden rounded-2xl border border-[#d9ecf0]"
-                            style={{ boxShadow: "0 22px 48px rgba(3,127,145,0.22)" }}
+                            style={{ boxShadow: "0 22px 48px rgba(91,185,236,0.22)" }}
                         >
                             {/* Header */}
                             <div className="bw-header-grad flex items-center justify-between px-4 py-3 text-white">
@@ -281,7 +281,7 @@ export default function ChatbotWidget() {
                                         <div
                                             className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed ${message.role === "user"
                                                     ? "rounded-br-sm text-white"
-                                                    : "rounded-bl-sm border border-[#d3e8eb] bg-white text-[#264147]"
+                                                    : "rounded-bl-sm border border-[#d3e8eb] bg-white text-[#264147] prose prose-sm max-w-none"
                                                 }`}
                                             style={
                                                 message.role === "user"
@@ -289,7 +289,21 @@ export default function ChatbotWidget() {
                                                     : {}
                                             }
                                         >
-                                            {message.text}
+                                            {message.role === "assistant" ? (
+                                                <ReactMarkdown
+                                                    components={{
+                                                        p: ({ children }) => <p className="mb-1">{children}</p>,
+                                                        ul: ({ children }) => <ul className="list-disc list-inside mb-1">{children}</ul>,
+                                                        li: ({ children }) => <li className="mb-0.5">{children}</li>,
+                                                        strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                                                        em: ({ children }) => <em className="italic">{children}</em>,
+                                                    }}
+                                                >
+                                                    {message.text}
+                                                </ReactMarkdown>
+                                            ) : (
+                                                message.text
+                                            )}
                                         </div>
                                     </motion.div>
                                 ))}
@@ -350,11 +364,11 @@ export default function ChatbotWidget() {
                     <div className="relative flex items-center justify-center">
                         <div
                             className="bw-pulse-1 pointer-events-none absolute inset-0 rounded-2xl"
-                            style={{ background: "rgba(3,127,145,0.38)" }}
+                            style={{ background: "rgba(91,185,236,0.38)" }}
                         />
                         <div
                             className="bw-pulse-2 pointer-events-none absolute inset-0 rounded-2xl"
-                            style={{ background: "rgba(3,127,145,0.2)" }}
+                            style={{ background: "rgba(91,185,236,0.2)" }}
                         />
 
                         <motion.button
@@ -369,7 +383,7 @@ export default function ChatbotWidget() {
                             </span>
                             <span className="flex items-center leading-none">
                                 <span
-                                    className={`bw-tw-text text-[11px] font-semibold tracking-wide ${typewriter ? "bw-tw-text-anim" : ""}`}
+                                    className={`bw-tw-text text-[12px] font-semibold tracking-wide ${typewriter ? "bw-tw-text-anim" : ""}`}
                                 >
                                     Chat with us
                                 </span>
