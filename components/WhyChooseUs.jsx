@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring } from "framer-motion"
 import Image from "next/image"
-import { ChevronRight } from "lucide-react"
+
 
 const whyChooseContent = [
   {

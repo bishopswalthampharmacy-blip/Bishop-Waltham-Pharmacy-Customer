@@ -1,5 +1,6 @@
 import { Instrument_Sans, Average_Sans, Plus_Jakarta_Sans } from "next/font/google"
 import Header from "@/components/Header"
+import ChatbotWidget from "@/components/ChatbotWidget"
 import "./globals.css"
 import { AuthProvider } from "@/src/contexts/AuthContext"
 import { CartProvider } from "@/src/contexts/CartContext"
@@ -26,6 +27,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata = {
   title: "Bishops Waltham Pharmacy – Travel Clinic & Vaccination",
   description: "Best pharmacy in the world, located at the heart of Bishop's Waltham",
+  verification: {
+    google: "googlea41bbe258c383366.html",
+  },
 }
 
 export default function RootLayout({ children }) {
@@ -40,6 +44,7 @@ export default function RootLayout({ children }) {
             <CartProvider>
               <Header />
               {children}
+              <ChatbotWidget />
             </CartProvider>
           </AuthProvider>
         </AppProvider>
