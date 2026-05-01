@@ -5,6 +5,7 @@ import {
 } from "next/font/google";
 import Header from "@/components/Header";
 import ChatbotWidget from "@/components/ChatbotWidget";
+import Canonical from "@/components/Canonical";
 import "./globals.css";
 import { AuthProvider } from "@/src/contexts/AuthContext";
 import { CartProvider } from "@/src/contexts/CartContext";
@@ -64,6 +65,7 @@ export default function RootLayout({ children }) {
       className={`!scroll-smooth ${instrumentSans.variable} ${averageSans.variable} ${plusJakarta.variable}`}
     >
       <body suppressHydrationWarning={true}>
+        <Canonical />
         <AppProvider>
           <AuthProvider>
             <CartProvider>

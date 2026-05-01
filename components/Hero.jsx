@@ -88,7 +88,7 @@ const Hero = ({ onHeroLoaded }) => {
           >
             <Image
               src={current.imageUrl}
-              alt="Hero Background"
+              alt={`${current.heading} - ${current.subheading || current.service}`}
               fill
               className="object-cover object-bottom"
               priority

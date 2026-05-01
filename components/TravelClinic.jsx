@@ -86,7 +86,7 @@ export default function TravelClinic() {
   return (
     <div
       ref={sectionRef}
-      className="max-w-full w-full sm:w-[90%] md:w-[85%] mx-auto bg-white flex flex-col items-center justify-center py-8 sm:py-10 md:py-12 px-5 sm:px-6 md:px-10 lg:px-20 overflow-hidden relative font-average"
+      className="max-w-full w-full sm:w-[90%] md:w-[85%] mx-auto bg-white flex flex-col items-center justify-center py-4 sm:py-10 md:py-4 px-5 sm:px-6 md:px-10 lg:px-20 overflow-hidden relative font-average"
     >
       {/* Decorative background elements */}
       <motion.div
@@ -147,7 +147,7 @@ export default function TravelClinic() {
           >
             <Image
               src="/assets/travelclinic.webp"
-              alt="Traveler looking at mountain view"
+              alt="Travel clinic section - traveler looking at mountain view"
               fill
               className="object-cover transition-transform duration-700 hover:scale-105"
               priority
@@ -197,7 +197,7 @@ export default function TravelClinic() {
           >
             <Image
               src="/assets/travelclinic2.webp"
-              alt="Traveler taking photos in mountains"
+              alt="Travel clinic section - traveler taking photos in mountains"
               fill
               className="object-cover transition-transform duration-700 hover:scale-105"
               priority
@@ -214,7 +214,7 @@ export default function TravelClinic() {
           >
             <Image
               src="/assets/travelclinic.webp"
-              alt="Traveler looking at mountain view"
+              alt="Travel clinic mobile - traveler looking at mountain view"
               fill
               className="object-cover"
               priority
@@ -227,7 +227,7 @@ export default function TravelClinic() {
           >
             <Image
               src="/assets/travelclinic2.webp"
-              alt="Traveler taking photos in mountains"
+              alt="Travel clinic mobile - traveler taking photos in mountains"
               fill
               className="object-cover"
               priority
