@@ -132,10 +132,10 @@ const Hero = ({ onHeroLoaded }) => {
                 </div>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl leading-tight font-average">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl leading-tight font-average">
                 {current.heading}
                 <br />
-              </h1>
+              </h2>
 
               <p className="text-sm md:text-base text-gray-100 font-light max-w-md font-average">
                 {current.subheading}
