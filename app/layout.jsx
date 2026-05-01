@@ -46,6 +46,10 @@ export const metadata = {
   verification: {
     google: "N5qS3a-TougGoHsPOCr5PYxaQ5sI-JJm592dXQVOC3A",
   },
+  alternates: {
+    canonical: "https://bishopswalthampharmacy.co.uk/",
+  },
+
   openGraph: {
     title: "Bishops Waltham Pharmacy – Travel Clinic & Healthcare Services",
     description:

@@ -91,7 +91,7 @@ export default function WeightLossCards() {
           >
             <Image
               src={item.image}
-              alt={item.title}
+              alt={`${item.title} - Weight loss medication and healthcare service at Bishop's Waltham Pharmacy`}
               width={500}
               height={300}
               className="w-full h-40 object-cover rounded-xl mb-2"

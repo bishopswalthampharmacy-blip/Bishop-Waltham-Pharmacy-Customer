@@ -166,7 +166,7 @@ export default function FAQComponent() {
             >
               <Image
                 src="/assets/faqimg.webp"
-                alt="Pharmacist consulting with patients"
+                alt="Friendly pharmacist providing expert healthcare advice and consultation to patient at Bishop's Waltham Pharmacy"
                 fill
                 className="object-contain"
               />

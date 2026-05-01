@@ -72,7 +72,7 @@ export default function VaccinationCard({ vaccine, isHovered, onHoverStart, onHo
             >
              
                 <Avatar
-                      alt={vaccine.name}
+                      alt={`${vaccine.name} vaccination available at Bishop's Waltham Pharmacy - Book your travel vaccine appointment`}
                       src={vaccine.pictureUrl || '/assets/bv3.webp'}
                       variant="square"
                       sx={{ width: 120, height: 120, borderRadius: '20px' }}

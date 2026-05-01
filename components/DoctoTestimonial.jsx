@@ -183,7 +183,7 @@ export default function DoctorTestimonial() {
               <div className="relative w-full max-w-[360px] h-[240px] sm:max-w-[400px] sm:h-[270px] md:max-w-[440px] md:h-[300px] lg:max-w-[480px] lg:h-[330px] xl:max-w-[520px] xl:h-[360px] 2xl:max-w-[560px] 2xl:h-[390px]">
                 <Image
                   src="/assets/doctestomonial.webp"
-                  alt="Doctors at Bishop's Waltham Pharmacy"
+                  alt="Professional healthcare team and experienced pharmacists providing expert medical care at Bishop's Waltham Pharmacy"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 420px"
                   className="object-cover object-center rounded-xl"
