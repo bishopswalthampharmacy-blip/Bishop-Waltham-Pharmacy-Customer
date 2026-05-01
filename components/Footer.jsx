@@ -62,10 +62,10 @@ export default function Footer() {
 
     emailjs
       .send(
-        "service_zhv27tg", // ✅ Your Service ID
-        "template_lxoacuh", // ✅ Your Template ID
+        "service_zhv27tg", 
+        "template_lxoacuh", 
         templateParams,
-        "P0qeidQDr3_JFHjsC" // ✅ Your Public Key
+        "P0qeidQDr3_JFHjsC", 
       )
       .then(
         (result) => {
@@ -79,8 +79,7 @@ export default function Footer() {
             setIsFormSubmitted(false);
           }, 3000);
         },
-        (error) => {
-        }
+        (error) => { },
       );
   };
 
@@ -130,7 +129,7 @@ export default function Footer() {
     lat: 50.954602981609135,
     lng: -1.2122092309991204,
     name: "Bishop's Waltham Pharmacy",
-    address: "Southampton, UK",
+    address: "10-12 High St, Bishop's Waltham, Southampton SO32 1AA, UK",
   };
 
   return (
@@ -503,7 +502,7 @@ export default function Footer() {
                   <div className="relative h-[150px] w-full bg-[#E1F5E9]">
                     <Image
                       src="/assets/map.webp"
-                      alt="Map location of Bishop's Waltham Pharmacy in Hampshire - Visit our local pharmacy for travel clinic and vaccination services"
+                      alt="Map showing Bishop's Waltham location"
                       fill
                       className="object-cover"
                     />
@@ -645,7 +644,7 @@ export default function Footer() {
                   >
                     <img
                       src="/assets/Blogo3.svg"
-                      alt="Bishop's Waltham Pharmacy logo - Your trusted local pharmacy for travel vaccines, ear wax removal, and health services"
+                      alt="Bishops Waltham Pharmacy logo"
                       className="h-25"
                     />
                   </motion.div>
@@ -761,6 +760,71 @@ export default function Footer() {
                   </ul>
                 </div>
 
+                {/* Contact Info / Get in Touch - MOVED TO MIDDLE */}
+                <div
+                  className="animate-slideIn"
+                  style={{ animationDelay: "0.2s" }}
+                >
+                  <h3 className="text-gray-800 font-medium mb-5 text-base">
+                    Get in Touch
+                  </h3>
+                  <div
+                    className="space-y-3"
+                    itemScope
+                    itemType="https://schema.org/LocalBusiness"
+                  >
+                    {/* Business Name - NAP */}
+                    <div className="text-gray-500 text-sm">
+                      <span itemProp="name">Bishops Waltham Pharmacy</span>
+                    </div>
+
+                    {/* Address - NAP */}
+                    <div className="text-gray-500 text-sm">
+                      <span className="text-gray-700 font-medium">
+                        Address:{" "}
+                      </span>
+                      <address
+                        itemProp="address"
+                        itemScope
+                        itemType="https://schema.org/PostalAddress"
+                        className="not-italic"
+                      >
+                        <span itemProp="streetAddress">10-12 High St</span>,{" "}
+                        <span itemProp="addressLocality">Bishop's Waltham</span>
+                        <br />
+                        <span>Southampton</span>,{" "}
+                        <span itemProp="addressRegion">Hampshire</span>{" "}
+                        <span itemProp="postalCode">SO32 1AA</span>,{" "}
+                        <span itemProp="addressCountry">UK</span>
+                      </address>
+                    </div>
+
+                    {/* Phone - NAP */}
+                    <div className="text-gray-500 text-sm">
+                      <span className="text-gray-700 font-medium">Phone: </span>
+                      <a
+                        href="tel:+441489892499"
+                        itemProp="telephone"
+                        className="hover:text-[#3498db] transition"
+                      >
+                        01489 892499
+                      </a>
+                    </div>
+
+                    {/* Email */}
+                    <div className="text-gray-500 text-sm">
+                      <span className="text-gray-700 font-medium">Email: </span>
+                      <a
+                        href="mailto:pharmacy.frn21@nhs.net"
+                        itemProp="email"
+                        className="hover:text-[#3498db] transition"
+                      >
+                        pharmacy.frn21@nhs.net
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Solutions column - COMMENTED OUT */}
                 {/*
                 <div className="animate-slideIn" style={{ animationDelay: "0.2s" }}>
@@ -822,7 +886,7 @@ export default function Footer() {
                 {/* Company column */}
                 <div
                   className="animate-slideIn"
-                  style={{ animationDelay: "0.2s" }}
+                  style={{ animationDelay: "0.3s" }}
                 >
                   <h3 className="text-gray-800 font-medium mb-5 text-base">
                     Company
@@ -855,26 +919,6 @@ export default function Footer() {
                       </Link>
                     </li>
                   </ul>
-                </div>
-
-                {/* Contact Info column - right aligned */}
-                <div
-                  className="animate-slideIn"
-                  style={{ animationDelay: "0.3s" }}
-                >
-                  <h3 className="text-gray-800 font-medium mb-5 text-base">
-                    Get in Touch
-                  </h3>
-                  <div className="space-y-2">
-                    <div className="text-gray-500 text-sm">
-                      <span className="text-gray-700 font-medium">Phone: </span>
-                      <span>01489 892499</span>
-                    </div>
-                    <div className="text-gray-500 text-sm">
-                      <span className="text-gray-700 font-medium">Email: </span>
-                      <span>pharmacy.frn21@nhs.net</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

@@ -258,7 +258,7 @@ export default function WhyChooseUs() {
                       <div className="absolute inset-0 bg-gradient-to-tr from-blue-100/10 to-purple-100/10 rounded-2xl" />
                       <Image
                         src={whyChooseContent[currentSlide].image || "/placeholder.svg"}
-                        alt={`${whyChooseContent[currentSlide].title} - Why choose Bishop's Waltham Pharmacy for professional healthcare and pharmacy services`}
+                        alt={`Why choose us - ${whyChooseContent[currentSlide].title}`}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-contain object-center p-4 rounded-2xl"

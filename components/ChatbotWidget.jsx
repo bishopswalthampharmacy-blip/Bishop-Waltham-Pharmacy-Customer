@@ -172,13 +172,13 @@ export default function ChatbotWidget() {
                 }
 
                 .bw-chat-btn {
-                    background: #5BB9EC;
+                    background: #004488;
                     animation: bwFloat 2.8s ease-in-out infinite;
-                    box-shadow: 0 8px 20px rgba(91,185,236,0.4);
+                    box-shadow: 0 8px 20px rgba(0,68,136,0.4);
                 }
                 .bw-chat-btn:hover {
                     animation: bwWiggle 0.75s ease !important;
-                    box-shadow: 0 12px 28px rgba(91,185,236,0.55) !important;
+                    box-shadow: 0 12px 28px rgba(0,68,136,0.55) !important;
                 }
                 .bw-chat-btn-wiggle {
                     animation: bwWiggle 0.75s ease !important;
@@ -364,11 +364,11 @@ export default function ChatbotWidget() {
                     <div className="relative flex items-center justify-center">
                         <div
                             className="bw-pulse-1 pointer-events-none absolute inset-0 rounded-2xl"
-                            style={{ background: "rgba(91,185,236,0.38)" }}
+                            style={{ background: "rgba(0,68,136,0.38)" }}
                         />
                         <div
                             className="bw-pulse-2 pointer-events-none absolute inset-0 rounded-2xl"
-                            style={{ background: "rgba(91,185,236,0.2)" }}
+                            style={{ background: "rgba(0,68,136,0.2)" }}
                         />
 
                         <motion.button

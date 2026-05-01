@@ -9,7 +9,7 @@ export default function BookingLoading() {
       <div className="absolute inset-0 z-0">
         {/* <Image 
           src="/assets/booknow.webp" 
-          alt="Booking your appointment at Bishop's Waltham Pharmacy - Online vaccination and health service reservations" 
+          alt="Booking decorative background image" 
           fill 
           className="object-cover" 
           priority

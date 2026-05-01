@@ -37,7 +37,7 @@ const Header = () => {
         {/* Left: Logo + Nav */}
         <div className="flex items-center gap-8 pl-8">
           <Link href="/">
-            <Image src={Logo} alt="Bishop's Waltham Pharmacy logo - Trusted healthcare and travel clinic services" width={150} height={35} className="object-contain" />
+            <Image src={Logo} alt="Bishops Waltham Pharmacy logo" width={150} height={35} className="object-contain" />
           </Link>
 
           <nav className="hidden lg:flex gap-10 text-sm font-medium text-black font-instrument">

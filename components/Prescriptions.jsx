@@ -82,7 +82,7 @@ export default function WeightLossCards() {
         <span className="text-[#004488]">Services</span>
       </motion.h2>
 
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="hidden md:grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {weightLossCards.map((item, index) => (
           <motion.div
             key={index}
@@ -121,7 +121,6 @@ export default function WeightLossCards() {
                 className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
               >
                 <span className="pl-1 pr-2 text-xs font-semibold">Learn More</span>
-                {/* <ArrowRight className="ml-1 w-3 h-3 group-hover:translate-x-1 transition-transform" /> */}
               </Link>
 
               <Link
@@ -142,6 +141,69 @@ export default function WeightLossCards() {
             </div>
           </motion.div>
         ))}
+      </div>
+
+      <div className="md:hidden overflow-x-auto pb-4 -mx-4 px-4">
+        <div className="flex gap-4 w-max">
+          {weightLossCards.map((item, index) => (
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              className="group bg-[#F5F9FF] rounded-2xl p-3 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 h-[400px] flex flex-col flex-shrink-0 w-72"
+            >
+              <Image
+                src={item.image}
+                alt={item.title}
+                width={500}
+                height={300}
+                className="w-full h-40 object-cover rounded-xl mb-2"
+              />
+              <h3
+                className="text-sm font-semibold text-[#034F96] mb-1 line-clamp-1"
+                title={item.title}
+              >
+                {item.title}
+              </h3>
+              <p
+                className="text-xs text-gray-500 mb-2 line-clamp-1"
+                title={item.subheading}
+              >
+                {item.subheading}
+              </p>
+              <p
+                className="text-[13px] text-gray-600 mb-2 mt-2 flex-1 text-justify"
+                title={item.desc}
+              >
+                {item.desc}
+              </p>
+
+              <div className="flex items-center justify-between mt-auto gap-1">
+                <Link
+                  href={item.link}
+                  className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                >
+                  <span className="pl-1 pr-2 text-xs font-semibold">Learn More</span>
+                </Link>
+
+                <Link
+                  href={{
+                    pathname: "/booking",
+                    query: { st: "1", service: item.title },
+                  }}
+                  as={`/booking?st=1&service=${encodeURIComponent(item.title)}`}
+                  className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                >
+                  <span className="pl-1 pr-2 text-xs font-semibold">
+                    Book an Appointment
+                  </span>
+                  <span className="bg-[#8DBBFF] p-1 rounded-full flex items-center justify-center ml-1">
+                    <ArrowRight size={12} className="text-white" />
+                  </span>
+                </Link>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </motion.div>
   );

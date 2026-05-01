@@ -88,7 +88,7 @@ const Hero = ({ onHeroLoaded }) => {
           >
             <Image
               src={current.imageUrl}
-              alt="Welcome to Bishop's Waltham Pharmacy - Your trusted local pharmacy for travel vaccines, health services, and expert medical advice"
+              alt={`${current.heading} - ${current.subheading || current.service}`}
               fill
               className="object-cover object-bottom"
               priority

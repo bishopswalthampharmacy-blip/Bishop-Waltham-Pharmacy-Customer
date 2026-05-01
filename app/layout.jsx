@@ -5,6 +5,7 @@ import {
 } from "next/font/google";
 import Header from "@/components/Header";
 import ChatbotWidget from "@/components/ChatbotWidget";
+import Canonical from "@/components/Canonical";
 import "./globals.css";
 import { AuthProvider } from "@/src/contexts/AuthContext";
 import { CartProvider } from "@/src/contexts/CartContext";
@@ -42,7 +43,6 @@ export const metadata = {
     "Bishop's Waltham",
   ],
   authors: [{ name: "Bishops Waltham Pharmacy" }],
-  viewport: "width=device-width, initial-scale=1",
   verification: {
     google: "N5qS3a-TougGoHsPOCr5PYxaQ5sI-JJm592dXQVOC3A",
   },
@@ -61,6 +61,11 @@ export const metadata = {
   robots: "index, follow",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({ children }) {
   return (
     <html
@@ -68,6 +73,7 @@ export default function RootLayout({ children }) {
       className={`!scroll-smooth ${instrumentSans.variable} ${averageSans.variable} ${plusJakarta.variable}`}
     >
       <body suppressHydrationWarning={true}>
+        <Canonical />
         <AppProvider>
           <AuthProvider>
             <CartProvider>
