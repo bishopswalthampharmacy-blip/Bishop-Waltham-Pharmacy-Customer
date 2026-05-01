@@ -152,7 +152,7 @@ export default function AboutUs() {
           <motion.div variants={imageVariants} className="rounded-lg overflow-hidden h-[390px] w-full max-w-[400px] relative">
             <Image
               src="/assets/aboutus1.jpg"
-              alt="Pharmacy shelves"
+              alt="Modern pharmacy interior with organized medicine shelves and healthcare products at Bishop's Waltham Pharmacy"
               fill
               quality={100}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"

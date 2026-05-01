@@ -503,7 +503,7 @@ export default function Footer() {
                   <div className="relative h-[150px] w-full bg-[#E1F5E9]">
                     <Image
                       src="/assets/map.webp"
-                      alt="Bishop's Waltham"
+                      alt="Map location of Bishop's Waltham Pharmacy in Hampshire - Visit our local pharmacy for travel clinic and vaccination services"
                       fill
                       className="object-cover"
                     />
@@ -645,7 +645,7 @@ export default function Footer() {
                   >
                     <img
                       src="/assets/Blogo3.svg"
-                      alt="Bishops Waltham Pharmacy"
+                      alt="Bishop's Waltham Pharmacy logo - Your trusted local pharmacy for travel vaccines, ear wax removal, and health services"
                       className="h-25"
                     />
                   </motion.div>

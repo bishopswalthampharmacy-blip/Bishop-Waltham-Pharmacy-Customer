@@ -293,7 +293,7 @@ import Image from "next/image"
                 >
                   <Image
                     src={post.image || "/placeholder.svg"}
-                    alt={post.title}
+                    alt={`${post.title} - Health and wellness blog article from Bishop's Waltham Pharmacy`}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -324,7 +324,7 @@ import Image from "next/image"
                     <div className="w-8 h-8 rounded-full overflow-hidden mr-3 border border-gray-200">
                       <Image
                         src={post.authorImage || "/placeholder.svg"}
-                        alt={post.author}
+                        alt={`${post.author} - Healthcare expert and medical professional at Bishop's Waltham Pharmacy`}
                         width={32}
                         height={32}
                         className="w-full h-full object-cover"
@@ -657,7 +657,7 @@ export default function BlogSection() {
                 >
                   <Image
                     src={post.image || "/placeholder.svg"}
-                    alt={post.title}
+                    alt={`${post.title} - Health and wellness blog article from Bishop's Waltham Pharmacy`}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -688,7 +688,7 @@ export default function BlogSection() {
                     <div className="w-8 h-8 rounded-full overflow-hidden mr-3 border border-gray-200">
                       <Image
                         src={post.authorImage || "/placeholder.svg"}
-                        alt={post.author}
+                        alt={`${post.author} - Healthcare expert and medical professional at Bishop's Waltham Pharmacy`}
                         width={32}
                         height={32}
                         className="w-full h-full object-cover"

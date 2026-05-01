@@ -30,6 +30,9 @@ export const metadata = {
   verification: {
     google: "googlea41bbe258c383366.html",
   },
+  alternates: {
+    canonical: "https://bishopswalthampharmacy.co.uk/",
+  },
 }
 
 export default function RootLayout({ children }) {

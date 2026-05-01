@@ -62,7 +62,7 @@ export default function ServiceInfo({ service }) {
                             <div className="w-full rounded-xl overflow-hidden shadow-md mb-4 sm:mb-6">
                                 <Image
                                     src={service?.images?.main || service.image}
-                                    alt={service.title + " Service"}
+                                    alt={`${service.title} service at Bishop's Waltham Pharmacy - Professional healthcare and medical services in Hampshire`}
                                     width={800}
                                     height={500}
                                     className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover"
@@ -148,7 +148,7 @@ export default function ServiceInfo({ service }) {
                                                     >
                                                         <Image
                                                             src={service.images.vaccines}
-                                                            alt="Travel Vaccines"
+                                                            alt="Travel vaccination clinic at Bishop's Waltham Pharmacy - Comprehensive travel immunizations and health advice"
                                                             width={800}
                                                             height={400}
                                                             className="w-full h-48 sm:h-64 md:h-72 lg:h-80 object-cover"
@@ -308,7 +308,7 @@ export default function ServiceInfo({ service }) {
                                                     >
                                                         <Image
                                                             src={service.images.vaccines}
-                                                            alt="Travel Vaccines"
+                                                            alt="Travel vaccination clinic at Bishop's Waltham Pharmacy - Comprehensive travel immunizations and health advice"
                                                             width={800}
                                                             height={400}
                                                             className="w-full h-48 sm:h-64 md:h-72 lg:h-80 object-cover"
@@ -403,7 +403,7 @@ export default function ServiceInfo({ service }) {
                                             >
                                                 <Image
                                                     src={service.images.vaccines}
-                                                    alt="Weight Loss Medications"
+                                                    alt="Weight loss medication and management services at Bishop's Waltham Pharmacy - Professional healthcare support"
                                                     width={800}
                                                     height={400}
                                                     className="w-full h-48 sm:h-64 md:h-72 lg:h-80 object-cover"

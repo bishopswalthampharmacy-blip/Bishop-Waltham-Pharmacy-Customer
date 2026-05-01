@@ -651,7 +651,7 @@ export default function BookingPage({ cartItems = [] }) {
       </Dialog>
 
       <div className="relative w-full h-48 sm:h-64 md:h-72 overflow-hidden">
-        <Image src="/assets/dd2.jpg" alt="Booking Background" fill className="object-cover" priority />
+        <Image src="/assets/dd2.jpg" alt="Book your vaccination appointment online at Bishop's Waltham Pharmacy - Easy online booking for travel vaccines and health services" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 flex items-center justify-center">
           <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide drop-shadow-lg">Book Now</h1>
@@ -660,7 +660,7 @@ export default function BookingPage({ cartItems = [] }) {
 
       <div className="relative min-h-screen w-full flex bg-gray-50 font-instrument">
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <Image src="/assets/booknow.webp" alt="Mountain landscape" fill className="object-cover" priority />
+          <Image src="/assets/booknow.webp" alt="Beautiful scenic mountain landscape representing travel health and adventure - Book travel vaccinations at Bishop's Waltham Pharmacy" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black/60" />
         </div>
 

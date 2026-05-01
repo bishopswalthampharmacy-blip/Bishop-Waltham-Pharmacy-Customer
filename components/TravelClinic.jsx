@@ -147,7 +147,7 @@ export default function TravelClinic() {
           >
             <Image
               src="/assets/travelclinic.webp"
-              alt="Traveler looking at mountain view"
+              alt="Happy traveler enjoying scenic mountain view during international travel - Bishop's Waltham Pharmacy travel clinic services"
               fill
               className="object-cover transition-transform duration-700 hover:scale-105"
               priority
@@ -197,7 +197,7 @@ export default function TravelClinic() {
           >
             <Image
               src="/assets/travelclinic2.webp"
-              alt="Traveler taking photos in mountains"
+              alt="Tourist capturing memories while hiking in mountains - travel health and vaccination services at Bishop's Waltham Pharmacy"
               fill
               className="object-cover transition-transform duration-700 hover:scale-105"
               priority
@@ -214,7 +214,7 @@ export default function TravelClinic() {
           >
             <Image
               src="/assets/travelclinic.webp"
-              alt="Traveler looking at mountain view"
+              alt="Happy traveler enjoying scenic mountain view during international travel - Bishop's Waltham Pharmacy travel clinic services"
               fill
               className="object-cover"
               priority
@@ -227,7 +227,7 @@ export default function TravelClinic() {
           >
             <Image
               src="/assets/travelclinic2.webp"
-              alt="Traveler taking photos in mountains"
+              alt="Tourist capturing memories while hiking in mountains - travel health and vaccination services at Bishop's Waltham Pharmacy"
               fill
               className="object-cover"
               priority

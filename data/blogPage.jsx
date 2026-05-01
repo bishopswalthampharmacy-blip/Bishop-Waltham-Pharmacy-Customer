@@ -61,7 +61,7 @@ export default function TravelClinicPage() {
           <div className="relative h-64 w-full rounded-lg overflow-hidden shadow-md">
             <Image
               src="/assets/booknow.webp"
-              alt="Travel health consultation at Bishops Waltham Pharmacy"
+              alt="Professional travel health consultation with experienced pharmacist at Bishop's Waltham Pharmacy travel clinic"
               fill
               className="object-cover"
             />
@@ -76,7 +76,7 @@ export default function TravelClinicPage() {
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-12 font-sans">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="relative h-64 w-full rounded-lg overflow-hidden shadow-md">
-            <Image src="/assets/bbh.jpg" alt="Malaria prevention tablets" fill className="object-cover" />
+            <Image src="/assets/bbh.jpg" alt="Malaria prevention medication and antimalarial tablets available at Bishop's Waltham Pharmacy travel clinic" fill className="object-cover" />
           </div>
           <div>
             <h2 className="text-2xl font-semibold text-[#034F96] mb-4">Malaria Prevention</h2>
@@ -181,7 +181,7 @@ export default function TravelClinicPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white shadow-sm rounded-xl p-4 text-base">
               <div className="relative h-48 w-full mb-3 rounded-lg overflow-hidden">
-                <Image src="/assets/heroimage1.webp" alt="Private travel vaccines" fill className="object-cover" />
+                <Image src="/assets/heroimage1.webp" alt="Private travel vaccination service with professional healthcare staff at Bishop's Waltham Pharmacy" fill className="object-cover" />
               </div>
               <div className="text-left">
                 <h3 className="font-semibold text-xl mb-2 text-[#034F96]">Private Vaccines</h3>
@@ -195,7 +195,7 @@ export default function TravelClinicPage() {
 
             <div className="bg-white shadow-sm rounded-xl p-4 text-base">
               <div className="relative h-48 w-full mb-3 rounded-lg overflow-hidden">
-                <Image src="/vaccinating.webp" alt="Specialist travel vaccines" fill className="object-cover" />
+                <Image src="/vaccinating.webp" alt="Specialist travel vaccines and immunizations administered by qualified healthcare professionals" fill className="object-cover" />
               </div>
               <div className="text-left">
                 <h3 className="font-semibold text-xl mb-2 text-[#034F96]">Specialist Vaccines</h3>
