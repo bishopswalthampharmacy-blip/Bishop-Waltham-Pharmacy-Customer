@@ -43,7 +43,6 @@ export const metadata = {
     "Bishop's Waltham",
   ],
   authors: [{ name: "Bishops Waltham Pharmacy" }],
-  viewport: "width=device-width, initial-scale=1",
   verification: {
     google: "N5qS3a-TougGoHsPOCr5PYxaQ5sI-JJm592dXQVOC3A",
   },
@@ -56,6 +55,11 @@ export const metadata = {
     type: "website",
   },
   robots: "index, follow",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }) {

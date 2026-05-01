@@ -1,16 +1,19 @@
 "use client";
-import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Canonical({ siteUrl }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   useEffect(() => {
-    if (!pathname) return;
-    const base = siteUrl || process.env.NEXT_PUBLIC_SITE_URL || "https://bishopswalthampharmacy.co.uk";
-    const query = searchParams?.toString();
-    const href = `${base.replace(/\/+$/, "")}${pathname}${query ? `?${query}` : ""}`;
+    if (typeof window === "undefined") return;
+
+    const base =
+      siteUrl ||
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      "https://bishopswalthampharmacy.co.uk";
+    const { origin, pathname } = window.location;
+    const normalizedBase = base.replace(/\/+$/, "");
+    const href = normalizedBase.startsWith(origin)
+      ? `${normalizedBase}${pathname}`
+      : `${normalizedBase}${pathname}`;
 
     let link = document.querySelector("link[rel='canonical']");
     if (!link) {
@@ -19,7 +22,7 @@ export default function Canonical({ siteUrl }) {
       document.head.appendChild(link);
     }
     link.setAttribute("href", href);
-  }, [pathname, searchParams, siteUrl]);
+  }, [siteUrl]);
 
   return null;
 }
