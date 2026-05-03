@@ -297,6 +297,17 @@ export default function ChatbotWidget() {
                                                         li: ({ children }) => <li className="mb-0.5">{children}</li>,
                                                         strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
                                                         em: ({ children }) => <em className="italic">{children}</em>,
+                                                        a: ({ href, children }) => (
+                                                            <a
+                                                                href={href}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                style={{ background: "linear-gradient(135deg, #037F91, #0B5C64)" }}
+                                                                className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 rounded-lg text-white text-xs font-semibold no-underline hover:opacity-90 transition"
+                                                            >
+                                                                {children}
+                                                            </a>
+                                                        ),
                                                     }}
                                                 >
                                                     {message.text}
