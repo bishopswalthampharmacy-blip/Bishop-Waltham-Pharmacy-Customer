@@ -78,8 +78,8 @@ export default function WeightLossCards() {
         animate={isInView ? { opacity: 1, y: -30 } : { opacity: 0, y: 10 }}
         transition={{ duration: 0.7, delay: 0.2 }}
       >
-        <span className="text-[#5BB9EC]">Our </span>
-        <span className="text-[#004488]">Services</span>
+        <span className="text-[#5BB9EC]">Our Healthcare Services in </span>
+        <span className="text-[#004488]">Bishops Waltham</span>
       </motion.h2>
 
       <div className="hidden md:grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">

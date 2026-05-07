@@ -789,12 +789,12 @@ export default function Footer() {
                         itemType="https://schema.org/PostalAddress"
                         className="not-italic"
                       >
-                        <span itemProp="streetAddress">10-12 High St</span>,{" "}
+                        <span itemProp="streetAddress">10-12 High Street</span>,{" "}
                         <span itemProp="addressLocality">Bishop's Waltham</span>
                         <br />
                         <span>Southampton</span>,{" "}
                         <span itemProp="addressRegion">Hampshire</span>{" "}
-                        <span itemProp="postalCode">SO32 1AA</span>,{" "}
+                        <span itemProp="postalCode">SO32 1AB</span>,{" "}
                         <span itemProp="addressCountry">UK</span>
                       </address>
                     </div>

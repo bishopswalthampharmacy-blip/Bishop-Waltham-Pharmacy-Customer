@@ -16,6 +16,53 @@ import LoadingAnimation from "@/components/LoadingAnimation";
 import { useAuth, useCart, useApp } from "@/src/contexts/index";
 import { useSearchParams } from "next/navigation";
 
+
+export const homeMetadata = {
+  title:
+    "Bishops Waltham Pharmacy | Travel Clinic & Vaccinations Hampshire",
+
+  description:
+    "Your local pharmacy in Bishops Waltham offering travel vaccinations, Pharmacy First, flu jabs and NHS prescriptions. Walk in or book online — 01489 892499.",
+
+  alternates: {
+    canonical: "https://bishopswalthampharmacy.co.uk/",
+  },
+
+  openGraph: {
+    title:
+      "Bishops Waltham Pharmacy | Travel Clinic & Vaccinations",
+
+    description:
+      "Expert travel vaccinations, Pharmacy First, flu jabs and NHS prescriptions in Bishops Waltham, Hampshire. Book an appointment online today.",
+
+    url: "https://bishopswalthampharmacy.co.uk/",
+
+    siteName: "Bishops Waltham Pharmacy",
+
+    locale: "en_GB",
+
+    type: "website",
+
+    images: [
+      {
+        url: "/images/og-homepage.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Bishops Waltham Pharmacy — High Street, Hampshire",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 function SearchParamHandler() {
   const searchParams = useSearchParams();
   const status = searchParams.get("status");

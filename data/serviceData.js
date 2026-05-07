@@ -49,9 +49,9 @@ const serviceData = {
         ]
     },
     "travel-clinic": {
-        title: "Travel Clinic",
+        title: "Travel Clinic & Vaccinations",
         subtitle: "Comprehensive travel health services for safe journeys",
-        description: "Are you looking for a travel clinic? Look no further than Bishops Waltham Pharmacy, your trusted destination for comprehensive travel health services. As you jet off on your global adventure, it's crucial to prioritize your health and well-being. Our dedicated team is here to ensure you have a safe and enjoyable journey by providing expert advice, vaccinations, and essential travel health resources.",
+        description: "Planning a trip abroad? Our GPhC-registered pharmacists provide personalised travel health consultations including Yellow Fever, Typhoid, Hepatitis A & B, Meningitis ACWY, and antimalarial prescriptions. We follow the latest NaTHNaC guidelines. Same-week appointments available.",
         image: "/assets/tracli.webp",
         images: {
             hero: "/assets/tracli.webp",
@@ -304,9 +304,9 @@ const serviceData = {
         ]
     },
     "vaccination-clinic": {
-        title: "Vaccination Clinic",
+        title: "Flu Jab & Seasonal Vaccinations",
         subtitle: "Evidence-based vaccinations for all ages",
-        description: "At Bishops Waltham Pharmacy, we offer a robust range of evidence-based vaccinations to keep you protected at every stage of life and through every season of the year. As your trusted pharmacy, we understand that proactive health measures, such as vaccination, are essential for long-term well-being. Our comprehensive private vaccination service is designed to provide you with a convenient and reliable way to protect yourself and your loved ones from a range of preventable diseases.",
+        description: "Protect yourself and your family with our annual flu vaccination service. Available to eligible NHS patients and as a private service. We also offer blood pressure checks, Covid-19 boosters and other seasonal health services — all under one roof at our High Street location.",
         content: {
             whyChoose: {
                 title: "Why Choose Private Vaccinations at Bishops Waltham Pharmacy?",

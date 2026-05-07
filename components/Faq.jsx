@@ -66,6 +66,36 @@ const faqItems = [
     answer:
       "No appointment is necessary for general advice or consultations! Just come on down or give us a call we will be more than happy to assist you.",
   },
+  {
+    id: 11,
+    question: "Do you offer travel vaccinations in Bishops Waltham?",
+    answer:
+      "Yes — our private travel clinic provides a full range of travel vaccinations including Yellow Fever, Typhoid, Hepatitis A & B, Meningitis ACWY, Rabies, Japanese Encephalitis and antimalarials. We recommend booking 6–8 weeks before travel. Call 01489 892499 or book online.",
+  },
+  {
+    id: 12,
+    question: "What is the NHS Pharmacy First service?",
+    answer:
+      "Pharmacy First is an NHS scheme allowing our pharmacists to assess and treat 7 minor conditions without a GP appointment. Completely free for NHS patients. Conditions: ear infections, sore throat, sinusitis, UTIs, impetigo, shingles, infected insect bites.",
+  },
+  {
+    id: 13,
+    question: "Can I collect my prescription at Bishops Waltham Pharmacy?",
+    answer:
+      "Yes. We accept electronic prescriptions (EPS) sent directly by your GP, as well as paper prescriptions. We also offer prescription collection from local GP practices. Contact us on 01489 892499.",
+  },
+  {
+    id: 14,
+    question: "Where is Bishops Waltham Pharmacy located?",
+    answer:
+      "High Street, Bishops Waltham, Southampton, Hampshire, SO32 1AB. Serving patients from Bishops Waltham, Botley, Wickham, Swanmore, Shedfield, Droxford and across the Meon Valley.",
+  },
+  {
+    id: 15,
+    question: "Do I need an appointment for the travel clinic?",
+    answer:
+      "We recommend booking to allow time for a full consultation. Appointments available online or by calling 01489 892499. Same-week appointments available wherever possible.",
+  },
 ]
 
 export default function FAQComponent() {
