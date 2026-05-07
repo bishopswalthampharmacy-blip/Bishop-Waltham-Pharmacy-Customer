@@ -12,6 +12,10 @@ const quickActions = ["Book appointment", "Opening hours", "Contact pharmacy", "
 const MIN_W = 300, MIN_H = 400, MAX_W = 900, MAX_H = 960;
 const DEFAULT_W = 380, DEFAULT_H = 560;
 
+/* ─── Detect mobile ─────────────────────────────────────────────────────── */
+const isMobileDevice = () =>
+  typeof window !== "undefined" && window.innerWidth < 640;
+
 /* ─── Icons ─────────────────────────────────────────────────────────────── */
 const BotIcon = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -57,6 +61,11 @@ const RestoreIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="4 14 10 14 10 20" /><polyline points="20 10 14 10 14 4" />
     <line x1="10" y1="14" x2="21" y2="3" /><line x1="3" y1="21" x2="14" y2="10" />
+  </svg>
+);
+const ChevronDownIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9" />
   </svg>
 );
 
@@ -173,6 +182,7 @@ export default function ChatbotWidget() {
   const [unread, setUnread]       = useState(0);
   const [pulse, setPulse]         = useState(false);
   const [maximized, setMaximized] = useState(false);
+  const [mobile, setMobile]       = useState(false);
 
   /* position & size — initialised to bottom-right corner */
   const [pos,  setPos]  = useState(() => ({
@@ -181,13 +191,31 @@ export default function ChatbotWidget() {
   }));
   const [size, setSize] = useState({ w: DEFAULT_W, h: DEFAULT_H });
 
-  const snapshot    = useRef(null);   // pre-maximise state
-  const dragRef     = useRef(null);   // drag origin data
-  const resizeRef   = useRef(null);   // resize origin data
+  const snapshot    = useRef(null);
+  const dragRef     = useRef(null);
+  const resizeRef   = useRef(null);
   const inputRef    = useRef(null);
   const messagesEnd = useRef(null);
 
   const canSend = input.trim().length > 0 && !isTyping;
+
+  /* ── Detect & track mobile ── */
+  useEffect(() => {
+    const check = () => setMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  /* ── Lock body scroll on mobile when open ── */
+  useEffect(() => {
+    if (mobile && isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobile, isOpen]);
 
   /* pulse FAB */
   useEffect(() => {
@@ -204,18 +232,18 @@ export default function ChatbotWidget() {
     messagesEnd.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  /* ── Drag ── */
+  /* ── Drag (desktop only) ── */
   const startDrag = useCallback((e) => {
-    if (maximized || e.button !== 0) return;
+    if (mobile || maximized || e.button !== 0) return;
     e.preventDefault();
     dragRef.current = { mx: e.clientX, my: e.clientY, px: pos.x, py: pos.y };
     document.body.style.userSelect = "none";
     document.body.style.cursor = "grabbing";
-  }, [maximized, pos]);
+  }, [mobile, maximized, pos]);
 
-  /* ── Resize ── */
+  /* ── Resize (desktop only) ── */
   const startResize = useCallback((e, handle) => {
-    if (maximized || e.button !== 0) return;
+    if (mobile || maximized || e.button !== 0) return;
     e.preventDefault(); e.stopPropagation();
     resizeRef.current = {
       mx: e.clientX, my: e.clientY,
@@ -225,7 +253,7 @@ export default function ChatbotWidget() {
     };
     document.body.style.userSelect = "none";
     document.body.style.cursor = e.currentTarget.style.cursor;
-  }, [maximized, pos, size]);
+  }, [mobile, maximized, pos, size]);
 
   /* global move / up */
   useEffect(() => {
@@ -265,8 +293,9 @@ export default function ChatbotWidget() {
     };
   }, [size.w, size.h]);
 
-  /* ── Maximize / restore ── */
+  /* ── Maximize / restore (desktop only) ── */
   const toggleMax = () => {
+    if (mobile) return;
     if (!maximized) {
       snapshot.current = { pos: { ...pos }, size: { ...size } };
       setPos({ x: 0, y: 0 });
@@ -316,10 +345,7 @@ export default function ChatbotWidget() {
 
   const handleSubmit = (e) => { e.preventDefault(); if (canSend) sendMessage(input.trim()); };
 
-  /* ── FAB position (always bottom-right of panel, or fixed corner when closed) ── */
-  const fabLeft = isOpen ? pos.x + size.w - 56 : (typeof window !== "undefined" ? window.innerWidth  - 80 : 0);
-  const fabTop  = isOpen ? pos.y + size.h + 14  : (typeof window !== "undefined" ? window.innerHeight - 80 : 0);
-
+  /* ─── Render ─────────────────────────────────────────────────────────── */
   return (
     <>
       <style>{`
@@ -339,43 +365,110 @@ export default function ChatbotWidget() {
         .rh:hover { background:rgba(0,68,136,0.15)!important; }
         @keyframes fabPulse { 0%,100%{box-shadow:0 4px 24px rgba(0,68,136,0.35)} 50%{box-shadow:0 4px 32px rgba(0,68,136,0.55),0 0 0 8px rgba(0,68,136,0.1)} }
         @keyframes ping { 0%{transform:scale(1);opacity:0.8} 80%,100%{transform:scale(2.2);opacity:0} }
+
+        /* ── Mobile-specific ── */
+        .cb-mobile-sheet {
+          position: fixed !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          top: auto !important;
+          width: 100% !important;
+          height: 92dvh !important;
+          border-radius: 20px 20px 0 0 !important;
+          border-left: none !important;
+          border-right: none !important;
+          border-bottom: none !important;
+        }
+        @media (max-width: 639px) {
+          .cb-fab {
+            right: 16px !important;
+            bottom: 16px !important;
+            left: auto !important;
+            top: auto !important;
+            width: 52px !important;
+            height: 52px !important;
+          }
+          .cb-input-row input {
+            font-size: 16px !important; /* prevents iOS zoom */
+          }
+        }
       `}</style>
 
       <div className="cb" style={{ position: "fixed", inset: 0, zIndex: 9999, pointerEvents: "none" }}>
+
+        {/* ── Backdrop (mobile only) ── */}
+        <AnimatePresence>
+          {isOpen && mobile && (
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+              onClick={() => setIsOpen(false)}
+              style={{
+                position: "absolute", inset: 0,
+                background: "rgba(0,20,50,0.45)",
+                backdropFilter: "blur(2px)",
+                WebkitBackdropFilter: "blur(2px)",
+                pointerEvents: "all",
+              }}
+            />
+          )}
+        </AnimatePresence>
 
         {/* ── Chat Window ─────────────────────────────────────── */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.94 }}
-              transition={{ type: "spring", stiffness: 360, damping: 30 }}
+              key="chat-window"
+              className={mobile ? "cb-mobile-sheet" : ""}
+              initial={mobile
+                ? { y: "100%", opacity: 1 }
+                : { opacity: 0, scale: 0.94 }
+              }
+              animate={mobile
+                ? { y: 0, opacity: 1 }
+                : { opacity: 1, scale: 1 }
+              }
+              exit={mobile
+                ? { y: "100%", opacity: 1 }
+                : { opacity: 0, scale: 0.94 }
+              }
+              transition={mobile
+                ? { type: "spring", stiffness: 340, damping: 36 }
+                : { type: "spring", stiffness: 360, damping: 30 }
+              }
               style={{
                 position: "absolute",
-                left: pos.x, top: pos.y,
-                width: size.w, height: size.h,
-                borderRadius: maximized ? 0 : 20,
+                ...(mobile ? {} : {
+                  left: pos.x, top: pos.y,
+                  width: size.w, height: size.h,
+                  borderRadius: maximized ? 0 : 20,
+                }),
                 overflow: "hidden",
                 display: "flex", flexDirection: "column",
-                background: "rgba(240,246,255,0.78)",
+                background: "rgba(240,246,255,0.92)",
                 backdropFilter: "blur(32px) saturate(180%)",
                 WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                border: maximized ? "none" : "1px solid rgba(255,255,255,0.75)",
-                boxShadow: maximized ? "none" : "0 8px 40px rgba(0,68,136,0.18),0 1.5px 6px rgba(0,68,136,0.1),inset 0 1px 0 rgba(255,255,255,0.9)",
+                border: (mobile || maximized) ? "none" : "1px solid rgba(255,255,255,0.75)",
+                boxShadow: mobile
+                  ? "0 -4px 40px rgba(0,68,136,0.18)"
+                  : maximized ? "none" : "0 8px 40px rgba(0,68,136,0.18),0 1.5px 6px rgba(0,68,136,0.1),inset 0 1px 0 rgba(255,255,255,0.9)",
                 pointerEvents: "all",
               }}
             >
-              {/* Resize handles */}
-              {!maximized && HANDLES.map(h => (
+              {/* Resize handles — desktop only */}
+              {!mobile && !maximized && HANDLES.map(h => (
                 <div key={h.id} className="rh"
                   style={{ cursor: h.cursor, borderRadius: h.id.length === 2 ? 4 : 0, ...h.style }}
                   onPointerDown={e => startResize(e, h.id)}
                 />
               ))}
 
-              {/* SE corner grip indicator */}
-              {!maximized && (
+              {/* SE corner grip — desktop only */}
+              {!mobile && !maximized && (
                 <div style={{
                   position: "absolute", bottom: 4, right: 4, zIndex: 25,
                   display: "grid", gridTemplateColumns: "repeat(3,4px)", gap: 2,
@@ -387,20 +480,34 @@ export default function ChatbotWidget() {
                 </div>
               )}
 
-              {/* Header — drag zone */}
+              {/* Mobile drag pill */}
+              {mobile && (
+                <div style={{
+                  flexShrink: 0,
+                  display: "flex", justifyContent: "center", alignItems: "center",
+                  padding: "10px 0 4px",
+                  background: "rgba(240,246,255,0.95)",
+                }}>
+                  <div style={{
+                    width: 40, height: 4, borderRadius: 4,
+                    background: "rgba(0,68,136,0.2)"
+                  }} />
+                </div>
+              )}
+
+              {/* Header */}
               <div
-                onPointerDown={startDrag}
+                onPointerDown={!mobile ? startDrag : undefined}
                 style={{
                   flexShrink: 0,
-                  padding: "13px 16px",
+                  padding: mobile ? "10px 16px 12px" : "13px 16px",
                   background: "linear-gradient(135deg,#004488 0%,#1a6abf 100%)",
                   display: "flex", alignItems: "center", justifyContent: "space-between",
                   position: "relative", overflow: "hidden",
-                  cursor: maximized ? "default" : "grab",
+                  cursor: mobile || maximized ? "default" : "grab",
                   userSelect: "none",
                 }}
               >
-                {/* decorative blobs */}
                 <div style={{ position:"absolute",top:-20,right:-20,width:90,height:90,borderRadius:"50%",background:"rgba(255,255,255,0.08)",pointerEvents:"none" }} />
                 <div style={{ position:"absolute",bottom:-30,left:80,width:70,height:70,borderRadius:"50%",background:"rgba(255,255,255,0.06)",pointerEvents:"none" }} />
 
@@ -423,38 +530,51 @@ export default function ChatbotWidget() {
                   </div>
                 </div>
 
-                {/* Window controls */}
+                {/* Controls */}
                 <div style={{ display:"flex",alignItems:"center",gap:6,zIndex:1 }}
                   onPointerDown={e => e.stopPropagation()}>
-                  <span style={{ fontSize:10,color:"rgba(255,255,255,0.4)",fontVariantNumeric:"tabular-nums",marginRight:2 }}>
-                    {Math.round(size.w)}×{Math.round(size.h)}
-                  </span>
-                  <button className="hb" onClick={toggleMax} title={maximized ? "Restore" : "Maximize"} style={{
-                    background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",
-                    borderRadius:8,padding:"5px 7px",cursor:"pointer",color:"#fff",
-                    display:"flex",alignItems:"center",transition:"background 0.2s"
-                  }}>
-                    {maximized ? <RestoreIcon /> : <MaximizeIcon />}
-                  </button>
-                  <button className="hb" onClick={() => setIsOpen(false)} title="Minimize" style={{
-                    background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",
-                    borderRadius:8,padding:"5px 7px",cursor:"pointer",color:"#fff",
-                    display:"flex",alignItems:"center",transition:"background 0.2s"
-                  }}>
-                    <MinimizeIcon />
-                  </button>
-                  <button className="hb hbc" onClick={() => setIsOpen(false)} title="Close" style={{
-                    background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",
-                    borderRadius:8,padding:"5px 7px",cursor:"pointer",color:"#fff",
-                    display:"flex",alignItems:"center",transition:"background 0.2s"
-                  }}>
-                    <CloseIcon />
+                  {/* Desktop: size readout + maximize */}
+                  {!mobile && (
+                    <>
+                      <span style={{ fontSize:10,color:"rgba(255,255,255,0.4)",fontVariantNumeric:"tabular-nums",marginRight:2 }}>
+                        {Math.round(size.w)}×{Math.round(size.h)}
+                      </span>
+                      <button className="hb" onClick={toggleMax} title={maximized ? "Restore" : "Maximize"} style={{
+                        background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",
+                        borderRadius:8,padding:"5px 7px",cursor:"pointer",color:"#fff",
+                        display:"flex",alignItems:"center",transition:"background 0.2s"
+                      }}>
+                        {maximized ? <RestoreIcon /> : <MaximizeIcon />}
+                      </button>
+                      <button className="hb" onClick={() => setIsOpen(false)} title="Minimize" style={{
+                        background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",
+                        borderRadius:8,padding:"5px 7px",cursor:"pointer",color:"#fff",
+                        display:"flex",alignItems:"center",transition:"background 0.2s"
+                      }}>
+                        <MinimizeIcon />
+                      </button>
+                    </>
+                  )}
+                  {/* Both: close button */}
+                  <button
+                    className="hb hbc"
+                    onClick={() => setIsOpen(false)}
+                    title="Close"
+                    style={{
+                      background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",
+                      borderRadius:8,
+                      padding: mobile ? "7px 9px" : "5px 7px",
+                      cursor:"pointer",color:"#fff",
+                      display:"flex",alignItems:"center",transition:"background 0.2s"
+                    }}
+                  >
+                    {mobile ? <ChevronDownIcon /> : <CloseIcon />}
                   </button>
                 </div>
               </div>
 
-              {/* Sub-header hint bar */}
-              {!maximized && (
+              {/* Sub-header hint bar — desktop only */}
+              {!mobile && !maximized && (
                 <div style={{
                   flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center",
                   padding:"4px 0", gap:8, pointerEvents:"none",
@@ -476,7 +596,9 @@ export default function ChatbotWidget() {
               <div style={{
                 flex:1, overflowY:"auto",
                 padding:"16px 14px 8px",
-                display:"flex", flexDirection:"column", minHeight:0
+                display:"flex", flexDirection:"column", minHeight:0,
+                /* On mobile, ensure this area scrolls and doesn't get squished by keyboard */
+                WebkitOverflowScrolling: "touch",
               }}>
                 <AnimatePresence initial={false}>
                   {messages.map(msg => <MessageBubble key={msg.id} msg={msg} />)}
@@ -507,51 +629,89 @@ export default function ChatbotWidget() {
 
               {/* Quick Actions */}
               <div style={{
-                flexShrink:0, padding:"8px 14px",
+                flexShrink:0, padding: mobile ? "8px 12px" : "8px 14px",
                 borderTop:"1px solid rgba(0,68,136,0.08)",
                 display:"flex", flexWrap:"wrap", gap:6,
-                background:"rgba(255,255,255,0.4)"
+                background:"rgba(255,255,255,0.4)",
+                overflowX: mobile ? "auto" : "visible",
+                flexWrap: mobile ? "nowrap" : "wrap",
+                /* Hide scrollbar on mobile quick actions */
+                scrollbarWidth: "none",
               }}>
                 {quickActions.map((q,i) => (
                   <motion.button key={i} className="qc"
                     onClick={() => sendMessage(q)} disabled={isTyping} whileTap={{scale:0.96}}
                     style={{
-                      fontSize:11.5,padding:"5px 11px",borderRadius:20,
+                      fontSize: mobile ? 12 : 11.5,
+                      padding: mobile ? "7px 13px" : "5px 11px",
+                      borderRadius:20,
                       border:"1px solid rgba(0,68,136,0.18)",background:"rgba(255,255,255,0.6)",
                       color:"#004488",cursor:isTyping?"not-allowed":"pointer",
                       fontWeight:500,letterSpacing:0.1,backdropFilter:"blur(8px)",
-                      transition:"all 0.2s",opacity:isTyping?0.5:1
+                      transition:"all 0.2s",opacity:isTyping?0.5:1,
+                      flexShrink: 0,
+                      whiteSpace: "nowrap",
+                      /* Bigger tap targets on mobile */
+                      minHeight: mobile ? 36 : "auto",
                     }}
                   >{q}</motion.button>
                 ))}
               </div>
 
               {/* Input bar */}
-              <div style={{ flexShrink:0, padding:"10px 12px 12px", background:"rgba(255,255,255,0.5)", backdropFilter:"blur(8px)" }}>
-                <form onSubmit={handleSubmit} style={{display:"flex",gap:8,alignItems:"center"}}>
-                  <input ref={inputRef} className="ci"
-                    value={input} onChange={e=>setInput(e.target.value)}
-                    placeholder="Type your message…" disabled={isTyping}
+              <div style={{
+                flexShrink:0,
+                padding: mobile ? "10px 12px 20px" : "10px 12px 12px",
+                background:"rgba(255,255,255,0.5)",
+                backdropFilter:"blur(8px)",
+                /* Extra bottom padding on mobile for home indicator */
+                paddingBottom: mobile ? "max(20px, env(safe-area-inset-bottom, 20px))" : 12,
+              }}>
+                <div className="cb-input-row" style={{display:"flex",gap:8,alignItems:"center"}}>
+                  <input
+                    ref={inputRef}
+                    className="ci"
+                    value={input}
+                    onChange={e=>setInput(e.target.value)}
+                    onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && canSend) { e.preventDefault(); sendMessage(input.trim()); } }}
+                    placeholder="Type your message…"
+                    disabled={isTyping}
+                    autoComplete="off"
+                    autoCorrect="on"
+                    autoCapitalize="sentences"
                     style={{
-                      flex:1,padding:"10px 14px",borderRadius:12,
-                      border:"1px solid rgba(0,68,136,0.18)",background:"rgba(255,255,255,0.8)",
-                      backdropFilter:"blur(8px)",fontSize:13.5,color:"#1a2e31",
-                      transition:"all 0.2s",fontFamily:"inherit"
+                      flex:1,
+                      padding: mobile ? "12px 16px" : "10px 14px",
+                      borderRadius:12,
+                      border:"1px solid rgba(0,68,136,0.18)",
+                      background:"rgba(255,255,255,0.8)",
+                      backdropFilter:"blur(8px)",
+                      fontSize: mobile ? 16 : 13.5, /* 16px prevents iOS auto-zoom */
+                      color:"#1a2e31",
+                      transition:"all 0.2s",
+                      fontFamily:"inherit",
                     }}
                   />
-                  <motion.button type="submit" className="sb" disabled={!canSend}
+                  <motion.button
+                    onClick={() => { if (canSend) sendMessage(input.trim()); }}
+                    className="sb"
+                    disabled={!canSend}
                     whileTap={canSend?{scale:0.92}:{}}
                     style={{
-                      width:40,height:40,flexShrink:0,borderRadius:12,border:"none",
+                      width: mobile ? 46 : 40,
+                      height: mobile ? 46 : 40,
+                      flexShrink:0,borderRadius:12,border:"none",
                       background:"linear-gradient(135deg,#1a6abf,#004488)",color:"#fff",
                       cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",
                       boxShadow:"0 3px 12px rgba(0,68,136,0.3)",transition:"all 0.2s"
                     }}
                   ><SendIcon /></motion.button>
-                </form>
-                <div style={{textAlign:"center",marginTop:8,fontSize:10.5,color:"rgba(0,68,136,0.35)",letterSpacing:0.2}}>
-                  Powered by Bishop's · Press Enter to send
                 </div>
+                {!mobile && (
+                  <div style={{textAlign:"center",marginTop:8,fontSize:10.5,color:"rgba(0,68,136,0.35)",letterSpacing:0.2}}>
+                    Powered by Bishop's · Press Enter to send
+                  </div>
+                )}
               </div>
             </motion.div>
           )}
@@ -559,15 +719,25 @@ export default function ChatbotWidget() {
 
         {/* ── FAB ─────────────────────────────────────────────── */}
         <motion.button
+          className="cb-fab"
           onClick={() => setIsOpen(o => !o)}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.93 }}
           style={{
             position: "absolute",
-            left: isOpen ? pos.x + size.w - 56 : "auto",
-            right: isOpen ? "auto" : 24,
-            top: isOpen ? pos.y + size.h + 14 : "auto",
-            bottom: isOpen ? "auto" : 24,
+            /* Desktop: follow window; Mobile: fixed bottom-right */
+            ...(mobile ? {
+              right: 16,
+              bottom: 16,
+            } : {
+              left: isOpen ? pos.x + size.w - 56 : "auto",
+              right: isOpen ? "auto" : 24,
+              top: isOpen ? pos.y + size.h + 14 : "auto",
+              bottom: isOpen ? "auto" : 24,
+            }),
+            /* On mobile, hide FAB while chat is open (sheet covers it) */
+            opacity: mobile && isOpen ? 0 : 1,
+            pointerEvents: mobile && isOpen ? "none" : "all",
             width: 56, height: 56, borderRadius: "50%", border: "none",
             background: isOpen
               ? "linear-gradient(135deg,#003370,#004488)"
@@ -576,8 +746,7 @@ export default function ChatbotWidget() {
             display: "flex", alignItems: "center", justifyContent: "center",
             boxShadow: "0 4px 24px rgba(0,68,136,0.4)",
             animation: pulse && !isOpen ? "fabPulse 1.2s ease-in-out" : "none",
-            pointerEvents: "all",
-            transition: "background 0.3s",
+            transition: "background 0.3s, opacity 0.2s",
           }}
         >
           {!isOpen && (
