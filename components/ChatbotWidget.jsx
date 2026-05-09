@@ -525,7 +525,7 @@ export default function ChatbotWidget() {
                     <div style={{color:"#fff",fontWeight:600,fontSize:14,letterSpacing:0.2}}>Bishop's Assistant</div>
                     <div style={{display:"flex",alignItems:"center",gap:5,marginTop:1}}>
                       <span style={{width:6,height:6,borderRadius:"50%",background:"#60cfff",boxShadow:"0 0 6px #60cfff",display:"inline-block"}} />
-                      <span style={{color:"rgba(255,255,255,0.75)",fontSize:11.5}}>Online · Typically replies instantly</span>
+                      <span style={{color:"rgba(255,255,255,0.75)",fontSize:11.5}}>Online </span>
                     </div>
                   </div>
                 </div>
@@ -536,9 +536,7 @@ export default function ChatbotWidget() {
                   {/* Desktop: size readout + maximize */}
                   {!mobile && (
                     <>
-                      <span style={{ fontSize:10,color:"rgba(255,255,255,0.4)",fontVariantNumeric:"tabular-nums",marginRight:2 }}>
-                        {Math.round(size.w)}×{Math.round(size.h)}
-                      </span>
+                      
                       <button className="hb" onClick={toggleMax} title={maximized ? "Restore" : "Maximize"} style={{
                         background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",
                         borderRadius:8,padding:"5px 7px",cursor:"pointer",color:"#fff",
@@ -572,25 +570,6 @@ export default function ChatbotWidget() {
                   </button>
                 </div>
               </div>
-
-              {/* Sub-header hint bar — desktop only */}
-              {!mobile && !maximized && (
-                <div style={{
-                  flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center",
-                  padding:"4px 0", gap:8, pointerEvents:"none",
-                  background:"rgba(0,68,136,0.03)", borderBottom:"1px solid rgba(0,68,136,0.06)"
-                }}>
-                  <span style={{display:"flex",gap:3,alignItems:"center"}}>
-                    {[0,1,2].map(i=><span key={i} style={{width:16,height:2,borderRadius:2,background:"rgba(0,68,136,0.2)"}} />)}
-                  </span>
-                  <span style={{fontSize:10,color:"rgba(0,68,136,0.32)",letterSpacing:0.4}}>
-                    drag header to move · edges &amp; corners to resize
-                  </span>
-                  <span style={{display:"flex",gap:3,alignItems:"center"}}>
-                    {[0,1,2].map(i=><span key={i} style={{width:16,height:2,borderRadius:2,background:"rgba(0,68,136,0.2)"}} />)}
-                  </span>
-                </div>
-              )}
 
               {/* Messages */}
               <div style={{
@@ -709,7 +688,10 @@ export default function ChatbotWidget() {
                 </div>
                 {!mobile && (
                   <div style={{textAlign:"center",marginTop:8,fontSize:10.5,color:"rgba(0,68,136,0.35)",letterSpacing:0.2}}>
-                    Powered by Bishop's · Press Enter to send
+                    <a href="https://algoflowai.com/" target="_blank" rel="noreferrer" style={{ color: "rgba(0,68,136,0.65)", textDecoration: "underline", cursor: "pointer" }}>
+                      Powered by AlgoFlow AI
+                    </a>
+                    <span> · Press Enter to send</span>
                   </div>
                 )}
               </div>
