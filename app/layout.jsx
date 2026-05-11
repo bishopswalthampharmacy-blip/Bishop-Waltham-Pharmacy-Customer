@@ -10,6 +10,7 @@ import "./globals.css";
 import { AuthProvider } from "@/src/contexts/AuthContext";
 import { CartProvider } from "@/src/contexts/CartContext";
 import { AppProvider } from "@/src/contexts/AppContext";
+import SchemaOrg from "@/components/SchemaOrg";
 
 // Load fonts
 const instrumentSans = Instrument_Sans({
@@ -94,6 +95,7 @@ export default function RootLayout({ children }) {
       className={`!scroll-smooth ${instrumentSans.variable} ${averageSans.variable} ${plusJakarta.variable}`}
     >
       <body suppressHydrationWarning={true}>
+        <SchemaOrg />
         <Canonical />
         <AppProvider>
           <AuthProvider>
