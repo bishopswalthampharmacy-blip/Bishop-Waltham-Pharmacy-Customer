@@ -91,7 +91,7 @@ export default function WeightLossCards() {
           >
             <Image
               src={item.image}
-              alt={`${item.title} - Weight loss medication and healthcare service at Bishop's Waltham Pharmacy`}
+              alt={`${item.title} -  Travel vaccination consultation at Bishops Waltham Pharmacy`}
               width={500}
               height={300}
               className="w-full h-40 object-cover rounded-xl mb-2"
@@ -153,7 +153,7 @@ export default function WeightLossCards() {
             >
               <Image
                 src={item.image}
-                alt={item.title}
+                alt={`${item.title} -  Flu vaccination service at Bishops Waltham Pharmacy Hampshire`}
                 width={500}
                 height={300}
                 className="w-full h-40 object-cover rounded-xl mb-2"
