@@ -88,40 +88,40 @@ export default function WeightLossCards() {
           <motion.div
             key={index}
             variants={cardVariants}
-            className="group bg-[#F5F9FF] rounded-2xl p-3 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 h-[400px] flex flex-col"
+            className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 min-h-[380px] flex flex-col"
           >
             <Image
               src={item.image}
               alt={`${item.title} -  Travel vaccination consultation at Bishops Waltham Pharmacy`}
               width={500}
               height={300}
-              className="w-full h-40 object-cover rounded-xl mb-2"
+              className="w-full h-36 object-cover rounded-lg mb-1.5"
             />
             <h3
-              className="text-sm font-semibold text-[#034F96] mb-1 line-clamp-1"
+              className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2"
               title={item.title}
             >
               {item.title}
             </h3>
             <p
-              className="text-xs text-gray-500 mb-2 line-clamp-1"
+              className="text-xs text-gray-500 mb-1 line-clamp-1"
               title={item.subheading}
             >
               {item.subheading}
             </p>
             <p
-              className="text-[13px] text-gray-600 mb-2 mt-2 flex-1 text-justify"
+              className="text-[12px] text-gray-600 mb-1 mt-1 flex-1 text-justify overflow-hidden"
               title={item.desc}
             >
               {item.desc}
             </p>
 
-            <div className="flex items-center justify-between mt-auto gap-1">
+            <div className="flex flex-col gap-1.5 mt-auto pt-1">
               <Link
                 href={item.link}
-                className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
               >
-                <span className="pl-1 pr-2 text-xs font-semibold">Learn More</span>
+                Learn More
               </Link>
 
               <Link
@@ -130,13 +130,11 @@ export default function WeightLossCards() {
                   query: { st: "1", service: item.title },
                 }}
                 as={`/booking?st=1&service=${encodeURIComponent(item.title)}`}
-                className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
               >
-                <span className="pl-1 pr-2 text-xs font-semibold">
-                  Book an Appointment
-                </span>
-                <span className="bg-[#8DBBFF] p-1 rounded-full flex items-center justify-center ml-1">
-                  <ArrowRight size={12} className="text-white" />
+                <span>Book an Appointment</span>
+                <span className="bg-[#8DBBFF] p-0.5 rounded-full flex items-center justify-center ml-0.5">
+                  <ArrowRight size={10} className="text-white" />
                 </span>
               </Link>
             </div>
@@ -150,40 +148,40 @@ export default function WeightLossCards() {
             <motion.div
               key={index}
               variants={cardVariants}
-              className="group bg-[#F5F9FF] rounded-2xl p-3 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 h-[400px] flex flex-col flex-shrink-0 w-72"
+              className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 min-h-[380px] flex flex-col flex-shrink-0 w-72"
             >
               <Image
                 src={item.image}
                 alt={`${item.title} -  Flu vaccination service at Bishops Waltham Pharmacy Hampshire`}
                 width={500}
                 height={300}
-                className="w-full h-40 object-cover rounded-xl mb-2"
+                className="w-full h-36 object-cover rounded-lg mb-1.5"
               />
               <h3
-                className="text-sm font-semibold text-[#034F96] mb-1 line-clamp-1"
+                className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2"
                 title={item.title}
               >
                 {item.title}
               </h3>
               <p
-                className="text-xs text-gray-500 mb-2 line-clamp-1"
+                className="text-xs text-gray-500 mb-1 line-clamp-1"
                 title={item.subheading}
               >
                 {item.subheading}
               </p>
               <p
-                className="text-[13px] text-gray-600 mb-2 mt-2 flex-1 text-justify"
+                className="text-[12px] text-gray-600 mb-1 mt-1 flex-1 text-justify overflow-hidden"
                 title={item.desc}
               >
                 {item.desc}
               </p>
 
-              <div className="flex items-center justify-between mt-auto gap-1">
+              <div className="flex flex-col gap-1.5 mt-auto pt-1">
                 <Link
                   href={item.link}
-                  className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                  className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
                 >
-                  <span className="pl-1 pr-2 text-xs font-semibold">Learn More</span>
+                  Learn More
                 </Link>
 
                 <Link
@@ -192,13 +190,11 @@ export default function WeightLossCards() {
                     query: { st: "1", service: item.title },
                   }}
                   as={`/booking?st=1&service=${encodeURIComponent(item.title)}`}
-                  className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                  className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
                 >
-                  <span className="pl-1 pr-2 text-xs font-semibold">
-                    Book an Appointment
-                  </span>
-                  <span className="bg-[#8DBBFF] p-1 rounded-full flex items-center justify-center ml-1">
-                    <ArrowRight size={12} className="text-white" />
+                  <span>Book an Appointment</span>
+                  <span className="bg-[#8DBBFF] p-0.5 rounded-full flex items-center justify-center ml-0.5">
+                    <ArrowRight size={10} className="text-white" />
                   </span>
                 </Link>
               </div>

@@ -79,16 +79,14 @@ const BlogSection = () => {
                 {blog.excerpt}
               </p>
 
-              {/* Read More Button - matching Prescriptions style */}
-              <div className="flex items-center justify-start mt-auto gap-2">
-                 <Link 
-                   href={`/blog/${blog.id}/`}
-                  className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap" 
-                 > 
-                  <span className="pl-1 pr-2 text-xs font-semibold">
-                    Read More
-                  </span>
-                 </Link> 
+              {/* Read More Button - full width */}
+              <div className="flex flex-col gap-2 mt-auto pt-1">
+                <Link
+                  href={`/blog/${blog.id}/`}
+                  className="bg-white text-black rounded-full px-3 py-2 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-xs font-semibold"
+                >
+                  Read More
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -130,15 +128,13 @@ const BlogSection = () => {
                   {blog.excerpt}
                 </p>
 
-                {/* Read More Button - matching Prescriptions style */}
-                <div className="flex items-center justify-start mt-auto gap-2">
+                {/* Read More Button - full width (mobile) */}
+                <div className="flex flex-col gap-2 mt-auto pt-1">
                   <Link
                     href={`/blog/${blog.id}/`}
-                    className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                    className="bg-white text-black rounded-full px-3 py-2 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-xs font-semibold"
                   >
-                    <span className="pl-1 pr-2 text-xs font-semibold">
-                      Read More
-                    </span>
+                    Read More
                   </Link>
                 </div>
               </div>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import Link from "next/link";
 
 const Hero = ({ onHeroLoaded }) => {
@@ -97,7 +97,7 @@ const Hero = ({ onHeroLoaded }) => {
               }}
               onError={() => {
                 console.log("Hero image failed to load, proceeding anyway");
-                setImageLoaded(true); // Still mark as loaded to prevent blocking
+                setImageLoaded(true);
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/70 to-black/40 z-10" />
@@ -128,7 +128,6 @@ const Hero = ({ onHeroLoaded }) => {
                   <span className="text-xl md:text-2xl font-bold leading-none">
                     10K +
                   </span>
-                  {/* <span className="text-xs font-semibold"></span> */}
                 </div>
               </div>
 
@@ -142,37 +141,35 @@ const Hero = ({ onHeroLoaded }) => {
               </p>
 
               <div className="flex gap-4 items-center">
-  <Link
-    href={{
-      pathname: "/booking",
-      query: { st: "1", service: current.service },
-    }}
-    as={`/booking?st=1&service=${encodeURIComponent(
-      current.service
-    )}`}
-    className="bg-white text-black rounded-full px-3 py-2 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer"
-  >
-    <span className="pl-3 pr-4 text-sm font-semibold">
-      Book a Vaccination 
-    </span>
+                <Link
+                  href={{
+                    pathname: "/booking",
+                    query: { st: "1", service: current.service },
+                  }}
+                  as={`/booking?st=1&service=${encodeURIComponent(
+                    current.service,
+                  )}`}
+                  className="bg-white text-black rounded-full px-3 py-2 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer"
+                >
+                  <span className="pl-3 pr-4 text-sm font-semibold">
+                    Book a Vaccination
+                  </span>
+                  <span className="bg-[#8DBBFF] p-1.5 rounded-full flex items-center justify-center">
+                    <ArrowRight size={14} className="text-white" />
+                  </span>
+                </Link>
 
-    <span className="bg-[#8DBBFF] p-1.5 rounded-full flex items-center justify-center">
-      <ArrowRight size={14} className="text-white" />
-    </span>
-  </Link>
-
-  <a
-    href="tel:01489892499"
-    className="bg-white text-black rounded-full px-3 py-2 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer"
-  >
-    <span className="pl-3 pr-4 text-sm font-semibold">
-      Call Us
-    </span>
-
-    <span className="bg-[#8DBBFF] p-1.5 rounded-full flex items-center justify-center">
-      <ArrowRight size={14} className="text-white" />
-    </span>
-  </a>
+                <a
+                  href="tel:01489892499"
+                  className="bg-white text-black rounded-full px-3 py-2 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer"
+                >
+                  <span className="pl-3 pr-4 text-sm font-semibold">
+                    Call Us: 01489892499
+                  </span>
+                  <span className="bg-[#8DBBFF] p-1.5 rounded-full flex items-center justify-center">
+                    <Phone size={14} className="text-white" />
+                  </span>
+                </a>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -201,8 +198,8 @@ const Hero = ({ onHeroLoaded }) => {
                     }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     className={`text-lg ${isActive
-                        ? "font-semibold text-white"
-                        : "font-normal text-white/60"
+                      ? "font-semibold text-white"
+                      : "font-normal text-white/60"
                       }`}
                   >
                     {labelItem.service}
