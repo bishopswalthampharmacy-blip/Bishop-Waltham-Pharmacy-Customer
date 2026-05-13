@@ -141,33 +141,38 @@ const Hero = ({ onHeroLoaded }) => {
                 {current.subheading}
               </p>
 
-              <div>
-                <Link
-                  href={{
-                    pathname: "/booking",
-                    query: { st: "1", service: current.service },
-                  }}
-                  as={`/booking?st=1&service=${encodeURIComponent(
-                    current.service
-                  )}`}
-                  className="bg-white text-black rounded-full px-3 py-2 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer"
-                >
-                  <span className="pl-3 pr-4 text-sm font-semibold">
-                    Book An Appointment
-                  </span>
-                  <span className="bg-[#8DBBFF] p-1.5 rounded-full flex items-center justify-center">
-                    <ArrowRight size={14} className="text-white" />
-                  </span>
-                </Link>
-                <a
-                  href="tel:01489892499"
-                  className="bg-[#F4A300] text-black rounded-full px-6 py-2 flex items-center justify-center shadow hover:opacity-90 transition w-fit font-semibold mt-1"
-                >
-                  Call Us
-                  <span className="bg-white p-1.5 rounded-full flex items-center justify-center ml-3">
-                    <ArrowRight size={14} className="text-blue-300" />
-                  </span>
-                </a>
+              <div className="flex gap-4 items-center">
+  <Link
+    href={{
+      pathname: "/booking",
+      query: { st: "1", service: current.service },
+    }}
+    as={`/booking?st=1&service=${encodeURIComponent(
+      current.service
+    )}`}
+    className="bg-white text-black rounded-full px-3 py-2 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer"
+  >
+    <span className="pl-3 pr-4 text-sm font-semibold">
+      Book a Vaccination 
+    </span>
+
+    <span className="bg-[#8DBBFF] p-1.5 rounded-full flex items-center justify-center">
+      <ArrowRight size={14} className="text-white" />
+    </span>
+  </Link>
+
+  <a
+    href="tel:01489892499"
+    className="bg-white text-black rounded-full px-3 py-2 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer"
+  >
+    <span className="pl-3 pr-4 text-sm font-semibold">
+      Call Us
+    </span>
+
+    <span className="bg-[#8DBBFF] p-1.5 rounded-full flex items-center justify-center">
+      <ArrowRight size={14} className="text-white" />
+    </span>
+  </a>
               </div>
             </motion.div>
           </AnimatePresence>

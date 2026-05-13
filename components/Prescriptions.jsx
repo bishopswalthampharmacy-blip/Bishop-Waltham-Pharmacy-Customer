@@ -8,33 +8,34 @@ import { useRef } from "react";
 
 const weightLossCards = [
   {
-    title: "Weight loss injections",
-    subheading: "Wegovy & Mounjaro - Private Weight Loss Injections",
-    desc: "Weekly or daily injectable pens that help reduce hunger and keep you fuller for longer. Proven to support significant weight loss when combined with a healthy diet and exercise.",
-    image: "/wl3.webp",
-    link: "/our-services/weight-loss-injections",
-  },
-  {
-    title: "Travel Clinic",
-    subheading: "Comprehensive travel health services",
-    desc: "Are you looking for a travel clinic? Look no further than Bishops Waltham Pharmacy, your trusted destination for comprehensive travel health services.",
+    title: "Travel Clinic & Vaccinations",
+    subheading: "Comprehensive travel health services.",
+    desc: "Planning a trip abroad? Our GPhC-registered pharmacists provide personalised travel health consultations including Yellow Fever, Typhoid, Hepatitis A & B, Meningitis ACWY, and antimalarial prescriptions. We follow the latest NaTHNaC guidelines. Same-week appointments available.",
     image: "/w2travelClinic.webp",
-    link: "/our-services/travel-clinic",
+    link: "/travel-clinic",
   },
   {
-    title: "Ear Wax Removal",
-    subheading: "Safe, professional ear wax removal",
-    desc: "We offer safe, professional ear wax removal at Bishops Waltham Pharmacy. Our trained team uses microsuction or irrigation to gently clear blocked ears.",
-    image: "/earwaxi.webp",
-    link: "/our-services/ear-wax-removal",
+    title: "NHS Pharmacy First Service",
+    subheading: "No need to wait weeks for a GP appointment.",
+    desc: "Under the NHS Pharmacy First scheme, our trained pharmacists can assess and treat 7 common conditions — including ear infections, sore throat, sinusitis, UTIs, impetigo, infected insect bites and shingles — at no cost to NHS patients. Just walk in.",
+    image: "/assets/communityImg.jpg",
+    link: "/pharmacy-first",
   },
   {
-    title: "Vaccination Clinic",
-    subheading: "Evidence-based vaccinations for all ages",
-    desc: "At Bishops Waltham Pharmacy, we offer a robust range of evidence-based vaccinations to keep you protected at every stage of life.",
+    title: "Flu Jab & Seasonal Vaccinations",
+    subheading: "Evidence-based vaccinations for all ages.",
+    desc: "Protect yourself and your family with our annual flu vaccination service. Available to eligible NHS patients and as a private service. We also offer blood pressure checks, Covid-19 boosters and other seasonal health services — all under one roof at our High Street location.",
     image: "/vaccinating.webp",
-    link: "/our-services/vaccination-clinic",
+    link: "/flu-jab",
   },
+  {
+    title: "NHS & Private Prescriptions",
+    subheading: "Get NHS and private prescriptions quickly.",
+    desc: "We dispense NHS and private prescriptions quickly and accurately. We accept the Electronic Prescription Service (EPS) — your GP sends your prescription directly to us. Prescription collection from local GP practices available. New Medicine Service (NMS) for patients starting new medications.",
+    image: "/earwaxi.webp",
+    link: "/prescriptions",
+  },
+  
 ];
 
 const container = {
