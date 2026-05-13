@@ -81,14 +81,14 @@ const BlogSection = () => {
 
               {/* Read More Button - matching Prescriptions style */}
               <div className="flex items-center justify-start mt-auto gap-2">
-                {/* <Link */}
-                  {/* href={`/blog/${blog.id}/`}
-                  className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap" */}
-                {/* > */}
+                 <Link 
+                   href={`/blog/${blog.id}/`}
+                  className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap" 
+                 > 
                   <span className="pl-1 pr-2 text-xs font-semibold">
                     Read More
                   </span>
-                {/* </Link> */}
+                 </Link> 
               </div>
             </div>
           </motion.div>
@@ -155,11 +155,11 @@ const BlogSection = () => {
         viewport={{ once: true }}
         className="flex justify-center mt-10"
       >
-        {/* <Link href="/blog/"> */}
+         <Link href="/blog/"> 
           <button className="bg-[#034F96] text-white px-8 py-3 rounded-lg font-semibold text-sm hover:bg-[#023570] transition duration-300 shadow-md hover:shadow-lg cursor-pointer">
             View All Articles
           </button>
-        {/* </Link> */}
+         </Link> 
       </motion.div>
     </motion.div>
   );

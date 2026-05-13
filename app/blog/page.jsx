@@ -14,7 +14,7 @@ export default function BlogPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-[#034F96] to-[#0A6BC3] text-white py-16 md:py-20 lg:px-20 px-4 sm:px-6">
+      <section className="relative bg-gradient-to-r from-[#037F91] to-[#025F6E] text-white py-16 md:py-20 lg:px-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-3">Health & Wellness Blog</h1>
           <p className="text-lg text-blue-100 max-w-2xl">
@@ -44,13 +44,13 @@ export default function BlogPage() {
                   <div className="flex flex-col flex-grow">
                     {/* Category */}
                     <div className="mb-2">
-                      <span className="inline-block bg-[#E8F4FF] text-[#034F96] text-xs font-semibold px-3 py-1 rounded-full">
+                      <span className="inline-block bg-[#E8F4FF] text-[#037F91] text-xs font-semibold px-3 py-1 rounded-full">
                         {blog.category}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h2 className="text-lg font-bold text-[#034F96] mb-2 line-clamp-2 group-hover:text-[#023570] transition">
+                    <h2 className="text-lg font-bold text-[#037F91] mb-2 line-clamp-2 group-hover:text-[#025F6E] transition">
                       {blog.title}
                     </h2>
 
@@ -61,7 +61,7 @@ export default function BlogPage() {
 
                     {/* Read More Button */}
                     <div className="mt-auto pt-3 border-t border-blue-200">
-                      <span className="text-[#034F96] font-semibold text-xs group-hover:text-[#023570] transition inline-flex items-center gap-1">
+                      <span className="text-[#037F91] font-semibold text-xs group-hover:text-[#025F6E] transition inline-flex items-center gap-1">
                         Read More →
                       </span>
                     </div>
@@ -76,12 +76,12 @@ export default function BlogPage() {
       {/* CTA Section */}
       <section className="bg-[#E8F4FF] py-16 lg:px-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#034F96] mb-4">Have Questions?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#037F91] mb-4">Have Questions?</h2>
           <p className="text-gray-700 mb-8 text-lg">
             Our pharmacy team is here to help. Book a consultation or visit us in person for personalized healthcare advice.
           </p>
           <Link href="/booking/">
-            <button className="bg-[#034F96] text-white font-semibold px-8 py-3 rounded-lg hover:bg-[#023570] transition shadow-md hover:shadow-lg">
+            <button className="bg-[#037F91] text-white font-semibold px-8 py-3 rounded-lg hover:bg-[#025F6E] transition shadow-md hover:shadow-lg">
               Book Appointment
             </button>
           </Link>
