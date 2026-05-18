@@ -31,7 +31,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const metadata = {
   title:
-    "Bishops Waltham Pharmacy – Travel Clinic, Vaccinations & Healthcare Services",
+    "Bishops Waltham Pharmacy – Travel Clinic, Weight Loss Clinic and Ear Microsuction Clinic",
   description:
     "Bishops Waltham Pharmacy offers professional healthcare services including travel clinic vaccinations, ear wax removal, weight loss injections, and health consultations. Visit our pharmacy in Bishop's Waltham today.",
   keywords: [
