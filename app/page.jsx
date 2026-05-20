@@ -15,7 +15,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import LoadingAnimation from "@/components/LoadingAnimation";
 import { useAuth, useCart, useApp } from "@/src/contexts/index";
 import { useSearchParams } from "next/navigation";
-
+import { fetchAllBlogs } from "@/lib/utils"
 
 
 export const homeMetadata = {
@@ -83,6 +83,9 @@ export default function Home() {
   const { user } = useAuth();
   const { cart } = useCart();
   const { addNotification } = useApp();
+  const [blogs, setBlogs] = useState([]);
+  const [blogsReady, setBlogsReady] = useState(false);
+  
 
   const localBusinessSchema = {
     "@context": "https://schema.org",
@@ -112,6 +115,16 @@ export default function Home() {
       },
     ],
   };
+
+  // blogs data fetching.
+  useEffect(() => {
+    async function loadBlogs() {
+      const { blogs } = await fetchAllBlogs()
+      setBlogs(blogs ?? [])
+      setBlogsReady(true) // ✅ mark blogs as ready
+    }
+    loadBlogs()
+  }, [])
 
   // Handle loading completion when hero is ready
   useEffect(() => {
@@ -182,7 +195,7 @@ export default function Home() {
               <AboutUs />
             </section>
             <section id="blog">
-              <BlogSection />
+              <BlogSection blogs={blogs}/>
             </section>
             <section id="locations">
               <TravelClinic />
