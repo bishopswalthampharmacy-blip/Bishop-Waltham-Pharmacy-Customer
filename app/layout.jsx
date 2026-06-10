@@ -31,13 +31,8 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://bishopswalthampharmacy.co.uk"),
-
-  title: {
-    default: "Bishops Waltham Pharmacy | Travel Clinic & Healthcare",
-    template: "%s | Bishops Waltham Pharmacy",
-  },
-
+  title:
+    "Bishops Waltham Pharmacy – Travel Clinic, Weight Loss Clinic and Ear Microsuction Clinic",
   description:
     "Your local pharmacy in Bishops Waltham offering travel vaccinations, Pharmacy First, flu jabs and NHS prescriptions.",
 
