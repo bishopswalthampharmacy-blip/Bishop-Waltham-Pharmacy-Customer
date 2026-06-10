@@ -1,6 +1,9 @@
+# *
 User-agent: *
 Allow: /
-Disallow: /api/
-Disallow: /private/
 
+# Host
+Host: https://bishopswalthampharmacy.co.uk
+
+# Sitemaps
 Sitemap: https://bishopswalthampharmacy.co.uk/sitemap.xml

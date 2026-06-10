@@ -10,6 +10,7 @@ import "./globals.css";
 import { AuthProvider } from "@/src/contexts/AuthContext";
 import { CartProvider } from "@/src/contexts/CartContext";
 import { AppProvider } from "@/src/contexts/AppContext";
+import SchemaOrg from "@/components/SchemaOrg";
 
 // Load fonts
 const instrumentSans = Instrument_Sans({
@@ -33,33 +34,53 @@ export const metadata = {
   title:
     "Bishops Waltham Pharmacy – Travel Clinic, Weight Loss Clinic and Ear Microsuction Clinic",
   description:
-    "Bishops Waltham Pharmacy offers professional healthcare services including travel clinic vaccinations, ear wax removal, weight loss injections, and health consultations. Visit our pharmacy in Bishop's Waltham today.",
-  keywords: [
-    "pharmacy",
-    "travel clinic",
-    "vaccinations",
-    "ear wax removal",
-    "weight loss injections",
-    "Bishop's Waltham",
-  ],
+    "Your local pharmacy in Bishops Waltham offering travel vaccinations, Pharmacy First, flu jabs and NHS prescriptions.",
+
   authors: [{ name: "Bishops Waltham Pharmacy" }],
+
+  formatDetection: {
+    email: false,
+    telephone: false,
+  },
+
   verification: {
     google: "N5qS3a-TougGoHsPOCr5PYxaQ5sI-JJm592dXQVOC3A",
   },
+
+  alternates: {
+    canonical: "https://bishopswalthampharmacy.co.uk/",
+  },
+
   openGraph: {
-    title: "Bishops Waltham Pharmacy – Travel Clinic & Healthcare Services",
+    title:
+      "Bishops Waltham Pharmacy | Travel Clinic & Vaccinations",
+
     description:
-      "Professional pharmacy services in Bishop's Waltham including vaccinations, travel health, and healthcare consultations.",
-    url: "https://bishopswalthampharmacy.co.uk",
+      "Expert travel vaccinations, Pharmacy First, flu jabs and NHS prescriptions in Bishops Waltham, Hampshire.",
+
+    url: "https://bishopswalthampharmacy.co.uk/",
+
     siteName: "Bishops Waltham Pharmacy",
+
+    locale: "en_GB",
+
     type: "website",
   },
-  robots: "index, follow",
+
+  twitter: {
+    card: "summary_large_image",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#1a56db",
 };
 
 export default function RootLayout({ children }) {
@@ -69,6 +90,7 @@ export default function RootLayout({ children }) {
       className={`!scroll-smooth ${instrumentSans.variable} ${averageSans.variable} ${plusJakarta.variable}`}
     >
       <body suppressHydrationWarning={true}>
+        <SchemaOrg />
         <Canonical />
         <AppProvider>
           <AuthProvider>

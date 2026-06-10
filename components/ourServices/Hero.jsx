@@ -56,7 +56,7 @@ export default function Hero({ service }) {
             <div className="absolute inset-0 z-0">
                 <Image
                     src={service?.images?.hero || service?.image || "/Earwaxremoval.webp"}
-                    alt={service?.title || "Service Background"}
+                    alt={`${service?.title || "Healthcare Service"} at Bishop's Waltham Pharmacy - Professional medical and pharmacy services in Hampshire`}
                     fill
                     className="object-cover scale-110"
                     priority
@@ -217,7 +217,7 @@ export default function Hero({ service }) {
                                 <div className="w-full h-48 sm:h-64 rounded-2xl overflow-hidden mb-4 sm:mb-6">
                                     <Image
                                         src={service?.images?.hero || service?.image || "/Earwaxremoval.webp"}
-                                        alt={service?.title || "Service"}
+                                        alt={`${service?.title || "Healthcare Service"} at Bishop's Waltham Pharmacy - Quality medical care and professional pharmacy services`}
                                         width={400}
                                         height={300}
                                         className="w-full h-full object-cover"

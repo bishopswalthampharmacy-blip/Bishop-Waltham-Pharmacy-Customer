@@ -1,19 +1,17 @@
-import blogData from "@/data/blogData"
 import BlogContent from "@/components/blog/BlogContent"
 import BlogHero from "@/components/blog/BlogHero"
+import { fetchAllBlogs } from "@/lib/utils"
 
+// Tells Next.js which blog IDs exist (for SSG)
 export async function generateStaticParams() {
-  return [
-    { id: "1" },
-    { id: "2" },
-    { id: "3" },
-    { id: "4" },
-  ]
+  const { blogs } = await fetchAllBlogs()
+  return blogs.map((blog) => ({ id: blog.id }))
 }
 
 export async function generateMetadata({ params }) {
   const { id } = await params
-  const blog = blogData[id]
+  const { blogs } = await fetchAllBlogs()
+  const blog = blogs.find((b) => b.id === id)
 
   if (!blog) {
     return {
@@ -30,15 +28,14 @@ export async function generateMetadata({ params }) {
       title: `${blog.title} - Bishops Waltham Pharmacy Blog`,
       description: blog.description,
       type: "article",
-      publishedTime: blog.publishedDate,
-      modifiedTime: blog.updatedDate,
     },
   }
 }
 
 export default async function BlogPostPage({ params }) {
   const { id } = await params
-  const blog = blogData[id]
+  const { blogs } = await fetchAllBlogs()
+  const blog = blogs.find((b) => b.id === id)
 
   if (!blog) {
     return (

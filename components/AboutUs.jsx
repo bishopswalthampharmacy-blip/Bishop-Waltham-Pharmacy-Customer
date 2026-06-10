@@ -95,8 +95,8 @@ export default function AboutUs() {
           </p>
         </motion.div>
         <motion.h1 variants={titleVariants} className="text-3xl md:text-4xl font-medium mb-6">
-          <span className="text-sky-400"> More Than a Pharmacy : </span>
-          <span className="text-blue-800">A Part of Your Community</span>
+          <span className="text-sky-400"> A Trusted Community Pharmacy in </span>
+          <span className="text-blue-800">Bishops Waltham, Hampshire.</span>
         </motion.h1>
       </motion.div>
 
@@ -115,11 +115,20 @@ export default function AboutUs() {
           </motion.h2>
 
           <motion.p variants={textVariants} className="text-black text-md leading-relaxed mb-6">
-            Bishops Waltham Pharmacy is your trusted, independent community pharmacy, proudly serving the local area. Our knowledgeable and friendly team is here to support the health and wellbeing of you and your family.
+            Bishops Waltham Pharmacy has been proudly serving our
+            local community from our High Street location in Bishops
+            Waltham (SO32 1AB). We are a fully registered pharmacy
+            with the General Pharmaceutical Council (GPhC), and our
+            most recent inspection confirmed we meet all GPhC
+            standards.
           </motion.p>
 
           <motion.p variants={textVariants} className="text-black text-md leading-relaxed mb-8">
-            We offer a wide range of NHS and private healthcare services, including expert health advice, support with managing your medicines, treatment for minor ailments, and a free repeat prescription collection and delivery service – all designed to make looking after your health as easy as possible.
+            Our team of qualified pharmacists is dedicated to your
+            health, wellbeing and peace of mind. Whether you need a
+            prescription dispensed, travel vaccines for an upcoming
+            holiday, help with a minor illness under Pharmacy First, or
+            simply friendly expert advice — we are here for you.
           </motion.p>
 
           <motion.p variants={textVariants} className="text-black text-lg leading-relaxed mb-8">
@@ -152,7 +161,7 @@ export default function AboutUs() {
           <motion.div variants={imageVariants} className="rounded-lg overflow-hidden h-[390px] w-full max-w-[400px] relative">
             <Image
               src="/assets/aboutus1.jpg"
-              alt="Pharmacy shelves at Bishops Waltham Pharmacy"
+              alt=" GPhC-registered pharmacist at Bishops Waltham Pharmacy"
               fill
               quality={100}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"

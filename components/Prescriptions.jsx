@@ -8,33 +8,34 @@ import { useRef } from "react";
 
 const weightLossCards = [
   {
-    title: "Weight loss injections",
-    subheading: "Wegovy & Mounjaro - Private Weight Loss Injections",
-    desc: "Weekly or daily injectable pens that help reduce hunger and keep you fuller for longer. Proven to support significant weight loss when combined with a healthy diet and exercise.",
-    image: "/wl3.webp",
-    link: "/our-services/weight-loss-injections",
-  },
-  {
-    title: "Travel Clinic",
-    subheading: "Comprehensive travel health services",
-    desc: "Are you looking for a travel clinic? Look no further than Bishops Waltham Pharmacy, your trusted destination for comprehensive travel health services.",
+    title: "Travel Clinic & Vaccinations",
+    subheading: "Comprehensive travel health services.",
+    desc: "Planning a trip abroad? Our GPhC-registered pharmacists provide personalised travel health consultations including Yellow Fever, Typhoid, Hepatitis A & B, Meningitis ACWY, and antimalarial prescriptions. We follow the latest NaTHNaC guidelines. Same-week appointments available.",
     image: "/w2travelClinic.webp",
-    link: "/our-services/travel-clinic",
+    link: "/travel-clinic",
   },
   {
-    title: "Ear Wax Removal",
-    subheading: "Safe, professional ear wax removal",
-    desc: "We offer safe, professional ear wax removal at Bishops Waltham Pharmacy. Our trained team uses microsuction or irrigation to gently clear blocked ears.",
-    image: "/earwaxi.webp",
-    link: "/our-services/ear-wax-removal",
+    title: "NHS Pharmacy First Service",
+    subheading: "No need to wait weeks for a GP appointment.",
+    desc: "Under the NHS Pharmacy First scheme, our trained pharmacists can assess and treat 7 common conditions — including ear infections, sore throat, sinusitis, UTIs, impetigo, infected insect bites and shingles — at no cost to NHS patients. Just walk in.",
+    image: "/assets/communityImg.jpg",
+    link: "/pharmacy-first",
   },
   {
-    title: "Vaccination Clinic",
-    subheading: "Evidence-based vaccinations for all ages",
-    desc: "At Bishops Waltham Pharmacy, we offer a robust range of evidence-based vaccinations to keep you protected at every stage of life.",
+    title: "Flu Jab & Seasonal Vaccinations",
+    subheading: "Evidence-based vaccinations for all ages.",
+    desc: "Protect yourself and your family with our annual flu vaccination service. Available to eligible NHS patients and as a private service. We also offer blood pressure checks, Covid-19 boosters and other seasonal health services — all under one roof at our High Street location.",
     image: "/vaccinating.webp",
-    link: "/our-services/vaccination-clinic",
+    link: "/flu-jab",
   },
+  {
+    title: "NHS & Private Prescriptions",
+    subheading: "Get NHS and private prescriptions quickly.",
+    desc: "We dispense NHS and private prescriptions quickly and accurately. We accept the Electronic Prescription Service (EPS) — your GP sends your prescription directly to us. Prescription collection from local GP practices available. New Medicine Service (NMS) for patients starting new medications.",
+    image: "/earwaxi.webp",
+    link: "/prescriptions",
+  },
+  
 ];
 
 const container = {
@@ -78,8 +79,8 @@ export default function WeightLossCards() {
         animate={isInView ? { opacity: 1, y: -30 } : { opacity: 0, y: 10 }}
         transition={{ duration: 0.7, delay: 0.2 }}
       >
-        <span className="text-[#5BB9EC]">Our </span>
-        <span className="text-[#004488]">Services</span>
+        <span className="text-[#5BB9EC]">Our Healthcare Services in </span>
+        <span className="text-[#004488]">Bishops Waltham</span>
       </motion.h2>
 
       <div className="hidden md:grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -87,40 +88,40 @@ export default function WeightLossCards() {
           <motion.div
             key={index}
             variants={cardVariants}
-            className="group bg-[#F5F9FF] rounded-2xl p-3 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 h-[400px] flex flex-col"
+            className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 min-h-[380px] flex flex-col"
           >
             <Image
               src={item.image}
-              alt={item.title}
+              alt={`${item.title} -  Travel vaccination consultation at Bishops Waltham Pharmacy`}
               width={500}
               height={300}
-              className="w-full h-40 object-cover rounded-xl mb-2"
+              className="w-full h-36 object-cover rounded-lg mb-1.5"
             />
             <h3
-              className="text-sm font-semibold text-[#034F96] mb-1 line-clamp-1"
+              className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2"
               title={item.title}
             >
               {item.title}
             </h3>
             <p
-              className="text-xs text-gray-500 mb-2 line-clamp-1"
+              className="text-xs text-gray-500 mb-1 line-clamp-1"
               title={item.subheading}
             >
               {item.subheading}
             </p>
             <p
-              className="text-[13px] text-gray-600 mb-2 mt-2 flex-1 text-justify"
+              className="text-[12px] text-gray-600 mb-1 mt-1 flex-1 text-justify overflow-hidden"
               title={item.desc}
             >
               {item.desc}
             </p>
 
-            <div className="flex items-center justify-between mt-auto gap-1">
+            <div className="flex flex-col gap-1.5 mt-auto pt-1">
               <Link
                 href={item.link}
-                className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
               >
-                <span className="pl-1 pr-2 text-xs font-semibold">Learn More</span>
+                Learn More
               </Link>
 
               <Link
@@ -129,13 +130,11 @@ export default function WeightLossCards() {
                   query: { st: "1", service: item.title },
                 }}
                 as={`/booking?st=1&service=${encodeURIComponent(item.title)}`}
-                className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
               >
-                <span className="pl-1 pr-2 text-xs font-semibold">
-                  Book an Appointment
-                </span>
-                <span className="bg-[#8DBBFF] p-1 rounded-full flex items-center justify-center ml-1">
-                  <ArrowRight size={12} className="text-white" />
+                <span>Book an Appointment</span>
+                <span className="bg-[#8DBBFF] p-0.5 rounded-full flex items-center justify-center ml-0.5">
+                  <ArrowRight size={10} className="text-white" />
                 </span>
               </Link>
             </div>
@@ -149,40 +148,40 @@ export default function WeightLossCards() {
             <motion.div
               key={index}
               variants={cardVariants}
-              className="group bg-[#F5F9FF] rounded-2xl p-3 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 h-[400px] flex flex-col flex-shrink-0 w-72"
+              className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 min-h-[380px] flex flex-col flex-shrink-0 w-72"
             >
               <Image
                 src={item.image}
-                alt={item.title}
+                alt={`${item.title} -  Flu vaccination service at Bishops Waltham Pharmacy Hampshire`}
                 width={500}
                 height={300}
-                className="w-full h-40 object-cover rounded-xl mb-2"
+                className="w-full h-36 object-cover rounded-lg mb-1.5"
               />
               <h3
-                className="text-sm font-semibold text-[#034F96] mb-1 line-clamp-1"
+                className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2"
                 title={item.title}
               >
                 {item.title}
               </h3>
               <p
-                className="text-xs text-gray-500 mb-2 line-clamp-1"
+                className="text-xs text-gray-500 mb-1 line-clamp-1"
                 title={item.subheading}
               >
                 {item.subheading}
               </p>
               <p
-                className="text-[13px] text-gray-600 mb-2 mt-2 flex-1 text-justify"
+                className="text-[12px] text-gray-600 mb-1 mt-1 flex-1 text-justify overflow-hidden"
                 title={item.desc}
               >
                 {item.desc}
               </p>
 
-              <div className="flex items-center justify-between mt-auto gap-1">
+              <div className="flex flex-col gap-1.5 mt-auto pt-1">
                 <Link
                   href={item.link}
-                  className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                  className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
                 >
-                  <span className="pl-1 pr-2 text-xs font-semibold">Learn More</span>
+                  Learn More
                 </Link>
 
                 <Link
@@ -191,13 +190,11 @@ export default function WeightLossCards() {
                     query: { st: "1", service: item.title },
                   }}
                   as={`/booking?st=1&service=${encodeURIComponent(item.title)}`}
-                  className="bg-white text-black rounded-full px-2 py-1.5 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer whitespace-nowrap"
+                  className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
                 >
-                  <span className="pl-1 pr-2 text-xs font-semibold">
-                    Book an Appointment
-                  </span>
-                  <span className="bg-[#8DBBFF] p-1 rounded-full flex items-center justify-center ml-1">
-                    <ArrowRight size={12} className="text-white" />
+                  <span>Book an Appointment</span>
+                  <span className="bg-[#8DBBFF] p-0.5 rounded-full flex items-center justify-center ml-0.5">
+                    <ArrowRight size={10} className="text-white" />
                   </span>
                 </Link>
               </div>

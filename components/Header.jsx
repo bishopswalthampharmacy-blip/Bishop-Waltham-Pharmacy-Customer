@@ -37,14 +37,14 @@ const Header = () => {
         {/* Left: Logo + Nav */}
         <div className="flex items-center gap-8 pl-8">
           <Link href="/">
-            <Image src={Logo} alt="Bishops Waltham Pharmacy logo" width={150} height={35} className="object-contain" />
+            <Image src={Logo} alt="Bishops Waltham Pharmacy — High Street Hampshire" width={150} height={35} className="object-contain" />
           </Link>
 
           <nav className="hidden lg:flex gap-10 text-sm font-medium text-black font-instrument">
             <Link href="/#home" className="hover:text-[#0B5C64]">Home</Link>
             <Link href="/#services" className="hover:text-[#0B5C64]">Services</Link>
             <Link href="/booking" className="hover:text-[#0B5C64]">Book Vaccination</Link>
-            {/* <Link href="/blog" className="hover:text-[#0B5C64]">Blogs</Link> */}
+            <Link href="/blog" className="hover:text-[#0B5C64]">Blogs</Link> 
             <Link href="/#about" className="hover:text-[#0B5C64]">About</Link>
             <Link href="/#faq" className="hover:text-[#0B5C64]">Help</Link>
           </nav>
