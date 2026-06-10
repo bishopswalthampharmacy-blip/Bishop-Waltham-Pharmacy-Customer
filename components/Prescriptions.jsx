@@ -51,6 +51,29 @@ const cardVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
 };
 
+// Reusable card button row
+function CardButtons({ link }) {
+  return (
+    <div className="pt-2 mt-auto flex gap-2">
+      <Link
+        href={link}
+        className="flex-1 bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition cursor-pointer whitespace-nowrap text-[11px] font-semibold"
+      >
+        Learn More
+      </Link>
+      <Link
+        href="/booking?st=1"
+        className="flex-1 bg-[#034F96] text-white rounded-full px-1.5 py-1 flex items-center justify-between px-3 shadow hover:bg-[#023d75] transition cursor-pointer whitespace-nowrap text-[11px] font-semibold"
+      >
+        <span>Book Now</span>
+        <span className="bg-[#8DBBFF] p-0.5 rounded-full flex items-center justify-center ml-2">
+          <ArrowRight size={10} className="text-white" />
+        </span>
+      </Link>
+    </div>
+  );
+}
+
 export default function WeightLossCards() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.2 });
@@ -89,16 +112,10 @@ export default function WeightLossCards() {
               height={300}
               className="w-full h-36 object-cover rounded-lg mb-1.5"
             />
-            <h3
-              className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2"
-              title={item.title}
-            >
+            <h3 className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2" title={item.title}>
               {item.title}
             </h3>
-            <p
-              className="text-xs text-gray-500 mb-1 line-clamp-1"
-              title={item.subheading}
-            >
+            <p className="text-xs text-gray-500 mb-1 line-clamp-1" title={item.subheading}>
               {item.subheading}
             </p>
             <p
@@ -113,27 +130,24 @@ export default function WeightLossCards() {
             >
               {item.desc}
             </p>
-
-            <div className="pt-2">
-              <Link
-                href={item.link}
-                className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
-              >
-                Learn More
-              </Link>
-            </div>
+            <CardButtons link={item.link} />
           </motion.div>
         ))}
       </div>
 
-      {/* Mobile horizontal scroll */}
-      <div className="md:hidden overflow-x-auto pb-4 -mx-4 px-4">
-        <div className="flex gap-4 w-max">
+      {/* Mobile: horizontal scroll — scrollbar hidden, peek card hints more content */}
+      <div
+        className="md:hidden -mx-4 px-4"
+        style={{ overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        <style>{`.mobile-scroll::-webkit-scrollbar { display: none; }`}</style>
+        <div className="mobile-scroll flex gap-4 pb-2" style={{ width: "max-content" }}>
           {weightLossCards.map((item, index) => (
             <motion.div
               key={index}
               variants={cardVariants}
-              className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 flex flex-col flex-shrink-0 w-72"
+              // Last card is slightly narrower so it peeks, hinting there's more to scroll
+              className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 flex flex-col flex-shrink-0 w-[72vw]"
             >
               <Image
                 src={item.image}
@@ -142,16 +156,10 @@ export default function WeightLossCards() {
                 height={300}
                 className="w-full h-36 object-cover rounded-lg mb-1.5"
               />
-              <h3
-                className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2"
-                title={item.title}
-              >
+              <h3 className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2" title={item.title}>
                 {item.title}
               </h3>
-              <p
-                className="text-xs text-gray-500 mb-1 line-clamp-1"
-                title={item.subheading}
-              >
+              <p className="text-xs text-gray-500 mb-1 line-clamp-1" title={item.subheading}>
                 {item.subheading}
               </p>
               <p
@@ -166,38 +174,21 @@ export default function WeightLossCards() {
               >
                 {item.desc}
               </p>
-
-              <div className="pt-1">
-                <Link
-                  href={item.link}
-                  className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
-                >
-                  Learn More
-                </Link>
-              </div>
+              <CardButtons link={item.link} />
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Full-width Book an Appointment button */}
-      <motion.div
-        className="mt-6"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-      >
-        <Link
-          href="/booking?st=1"
-          className="bg-[#034F96] text-white rounded-full px-6 py-3.5 flex items-center justify-center shadow-lg hover:bg-[#023d75] transition w-full cursor-pointer text-sm font-semibold gap-2"
-        >
-          <span>Book an Appointment</span>
-          <span className="bg-[#8DBBFF] p-1 rounded-full flex items-center justify-center">
-            <ArrowRight size={14} className="text-white" />
-          </span>
-        </Link>
-      </motion.div>
+      {/* Dot indicators for mobile */}
+      <div className="md:hidden flex justify-center gap-1.5 mt-3">
+        {weightLossCards.map((_, i) => (
+          <span
+            key={i}
+            className={`block rounded-full transition-all ${i === 0 ? "w-4 h-1.5 bg-[#034F96]" : "w-1.5 h-1.5 bg-gray-300"}`}
+          />
+        ))}
+      </div>
     </motion.div>
   );
 }

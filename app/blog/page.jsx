@@ -1,27 +1,29 @@
-import Link from "next/link"
-import Image from "next/image"
-import { fetchAllBlogs } from "@/lib/utils"
-import BlogSection from "@/components/BlogSection"
-
+import Link from "next/link";
+import Image from "next/image";
+import { fetchAllBlogs } from "@/lib/utils";
 
 export const metadata = {
   title: "Blog - Bishops Waltham Pharmacy",
-  description: "Read our latest blog posts on travel health, ear care, weight loss, vaccinations, and other pharmacy-related health topics.",
+  description:
+    "Read our latest blog posts on travel health, ear care, weight loss, vaccinations, and other pharmacy-related health topics.",
   robots: "index, follow",
-}
+};
 
 export default async function BlogPage() {
-const { blogs: allBlogs } = await fetchAllBlogs()
-const blogs = allBlogs.filter((blog) => blog.isProd === true)
+  const { blogs: allBlogs } = await fetchAllBlogs();
+  const blogs = allBlogs || [];
 
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-[#037F91] to-[#025F6E] text-white py-16 md:py-20 lg:px-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-3">Health & Wellness Blog</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-3">
+            Health & Wellness Blog
+          </h1>
           <p className="text-lg text-blue-100 max-w-2xl">
-            Discover expert advice on travel health, vaccinations, ear care, weight management, and more from Bishops Waltham Pharmacy.
+            Discover expert advice on travel health, vaccinations, ear care,
+            weight management, and more from Bishops Waltham Pharmacy.
           </p>
         </div>
       </section>
@@ -31,7 +33,9 @@ const blogs = allBlogs.filter((blog) => blog.isProd === true)
         <div className="max-w-7xl mx-auto">
           {blogs.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">No blogs found. Check back soon!</p>
+              <p className="text-gray-500 text-lg">
+                No blogs found. Check back soon!
+              </p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -40,22 +44,30 @@ const blogs = allBlogs.filter((blog) => blog.isProd === true)
                   <div className="bg-[#F5F9FF] rounded-2xl p-4 shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col cursor-pointer group">
                     {/* Featured Image */}
                     <div className="relative h-48 w-full overflow-hidden rounded-lg mb-4 bg-gray-200">
-                      <Image
-                        src={blog.image}
-                        alt={`Blog post: ${blog.title}`}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
+                      {blog.image ? (
+                        <Image
+                          src={blog.image}
+                          alt={`Blog post: ${blog.title || "Blog"}`}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-500 text-sm">
+                          No Image Available
+                        </div>
+                      )}
                     </div>
 
                     {/* Content */}
                     <div className="flex flex-col flex-grow">
                       {/* Category */}
-                      <div className="mb-2">
-                        <span className="inline-block bg-[#E8F4FF] text-[#037F91] text-xs font-semibold px-3 py-1 rounded-full">
-                          {blog.category}
-                        </span>
-                      </div>
+                      {blog.category && (
+                        <div className="mb-2">
+                          <span className="inline-block bg-[#E8F4FF] text-[#037F91] text-xs font-semibold px-3 py-1 rounded-full">
+                            {blog.category}
+                          </span>
+                        </div>
+                      )}
 
                       {/* Title */}
                       <h2 className="text-lg font-bold text-[#037F91] mb-2 line-clamp-2 group-hover:text-[#025F6E] transition">
@@ -85,9 +97,12 @@ const blogs = allBlogs.filter((blog) => blog.isProd === true)
       {/* CTA Section */}
       <section className="bg-[#E8F4FF] py-16 lg:px-20 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#037F91] mb-4">Have Questions?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#037F91] mb-4">
+            Have Questions?
+          </h2>
           <p className="text-gray-700 mb-8 text-lg">
-            Our pharmacy team is here to help. Book a consultation or visit us in person for personalized healthcare advice.
+            Our pharmacy team is here to help. Book a consultation or visit us
+            in person for personalized healthcare advice.
           </p>
           <Link href="/booking/">
             <button className="bg-[#037F91] text-white font-semibold px-8 py-3 rounded-lg hover:bg-[#025F6E] transition shadow-md hover:shadow-lg">
@@ -97,5 +112,5 @@ const blogs = allBlogs.filter((blog) => blog.isProd === true)
         </div>
       </section>
     </main>
-  )
+  );
 }

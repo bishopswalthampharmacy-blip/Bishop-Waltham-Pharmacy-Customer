@@ -5,13 +5,17 @@ import { fetchAllBlogs } from "@/lib/utils"
 // Tells Next.js which blog IDs exist (for SSG)
 export async function generateStaticParams() {
   const { blogs } = await fetchAllBlogs()
-return blogs.filter((blog) => blog.isProd === true).map((blog) => ({ id: blog.id }))
+
+  return blogs.map((blog) => ({
+    id: blog.id,
+  }))
 }
 
 export async function generateMetadata({ params }) {
   const { id } = await params
   const { blogs } = await fetchAllBlogs()
-const blog = blogs.find((b) => b.id === id && b.isProd === true)
+
+  const blog = blogs.find((b) => b.id === id)
 
   if (!blog) {
     return {
@@ -35,14 +39,19 @@ const blog = blogs.find((b) => b.id === id && b.isProd === true)
 export default async function BlogPostPage({ params }) {
   const { id } = await params
   const { blogs } = await fetchAllBlogs()
+
   const blog = blogs.find((b) => b.id === id)
 
   if (!blog) {
     return (
       <main className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Post Not Found</h1>
-          <p className="text-gray-600 mb-6">The blog post you're looking for doesn't exist.</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            Post Not Found
+          </h1>
+          <p className="text-gray-600 mb-6">
+            The blog post you're looking for doesn't exist.
+          </p>
           <a href="/blog/" className="text-blue-600 hover:underline">
             ← Back to Blog
           </a>
