@@ -4,7 +4,7 @@ import Hero from "@/components/ourServices/Hero"
 
 export async function generateStaticParams() {
     return [
-        { service: 'ear-wax-removal' },
+        { service: 'ear-microsuction' },
         { service: 'travel-clinic' },
         { service: 'weight-loss-injections' },
         { service: 'vaccination-clinic' },

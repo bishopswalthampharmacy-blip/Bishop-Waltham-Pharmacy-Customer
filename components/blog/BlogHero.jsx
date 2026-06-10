@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export default function BlogHero({ blog }) {
   return (
-    <section className="relative bg-gradient-to-r from-[#034F96] to-[#0A6BC3] text-white py-12 md:py-20 lg:px-20 px-4 sm:px-6">
+    <section className="relative bg-gradient-to-r from-[#037F91] to-[#025F6E] text-white py-12 md:py-20 lg:px-20 px-4 sm:px-6">
       {/* Background Image Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -14,7 +14,7 @@ export default function BlogHero({ blog }) {
           fill
           className="object-cover opacity-20"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#034F96] to-[#0A6BC3]"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#037F91] to-[#025F6E]"></div>
       </div>
 
       {/* Content */}

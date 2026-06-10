@@ -746,17 +746,57 @@ export default function Footer() {
                     </li>
                     <li>
                       <Link
-                        href="/our-services/travel-clinic/"
+                        href="/travel-clinic"
                         className="text-gray-500 hover:text-[#3498db] text-sm group flex items-center"
                       >
                         <span className="relative overflow-hidden pr-1">
                           <span className="inline-block transition-transform duration-300 group-hover:translate-x-[2px]">
-                            Travel Care
+                            Travel Clinic
                           </span>
                           <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3498db] transition-all duration-300 group-hover:w-full"></span>
                         </span>
                       </Link>
                     </li>
+                    <li>
+                      <Link
+                        href="/flu-jab"
+                        className="text-gray-500 hover:text-[#3498db] text-sm group flex items-center"
+                      >
+                        <span className="relative overflow-hidden pr-1">
+                          <span className="inline-block transition-transform duration-300 group-hover:translate-x-[2px]">
+                            Flu Jab
+                          </span>
+                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3498db] transition-all duration-300 group-hover:w-full"></span>
+                        </span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/pharmacy-first"
+                        className="text-gray-500 hover:text-[#3498db] text-sm group flex items-center"
+                      >
+                        <span className="relative overflow-hidden pr-1">
+                          <span className="inline-block transition-transform duration-300 group-hover:translate-x-[2px]">
+                           Pharmacy First
+                          </span>
+                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3498db] transition-all duration-300 group-hover:w-full"></span>
+                        </span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/prescriptions"
+                        className="text-gray-500 hover:text-[#3498db] text-sm group flex items-center"
+                      >
+                        <span className="relative overflow-hidden pr-1">
+                          <span className="inline-block transition-transform duration-300 group-hover:translate-x-[2px]">
+                           Prescriptions
+                          </span>
+                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#3498db] transition-all duration-300 group-hover:w-full"></span>
+                        </span>
+                      </Link>
+                    </li>
+
                   </ul>
                 </div>
 
@@ -789,12 +829,12 @@ export default function Footer() {
                         itemType="https://schema.org/PostalAddress"
                         className="not-italic"
                       >
-                        <span itemProp="streetAddress">10-12 High St</span>,{" "}
+                        <span itemProp="streetAddress">10-12 High Street</span>,{" "}
                         <span itemProp="addressLocality">Bishop's Waltham</span>
                         <br />
                         <span>Southampton</span>,{" "}
                         <span itemProp="addressRegion">Hampshire</span>{" "}
-                        <span itemProp="postalCode">SO32 1AA</span>,{" "}
+                        <span itemProp="postalCode">SO32 1AB</span>,{" "}
                         <span itemProp="addressCountry">UK</span>
                       </address>
                     </div>

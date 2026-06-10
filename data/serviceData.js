@@ -1,57 +1,133 @@
 // Centralized service data for ServiceInfo component
 
 const serviceData = {
-    "ear-wax-removal": {
-        title: "Ear Wax Removal",
-        subtitle: "Safe, professional ear wax removal",
-        description: "Ear wax build up can lead to various issues, including hearing loss, discomfort, and even infections. Regular removal of ear wax is essential to maintain ear health. At Bishops Waltham Pharmacy, we offer professional ear wax removal services to help you keep your ears clean and healthy.",
-        steps: [
-            {
-                title: "Step 1: Consultation",
-                detail: "Your appointment begins with a consultation. Our trained professional staff will discuss your symptoms and medical history. This helps us determine if ear wax removal is necessary."
-            },
-            {
-                title: "Step 2: Ear Drops Recommendation",
-                detail: "Our team may recommend ear drops if needed to help loosen the wax, making it easier and more comfortable to remove during the microsuction procedure."
-            },
-            {
-                title: "Step 3: Examination",
-                detail: "Using a specialised otoscope, we will examine your ear canal to identify the extent of wax build up. This process is quick and painless."
-            },
-            {
-                title: "Step 4: Microsuction Procedure",
-                detail: "We use ear microsuction, a safe and effective method for removing ear wax. A gentle suction device removes the wax without causing any damage to your ear canal. The procedure is usually complete within 15 to 30 minutes."
-            }
-        ],
-        benefits: [
-            "Safe and Effective: Minimises the risk of damage to the ear canal.",
-            "Quick Procedure: Typically takes only 15 to 30 minutes.",
-            "Immediate Relief: Experience relief from symptoms immediately after the procedure."
-        ],
-        image: "/earwaxi.webp",
-        images: {
-            hero: "/earwaxi.webp",
-            main: "/Earwaxremoval.webp"
+"ear-microsuction": {
+    title: "Ear Microsuction",
+    slug: "ear-microsuction",
+    subtitle: "Professional Ear Wax Removal Using Microsuction",
+    description: "Bishops Waltham Pharmacy offers safe, effective ear wax removal using microsuction. Our trained healthcare professionals use specialist equipment to gently remove excess ear wax, helping restore hearing and relieve discomfort without the use of water irrigation.",
+    content: {
+        howItWorks: {
+            title: "How It Works?",
+            content: "During your appointment, our trained practitioner will examine your ears using specialist equipment. Using a gentle microsuction device, excess ear wax is carefully removed under direct visual guidance. The procedure is quick, precise, and typically completed within 15–30 minutes."
         },
-        faqs: [
-            {
-                q: "Is ear microsuction painful?",
-                a: "No, ear microsuction is generally painless. You may feel a slight suction sensation, but it is not uncomfortable for most people."
-            },
-            {
-                q: "Can everyone have ear microsuction?",
-                a: "Most people can, but if you have a perforated eardrum or an ear infection, alternative treatments may be recommended."
-            },
-            {
-                q: "How often should I have my ears cleaned?",
-                a: "This varies by individual. Some people need annual cleaning, others may never require professional removal."
-            }
-        ]
+        whyItMatters: {
+            title: "Why It Matters?",
+            content: "Excess ear wax can cause hearing difficulties, discomfort, ringing in the ears (tinnitus), dizziness, and a blocked sensation. Microsuction is considered one of the safest and most effective methods of ear wax removal, providing immediate relief for many patients."
+        },
+        whatWeOffer: {
+            title: "What We Offer",
+            intro: "Our Ear Microsuction service includes:",
+            services: [
+                "Professional ear examination",
+                "Safe microsuction ear wax removal",
+                "Treatment for one or both ears",
+                "Assessment of ear canal health",
+                "Advice on ear care and wax prevention",
+                "Referral guidance if further treatment is required"
+            ]
+        },
+        howMedicationsWork: {
+            title: "What Happens During the Appointment?",
+            intro: "Your ear microsuction appointment typically involves:",
+            points: [
+                "Initial assessment of your symptoms and ear health",
+                "Examination of the ear canal using specialist equipment",
+                "Gentle removal of wax using microsuction technology",
+                "Post-treatment ear health check",
+                "Advice on maintaining healthy ears and preventing future blockages"
+            ]
+        },
+        whoIsThisFor: {
+            title: "Who Is This Service For?",
+            intro: "Ear microsuction may be suitable for people experiencing:",
+            criteria: [
+                "Blocked ears due to excess ear wax",
+                "Reduced hearing caused by wax build-up",
+                "Tinnitus associated with wax blockage",
+                "Discomfort or fullness in the ears",
+                "Difficulty using hearing aids due to wax accumulation"
+            ],
+            conditions: [
+                "Adults and older children where clinically appropriate",
+                "Patients who have been advised against ear syringing",
+                "Individuals seeking a safe and effective wax removal method"
+            ],
+            note: "If you have ear pain, discharge, infection, or recent ear surgery, please contact us before booking so we can advise on suitability."
+        },
+        appointmentProcess: {
+            title: "What Does the Consultation Involve?",
+            intro: "Our ear microsuction service is professional, safe, and patient-focused. It includes:",
+            process: [
+                "Review of your symptoms and medical history",
+                "Detailed examination of the ear canal",
+                "Microsuction wax removal under direct visual guidance",
+                "Discussion of findings and treatment outcome",
+                "Aftercare advice and recommendations"
+            ],
+            support: "If we identify any concerns that require further medical assessment, we will advise you on the appropriate next steps and referral options."
+        },
+        whyChooseUs: {
+            title: "Why Choose Bishops Waltham Pharmacy?",
+            benefits: [
+                {
+                    title: "Trained Professionals",
+                    detail: "Ear microsuction performed by trained healthcare professionals using specialist equipment"
+                },
+                {
+                    title: "Safe & Effective",
+                    detail: "A precise and clinically recommended method of ear wax removal"
+                },
+                {
+                    title: "Comfortable Experience",
+                    detail: "Treatment carried out in a professional and comfortable environment"
+                },
+                {
+                    title: "Convenient Local Service",
+                    detail: "Located in the heart of Bishops Waltham for easy access"
+                },
+                {
+                    title: "Quick Appointments",
+                    detail: "Fast and efficient appointments with minimal disruption to your day"
+                }
+            ]
+        }
     },
+    image: "/assets/earMicrosuction.jpg",
+    images: {
+        hero: "/earsuction.jpg",
+        main:  "/earwaxi.webp",
+        vaccines: "/assets/communityImg.jpg"
+    },
+    faqs: [
+        {
+            q: "What is ear microsuction?",
+            a: "Ear microsuction is a modern ear wax removal technique that uses a gentle suction device to remove excess wax under direct visual guidance. It is considered one of the safest and most effective methods of ear wax removal."
+        },
+        {
+            q: "Does ear microsuction hurt?",
+            a: "Most patients find the procedure comfortable. You may hear some suction noise during treatment, but discomfort is usually minimal and temporary."
+        },
+        {
+            q: "How long does the appointment take?",
+            a: "Most appointments take between 15 and 30 minutes, depending on the amount and consistency of ear wax present."
+        },
+        {
+            q: "Should I use olive oil drops before my appointment?",
+            a: "Yes. We generally recommend using olive oil ear drops for several days before your appointment to soften the wax and improve treatment effectiveness. Contact us for specific advice."
+        },
+        {
+            q: "Can both ears be treated during the same appointment?",
+            a: "Yes. If both ears require treatment, they can usually be assessed and treated during the same appointment."
+        }
+    ]
+},
+
     "travel-clinic": {
-        title: "Travel Clinic",
+        title: "Travel Clinic & Vaccinations",
+        slug: "travel-clinic",
         subtitle: "Comprehensive travel health services for safe journeys",
-        description: "Are you looking for a travel clinic? Look no further than Bishops Waltham Pharmacy, your trusted destination for comprehensive travel health services. As you jet off on your global adventure, it's crucial to prioritize your health and well-being. Our dedicated team is here to ensure you have a safe and enjoyable journey by providing expert advice, vaccinations, and essential travel health resources.",
+        description: "Planning a trip abroad? Our GPhC-registered pharmacists provide personalised travel health consultations including Yellow Fever, Typhoid, Hepatitis A & B, Meningitis ACWY, and antimalarial prescriptions. We follow the latest NaTHNaC guidelines. Same-week appointments available.",
         image: "/assets/tracli.webp",
         images: {
             hero: "/assets/tracli.webp",
@@ -189,224 +265,235 @@ const serviceData = {
         ]
     },
     // Add more services here as needed
-    "weight-loss-injections": {
-        title: "Weight Loss Injections",
-        subtitle: "Wegovy & Mounjaro - Private Weight Loss Injections",
-        description: "Bishops Waltham Pharmacy now offers a trusted and clinically approved weight loss service using GLP-1 medications such as Wegovy (semaglutide) and Mounjaro (tirzepatide). These treatments are designed for adults struggling with obesity or weight-related health issues and work by regulating appetite and blood sugar levels.",
+    "pharmacy-first": {
+        title: "Pharmacy First",
+        slug: "pharmacy-first",
+        subtitle: "NHS Pharmacy First Service — No GP Appointment Needed",
+        description: "Bishops Waltham Pharmacy is a registered NHS Pharmacy First provider. Our qualified pharmacists can now assess and treat 7 common conditions directly — without you needing to book a GP appointment. The service is completely free for NHS patients, and you can simply walk in.",
         content: {
             howItWorks: {
                 title: "How It Works?",
-                content: "Our weight loss service begins with a private consultation with one of our trained pharmacists, where we assess your suitability for either Wegovy (semaglutide) or Mounjaro (tirzepatide). If you're eligible, you'll receive guidance on how to administer the weekly injections safely at home. These treatments work by mimicking natural hormones that regulate appetite and blood sugar levels, helping you feel fuller for longer and reducing calorie intake. Throughout your journey, we provide ongoing support and regular reviews to monitor your progress and ensure the treatment is both safe and effective."
+                content: "Simply walk into Bishops Waltham Pharmacy during opening hours and ask to be seen under Pharmacy First. You may be asked for your NHS number and GP practice details. Our qualified pharmacists will assess your condition and provide appropriate treatment or advice on the same visit — no referral or prior appointment needed. If your condition falls outside the scope of Pharmacy First, we will advise you on the most appropriate next steps."
             },
             whyItMatters: {
                 title: "Why It Matters?",
-                content: "Obesity is linked to serious health risks, including heart disease, diabetes, and reduced quality of life. For those who struggle to lose weight through diet and exercise alone, medically-supervised treatment can be life-changing. Wegovy and Mounjaro are two of the most powerful weight loss tools currently available in the UK, helping patients lose up to 15-20% of their body weight."
+                content: "Getting timely treatment for minor conditions shouldn't mean waiting weeks for a GP appointment. The NHS Pharmacy First scheme means our trained pharmacists can now assess and treat 7 common conditions directly, helping you get better faster, reducing pressure on GP practices, and keeping NHS care local and accessible in Bishops Waltham."
             },
             whatWeOffer: {
                 title: "What We Offer",
-                intro: "Our weight loss programme includes:",
+                intro: "Under the NHS Pharmacy First service, our pharmacists can assess and treat:",
                 services: [
-                    "Prescription injectable medication such as Wegovy (semaglutide) or Mounjaro (tirzepatide)",
-                    "1-to-1 lifestyle and dietary consultations with a trained pharmacist",
-                    "Training on how to use injectable pens confidently and safely",
-                    "Free needle tips with every prescription",
-                    "Sharps bin provided for safe needle disposal"
+                    "Sinusitis (age 12+)",
+                    "Sore throat (age 5+)",
+                    "Earache / Otitis media (age 1–17)",
+                    "Infected insect bites (age 1+)",
+                    "Impetigo (age 1+)",
+                    "Shingles (age 18+)",
+                    "Urinary tract infection / UTI (women aged 16–64)"
                 ],
             },
             howMedicationsWork: {
-                title: "How Do the Medications Work?",
-                intro: "The injectable medications used in our programme work by mimicking natural hormones in the body that regulate appetite, blood sugar, and insulin levels. This makes it easier to reduce calorie intake and avoid overeating.",
+                title: "How Does the Service Work?",
+                intro: "Our Pharmacy First consultations are conducted in our private consultation room. Here's what to expect:",
                 points: [
-                    "They help control hunger, improve satiety, and keep you feeling full for longer",
-                    "When combined with healthy eating and increased physical activity, they promote significant and sustained weight loss over time",
-                    "These treatments are prescription-only and are only supplied after a full consultation and suitability assessment"
+                    "Walk in during opening hours — no appointment or GP referral required",
+                    "Our pharmacist will assess your symptoms in a private, confidential consultation",
+                    "If eligible, you will receive treatment or a prescription on the same visit at no cost to NHS patients",
+                    "If your condition requires further investigation, we will refer you to the appropriate service"
                 ]
             },
             whoIsThisFor: {
                 title: "Who Is This Service For?",
-                intro: "Our weight loss service is suitable for adults who meet the following criteria:",
+                intro: "The NHS Pharmacy First service is available to:",
                 criteria: [
-                    "A BMI of 30 or higher (classified as obese)",
-                    "A BMI of 27 or higher if you also have a weight-related condition, such as:"
+                    "All NHS patients registered with a GP in England",
+                    "Patients presenting with one of the 7 eligible conditions listed above"
                 ],
                 conditions: [
-                    "High blood pressure",
-                    "Type 2 diabetes",
-                    "High cholesterol"
+                    "No GP referral required",
+                    "No appointment needed — walk in",
+                    "Completely free for eligible NHS patients"
                 ],
-                note: "If you're unsure about your BMI, don't worry — we'll calculate it for you during your first consultation."
+                note: "You do not need a referral from your GP. Simply walk in and ask to be seen under the NHS Pharmacy First scheme."
             },
             appointmentProcess: {
-                title: "What Does the Appointment Involve?",
-                intro: "Your initial consultation is designed to be supportive, private, and free from judgement. It includes:",
+                title: "What Does the Consultation Involve?",
+                intro: "Your Pharmacy First consultation is private, confidential, and free from judgement. It includes:",
                 process: [
-                    "A full health and lifestyle assessment",
-                    "Measurement of weight, height, and BMI",
-                    "Discussion of the most appropriate treatment options (e.g. Wegovy, Mounjaro)",
-                    "Goal setting and a tailored weight loss plan",
-                    "Hands-on training to ensure you're comfortable using the injectable pens"
+                    "A brief assessment of your symptoms and medical history",
+                    "A private consultation in our dedicated consultation room",
+                    "Diagnosis and treatment recommendation from a qualified pharmacist",
+                    "Supply of appropriate medication where clinically suitable",
+                    "Advice on managing your condition and when to seek further care if needed"
                 ],
-                support: "We'll also offer ongoing monthly support to help track your progress, adjust your plan, and answer any questions throughout your journey."
+                support: "If your condition does not improve or worsens after treatment, our team will advise you on the appropriate next steps, including GP referral where necessary."
             },
             whyChooseUs: {
                 title: "Why Choose Bishops Waltham Pharmacy?",
                 benefits: [
                     {
                         title: "Qualified Healthcare Professionals",
-                        detail: "Delivered by qualified healthcare professionals with weight management expertise"
+                        detail: "Delivered by qualified NHS-commissioned pharmacists with clinical consultation training"
                     },
                     {
-                        title: "Private & Non-Judgemental",
-                        detail: "Private consultation room and non-judgemental support"
+                        title: "Private & Confidential",
+                        detail: "Private consultation room — confidential, comfortable, and non-judgemental"
                     },
                     {
-                        title: "UK-Regulated Medication",
-                        detail: "Reliable access to UK-regulated weight loss medication"
+                        title: "Free NHS Service",
+                        detail: "Completely free for eligible NHS patients — no charges, no referrals"
                     },
                     {
                         title: "Convenient Local Service",
-                        detail: "Convenient local service in Bishops Waltham"
+                        detail: "Conveniently located on High Street, Bishops Waltham — no travel needed"
                     },
                     {
-                        title: "Ongoing Support",
-                        detail: "Monthly reviews and lifestyle support to help you stay motivated"
+                        title: "No Appointment Needed",
+                        detail: "Walk in during opening hours — no booking, no wait for a GP appointment"
                     }
                 ]
             },
         },
-        image: "/assets/weloss.webp",
+        image: "/assets/sp1.webp",
         images: {
-            hero: "/assets/weloss.webp",
-            main: "/assets/weloss.webp",
-            vaccines: "/wl3.webp"
+            hero: "/assets/expertCare.jpg",
+            main: "/assets/expertCare.jpg",
+            vaccines: "/assets/communityImg.jpg"
         },
         faqs: [
             {
-                q: "Are weight loss injections safe?",
-                a: "When prescribed and monitored by qualified healthcare professionals, Wegovy and Mounjaro are generally safe for eligible individuals. We conduct thorough assessments to ensure suitability."
+                q: "What is the NHS Pharmacy First service?",
+                a: "Pharmacy First is an NHS scheme that allows our qualified pharmacists to assess and treat 7 minor conditions without a GP appointment. The service is completely free for NHS patients. Conditions include ear infections, sore throat, sinusitis, UTIs, impetigo, shingles, and infected insect bites."
             },
             {
-                q: "How long does it take to see results?",
-                a: "Results vary, but many patients see noticeable weight loss within the first few months when combined with a healthy diet and exercise. Maximum results typically occur over 12-18 months."
+                q: "Do I need an appointment for Pharmacy First?",
+                a: "No — you can simply walk into Bishops Waltham Pharmacy during opening hours and ask to be seen under Pharmacy First. No referral or prior booking is required."
             },
             {
-                q: "Do I need a prescription?",
-                a: "Yes, these are prescription medications that require consultation with a healthcare provider. We'll assess your suitability during your initial consultation."
+                q: "Is Pharmacy First free?",
+                a: "Yes. The NHS Pharmacy First service is completely free for all NHS patients registered with a GP in England. There are no consultation fees or prescription charges under this scheme for eligible patients."
             },
             {
-                q: "What's the difference between Wegovy and Mounjaro?",
-                a: "Both are effective GLP-1 medications. Wegovy contains semaglutide, while Mounjaro contains tirzepatide. Our pharmacist will recommend the most suitable option based on your individual needs."
+                q: "What conditions can be treated under Pharmacy First?",
+                a: "Our pharmacists can assess and treat: sinusitis (age 12+), sore throat (age 5+), earache/otitis media (age 1–17), infected insect bites (age 1+), impetigo (age 1+), shingles (age 18+), and urinary tract infections/UTIs (women aged 16–64)."
             },
             {
-                q: "How much weight can I expect to lose?",
-                a: "Clinical studies show patients can lose up to 15-20% of their body weight. Individual results vary and depend on adherence to the treatment plan and lifestyle changes."
+                q: "What do I need to bring to a Pharmacy First consultation?",
+                a: "It helps to have your NHS number and GP practice details to hand, but these are not always required. Simply walk in and let us know you'd like to be seen under the NHS Pharmacy First service."
             }
         ]
     },
-    "vaccination-clinic": {
-        title: "Vaccination Clinic",
-        subtitle: "Evidence-based vaccinations for all ages",
-        description: "At Bishops Waltham Pharmacy, we offer a robust range of evidence-based vaccinations to keep you protected at every stage of life and through every season of the year. As your trusted pharmacy, we understand that proactive health measures, such as vaccination, are essential for long-term well-being. Our comprehensive private vaccination service is designed to provide you with a convenient and reliable way to protect yourself and your loved ones from a range of preventable diseases.",
-        content: {
-            whyChoose: {
-                title: "Why Choose Private Vaccinations at Bishops Waltham Pharmacy?",
-                intro: "While many vaccinations are available through the NHS, some individuals may miss out due to eligibility criteria or availability. Our service ensures that you have access to crucial health protection when you need it:",
-                points: [
-                    {
-                        title: "Professional Service",
-                        detail: "We provide a professional and confidential service, administered by our trained clinical pharmacist, allowing you to access these vital vaccinations at your convenience."
-                    },
-                    {
-                        title: "Accessibility",
-                        detail: "Access crucial health protection even when you fall outside NHS eligibility criteria or when NHS appointments are not readily available."
-                    },
-                    {
-                        title: "Convenience",
-                        detail: "Book your vaccination appointments at times that suit your schedule, with flexible booking options available."
-                    },
-                    {
-                        title: "Expert Care",
-                        detail: "Our trained clinical pharmacist ensures you receive the highest standard of care and professional advice tailored to your needs."
-                    }
-                ]
-            },
-            specialistVaccinations: {
-                title: "Our Specialist Immunisations Include",
-                intro: "We offer a comprehensive range of specialist vaccinations to protect you and your family:",
-                vaccines: [
-                    {
-                        title: "Shingles Vaccination",
-                        detail: "Shingles is a painful and common condition that affects a significant number of adults. The Joint Committee on Vaccination and Immunisation (JCVI) and NHS recommend vaccination for at-risk age groups. Our service provides access to the shingles vaccine to ensure you are protected, even if you fall outside of the NHS eligibility criteria. For example, 60-65 year olds are recommended to have the vaccine but fall outside NHS eligibility."
-                    },
-                    {
-                        title: "HPV Vaccination",
-                        detail: "Human papilloma virus (HPV) is the most common sexually transmitted infection in humans. For most adults, it will remain asymptomatic but in some cases it will cause genital warts and even increase your risk of genital and anal cancers. Our private HPV vaccination service is a convenient service for individuals up to the age of 45 wishing to protect themselves against the risk of this disease."
-                    },
-                    {
-                        title: "Chickenpox Vaccination",
-                        detail: "While often considered a childhood illness, chickenpox can be particularly severe in adults and can have serious complications. Our private chickenpox vaccination service is available for those who were not vaccinated as a child or who wish to protect themselves and their family members."
-                    },
-                    {
-                        title: "Pneumonia Vaccination",
-                        detail: "The pneumonia vaccine is recommended for at-risk groups, including the elderly and those with chronic health conditions, to prevent pneumococcal infections. We offer this vaccine to help safeguard your respiratory health throughout the year but pneumonia cases often spike in the winter months."
-                    },
-                    {
-                        title: "RSV Vaccination",
-                        detail: "Respiratory Syncytial Virus (RSV) is a common respiratory virus that can cause severe illness, especially in older adults and infants. Our seasonal RSV vaccination can help protect you from serious infection and its complications."
-                    }
-                ]
-            },
-            process: {
-                title: "Our Vaccination Process",
-                intro: "We ensure a smooth and professional vaccination experience:",
-                steps: [
-                    "Initial consultation to assess your vaccination needs and medical history",
-                    "Professional administration of vaccines in a safe and comfortable environment",
-                    "Post-vaccination care including monitoring and advice on potential side effects",
-                    "Follow-up guidance on when to return for booster shots or additional doses"
-                ]
-            },
-            benefits: {
-                title: "Benefits of Our Vaccination Service",
-                intro: "Choose our vaccination clinic for comprehensive health protection:",
-                points: [
-                    "Disease Prevention: Protects against serious and potentially life-threatening illnesses",
-                    "Community Health: Helps prevent outbreaks in the community through herd immunity",
-                    "Convenient Access: Easy appointments at your local pharmacy with flexible scheduling",
-                    "Professional Care: Administered by qualified healthcare professionals",
-                    "Comprehensive Range: Access to vaccines that may not be readily available through NHS"
-                ]
-            }
+"weight-loss-injections": {
+    title: "Weight Loss Injections",
+    slug: "weight-loss-injections",
+    subtitle: "Clinically Supported Weight Management Service",
+    description: "Achieve your weight loss goals with professional support from Bishops Waltham Pharmacy. Our weight loss injection service provides access to clinically approved treatments alongside expert guidance on nutrition, lifestyle changes, and long-term weight management.",
+
+    content: {
+        whyChoose: {
+            title: "Why Choose Weight Loss Injections at Bishops Waltham Pharmacy?",
+            intro: "Losing weight can be challenging, especially when diet and exercise alone have not delivered the results you need. Our professional weight management service combines clinically approved weight loss medications with expert support to help you achieve sustainable results.",
+            points: [
+                {
+                    title: "Professional Assessment",
+                    detail: "Every patient receives a comprehensive consultation to determine suitability for treatment and ensure safe prescribing."
+                },
+                {
+                    title: "Clinically Approved Treatments",
+                    detail: "Access evidence-based weight loss medications prescribed following a professional assessment."
+                },
+                {
+                    title: "Ongoing Support",
+                    detail: "Receive regular guidance and monitoring throughout your weight loss journey."
+                },
+                {
+                    title: "Convenient Local Service",
+                    detail: "Access expert weight management support from your trusted local pharmacy."
+                }
+            ]
         },
-        image: "/vaccinating.webp",
+
+        specialistVaccinations: {
+            title: "Our Weight Management Service Includes",
+            intro: "Our comprehensive service is designed to support healthy and sustainable weight loss:",
+            vaccines: [
+                {
+                    title: "Initial Consultation",
+                    detail: "A detailed assessment of your medical history, current weight, BMI, and weight loss goals to determine whether treatment is suitable for you."
+                },
+                {
+                    title: "Weight Loss Injections",
+                    detail: "Access to clinically approved prescription weight loss injections where appropriate, following professional assessment and prescribing guidelines."
+                },
+                {
+                    title: "Lifestyle Advice",
+                    detail: "Personalised advice on healthy eating, exercise, and lifestyle habits to maximise treatment effectiveness."
+                },
+                {
+                    title: "Regular Monitoring",
+                    detail: "Ongoing reviews to track your progress, discuss any concerns, and ensure treatment remains safe and effective."
+                },
+                {
+                    title: "Long-Term Weight Management",
+                    detail: "Support and guidance to help maintain results and develop healthier long-term habits."
+                }
+            ]
+        },
+
+        process: {
+            title: "Our Weight Loss Treatment Process",
+            intro: "We provide a structured and supportive approach to weight management:",
+            steps: [
+                "Comprehensive consultation and suitability assessment",
+                "Review of medical history, BMI, and weight loss goals",
+                "Professional prescribing where clinically appropriate",
+                "Regular follow-up appointments to monitor progress",
+                "Lifestyle and nutritional support throughout treatment"
+            ]
+        },
+
+        benefits: {
+            title: "Benefits of Our Weight Loss Service",
+            intro: "Our weight management programme offers a range of benefits:",
+            points: [
+                "Clinically Supported Weight Loss: Access to evidence-based treatment options",
+                "Professional Supervision: Regular monitoring by qualified healthcare professionals",
+                "Improved Health Outcomes: Weight reduction may help improve overall wellbeing",
+                "Personalised Support: Tailored advice to suit your individual needs",
+                "Convenient Local Care: Receive treatment and support close to home"
+            ]
+        }
+    },
+ image: "/vaccinating.webp",
         images: {
             hero: "/vaccinating.webp",
             main: "/assets/vacci1.webp",
             vaccines: "/assets/vacci2.webp"
         },
-        faqs: [
-            {
-                q: "Do vaccinations hurt?",
-                a: "Most vaccinations cause only mild discomfort, similar to any injection. Our trained pharmacist uses techniques to minimize any discomfort during the procedure."
-            },
-            {
-                q: "Are there side effects?",
-                a: "Common side effects include soreness at the injection site or mild fever, which usually resolve quickly. We'll discuss potential side effects specific to your vaccination during your consultation."
-            },
-            {
-                q: "Can I get multiple vaccinations at once?",
-                a: "Yes, in many cases, multiple vaccinations can be given during the same visit. Our pharmacist will advise on the best approach based on your individual needs."
-            },
-            {
-                q: "What if I'm not eligible for NHS vaccination?",
-                a: "Our private vaccination service ensures you can access important vaccines even if you fall outside NHS eligibility criteria, such as age-specific requirements."
-            },
-            {
-                q: "How do I know which vaccinations I need?",
-                a: "During your consultation, our clinical pharmacist will assess your medical history, lifestyle, and risk factors to recommend the most appropriate vaccinations for your needs."
-            }
-        ]
-    }
+
+    faqs: [
+        {
+            q: "Who is eligible for weight loss injections?",
+            a: "Eligibility depends on factors such as your BMI, medical history, and overall health. Our pharmacist will assess your suitability during a consultation."
+        },
+        {
+            q: "How much weight can I expect to lose?",
+            a: "Results vary between individuals. Weight loss injections are most effective when combined with a healthy diet, regular exercise, and lifestyle changes."
+        },
+        {
+            q: "Are weight loss injections safe?",
+            a: "Weight loss injections are prescribed only after a professional assessment and are monitored throughout treatment to ensure safety and effectiveness."
+        },
+        {
+            q: "Will I need regular appointments?",
+            a: "Yes. Follow-up appointments help monitor your progress, discuss any side effects, and ensure you are achieving the best possible results."
+        },
+        {
+            q: "Can I stop treatment once I reach my target weight?",
+            a: "Treatment plans vary depending on individual circumstances. Our pharmacist will advise on the most appropriate approach for maintaining your results."
+        }
+    ]
+}
 };
 
 export default serviceData;
