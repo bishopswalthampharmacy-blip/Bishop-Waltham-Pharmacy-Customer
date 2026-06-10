@@ -35,7 +35,7 @@ const blog = blogs.find((b) => b.id === id && b.isProd === true)
 export default async function BlogPostPage({ params }) {
   const { id } = await params
   const { blogs } = await fetchAllBlogs()
-  const blog = blogs.find((b) => b.id === id)
+  const blog = blogs.find((b) => b.id === id && b.isProd === true)
 
   if (!blog) {
     return (

@@ -15,8 +15,8 @@ const BlogSection = () => {
     const fetchBlogs = async () => {
       try {
         const data = await fetchAllBlogs();
-const blogList = data?.blogs ?? (Array.isArray(data) ? data : []);
-setBlogs(blogList.filter((blog) => blog.isProd === true));
+        const blogList = data?.blogs ?? (Array.isArray(data) ? data : []);
+        setBlogs(blogList.filter((blog) => blog.isProd === true));
       } catch (err) {
         setError(err.message || "Failed to load blogs");
       } finally {
@@ -78,11 +78,11 @@ setBlogs(blogList.filter((blog) => blog.isProd === true));
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-      className={
-  blogs.length > 4
-    ? "hidden md:flex gap-4 overflow-x-auto overflow-y-hidden pb-4 custom-scrollbar"
-    : "hidden md:grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
-}
+            className={
+              blogs.length > 4
+                ? "hidden md:flex gap-4 overflow-x-auto overflow-y-hidden pb-4 custom-scrollbar"
+                : "hidden md:grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+            }
           >
             {blogs.map((blog, index) => (
               <motion.div
@@ -141,20 +141,25 @@ setBlogs(blogList.filter((blog) => blog.isProd === true));
             ))}
           </motion.div>
 
-          {/* Mobile: always horizontal scroll */}
-          <div className="md:hidden overflow-x-auto pb-4 -mx-4 px-4">
+          {/* Mobile: hidden scrollbar + peek affordance */}
+          <div
+            className="md:hidden -mx-4 px-4"
+            style={{ overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            <style>{`.blog-mobile-scroll::-webkit-scrollbar { display: none; }`}</style>
             <motion.div
               variants={container}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="flex gap-4 w-max"
+              className="blog-mobile-scroll flex gap-4 pb-2"
+              style={{ width: "max-content" }}
             >
               {blogs.map((blog, index) => (
                 <motion.div
                   key={blog.id ?? index}
                   variants={cardVariants}
-                  className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 flex flex-col flex-shrink-0 w-72"
+                  className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 flex flex-col flex-shrink-0 w-[72vw]"
                 >
                   {blog.image ? (
                     <Image
@@ -205,20 +210,32 @@ setBlogs(blogList.filter((blog) => blog.isProd === true));
               ))}
             </motion.div>
           </div>
+
+          {/* Dot indicators for mobile */}
+          <div className="md:hidden flex justify-center gap-1.5 mt-3">
+            {blogs.map((_, i) => (
+              <span
+                key={i}
+                className={`block rounded-full transition-all ${
+                  i === 0 ? "w-4 h-1.5 bg-[#034F96]" : "w-1.5 h-1.5 bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
         </>
       )}
 
-      {/* View All Button */}
+      {/* View All Button — centered, auto width */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
         viewport={{ once: true }}
-        className="mt-6"
+        className="mt-6 flex justify-center"
       >
         <Link
           href="/blog/"
-          className="bg-[#034F96] text-white rounded-full px-6 py-3.5 flex items-center justify-center shadow-lg hover:bg-[#023d75] transition w-full cursor-pointer text-sm font-semibold"
+          className="bg-[#034F96] text-white rounded-full px-8 py-3 inline-flex items-center justify-center shadow-lg hover:bg-[#023d75] transition cursor-pointer text-sm font-semibold"
         >
           View All Articles
         </Link>

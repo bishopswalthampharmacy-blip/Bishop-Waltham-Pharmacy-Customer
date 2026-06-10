@@ -39,15 +39,20 @@ const blogs = allBlogs.filter((blog) => blog.isProd === true)
                 <Link key={blog.id} href={`/blog/${blog.id}/`}>
                   <div className="bg-[#F5F9FF] rounded-2xl p-4 shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col cursor-pointer group">
                     {/* Featured Image */}
-                    <div className="relative h-48 w-full overflow-hidden rounded-lg mb-4 bg-gray-200">
-                      <Image
-                        src={blog.image}
-                        alt={`Blog post: ${blog.title}`}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                    </div>
-
+                 <div className="relative h-48 w-full overflow-hidden rounded-lg mb-4 bg-gray-200">
+  {blog.image ? (
+    <Image
+      src={blog.image}
+      alt={`Blog post: ${blog.title}`}
+      fill
+      className="object-cover group-hover:scale-110 transition-transform duration-300"
+    />
+  ) : (
+    <div className="w-full h-full flex items-center justify-center text-gray-500">
+      No Image Available
+    </div>
+  )}
+</div>
                     {/* Content */}
                     <div className="flex flex-col flex-grow">
                       {/* Category */}
