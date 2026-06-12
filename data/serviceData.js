@@ -264,6 +264,146 @@ const serviceData = {
             }
         ]
     },
+    "vaccination-clinic": {
+    title: "Vaccination Clinic",
+    slug: "vaccination-clinic",
+    subtitle: "Trusted Local Vaccination Services for All Ages",
+    description: "Bishops Waltham Pharmacy offers a wide range of vaccinations for adults and children, including seasonal flu jabs, travel vaccines, and private vaccinations not available on the NHS. Our GPhC-registered pharmacists provide safe, convenient, and professional vaccination services close to home.",
+    content: {
+        whyChoose: {
+            title: "Why Choose Bishops Waltham Pharmacy?",
+            intro: "At Bishops Waltham Pharmacy, we make staying protected simple and convenient. Whether you need a seasonal vaccine, a travel jab, or a private vaccination not available on the NHS, our team is here to help:",
+            points: [
+                {
+                    title: "Expert Guidance",
+                    detail: "Our experienced healthcare professionals can advise on which vaccines are right for you based on your age, health history, and lifestyle."
+                },
+                {
+                    title: "Wide Range of Vaccines",
+                    detail: "From seasonal flu and travel vaccinations to private vaccines not funded by the NHS, we offer a broad selection under one roof."
+                },
+                {
+                    title: "Convenience",
+                    detail: "Located in Bishops Waltham, our clinic provides easy access to vaccinations without the need for a GP appointment."
+                },
+                {
+                    title: "Peace of Mind",
+                    detail: "Knowing you're protected against preventable illnesses allows you to get on with life, work, and travel with confidence."
+                }
+            ]
+        },
+        vaccinationTypes: {
+            title: "Vaccinations We Offer",
+            intro: "Our vaccination clinic covers a wide range of needs. Here are some of the key services available:",
+            points: [
+                {
+                    title: "Seasonal Flu Vaccination",
+                    detail: "Protect yourself against seasonal influenza with our quick and convenient flu jab service, available to eligible adults."
+                },
+                {
+                    title: "Travel Vaccinations",
+                    detail: "Vaccines for destinations worldwide, including hepatitis A and B, typhoid, and other travel-related immunisations."
+                },
+                {
+                    title: "Private Vaccinations",
+                    detail: "Access vaccines not routinely available on the NHS, such as certain travel or lifestyle-related immunisations, following a suitability assessment."
+                },
+                {
+                    title: "Catch-Up Vaccinations",
+                    detail: "If you've missed a dose or fallen behind on a vaccination schedule, our team can help you get back on track."
+                },
+                {
+                    title: "Vaccination Advice",
+                    detail: "Not sure what you need? Our pharmacists can talk you through your options and recommend the most appropriate vaccines for your circumstances."
+                }
+            ]
+        },
+        importance: {
+            title: "The Importance of Staying Vaccinated",
+            intro: "Vaccination remains one of the most effective tools for protecting individual and public health. Here's why keeping up to date matters:",
+            points: [
+                {
+                    title: "Personal Protection",
+                    detail: "Vaccines significantly reduce your risk of contracting serious and preventable illnesses, helping you stay well throughout the year."
+                },
+                {
+                    title: "Community Health",
+                    detail: "Higher vaccination rates help protect vulnerable members of the community, including those who cannot be vaccinated for medical reasons."
+                },
+                {
+                    title: "Travel & Lifestyle Requirements",
+                    detail: "Certain vaccines may be required or recommended for travel, work, or specific activities, helping you avoid disruption to your plans."
+                },
+                {
+                    title: "Reduced Pressure on Healthcare Services",
+                    detail: "Preventing illness through vaccination helps ease demand on GP surgeries and hospitals."
+                },
+                {
+                    title: "Long-Term Health Benefits",
+                    detail: "Staying up to date with vaccinations contributes to better long-term health outcomes for you and your family."
+                }
+            ]
+        },
+        whoShouldConsider: {
+            title: "Who Should Consider Our Vaccination Service?",
+            intro: "Our vaccination clinic may be suitable for a wide range of people, including:",
+            points: [
+                {
+                    title: "Adults Due for Seasonal Vaccines",
+                    detail: "Those eligible for or wanting protection against seasonal illnesses such as flu."
+                },
+                {
+                    title: "Travellers",
+                    detail: "Anyone preparing for international travel who needs destination-specific vaccinations."
+                },
+                {
+                    title: "Those Seeking Private Vaccines",
+                    detail: "Individuals who want access to vaccines not routinely funded by the NHS."
+                },
+                {
+                    title: "People Catching Up on Missed Doses",
+                    detail: "Anyone who has fallen behind on a vaccination schedule and wants to get back up to date."
+                },
+                {
+                    title: "Families",
+                    detail: "Parents seeking advice and vaccinations for older children, where clinically appropriate."
+                }
+            ]
+        },
+        visitClinic: {
+            title: "Visit Our Vaccination Clinic",
+            content: "At Bishops Waltham Pharmacy, your health and safety are our top priorities. Our experienced team is dedicated to providing safe, professional vaccination services in a clean and comfortable environment. To book a vaccination, simply get in touch with our team to check availability and discuss your needs. We'll talk you through your options, confirm suitability, and let you know about any costs before any vaccine is administered. If you have any questions, our team is always happy to help."
+        }
+    },
+     image: "/assets/sp1.webp",
+        images: {
+            hero: "/assets/expertCare.jpg",
+            main: "/assets/expertCare.jpg",
+            vaccines: "/assets/communityImg.jpg"
+        },
+    faqs: [
+        {
+            q: "What vaccinations are available at Bishops Waltham Pharmacy?",
+            a: "We offer a range of vaccinations including seasonal flu, travel vaccines, and private vaccinations not funded by the NHS. Availability may vary, so please get in touch to confirm what's currently offered."
+        },
+        {
+            q: "Do I need an appointment for a vaccination?",
+            a: "Yes, we recommend booking an appointment in advance to ensure availability and to allow time for a proper consultation before your vaccine is administered."
+        },
+        {
+            q: "Are vaccinations available for children?",
+            a: "Some vaccinations are suitable for older children, depending on the vaccine and clinical guidelines. Please contact us to confirm suitability for your child's age."
+        },
+        {
+            q: "Will I experience side effects after my vaccination?",
+            a: "Most side effects are mild and temporary, such as soreness at the injection site or slight tiredness. Our team will provide aftercare advice during your appointment."
+        },
+        {
+            q: "Can I get a private vaccine that isn't available on the NHS?",
+            a: "Yes, we offer a number of private vaccinations for conditions not covered by the NHS. Speak to our team to find out which vaccines are available and their costs."
+        }
+    ]
+},
     // Add more services here as needed
     "pharmacy-first": {
         title: "Pharmacy First",

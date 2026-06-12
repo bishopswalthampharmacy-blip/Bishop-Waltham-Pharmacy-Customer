@@ -14,12 +14,12 @@ const weightLossCards = [
     image: "/w2travelClinic.webp",
     link: "/travel-clinic",
   },
-  {
-    title: "NHS Pharmacy First Service",
-    subheading: "No need to wait weeks for a GP appointment.",
-    desc: "Under the NHS Pharmacy First scheme, our trained pharmacists can assess and treat 7 common conditions — including ear infections, sore throat, sinusitis, UTIs, impetigo, infected insect bites and shingles — at no cost to NHS patients. Just walk in.",
-    image: "/assets/communityImg.jpg",
-    link: "/pharmacy-first",
+   {
+    title: "Vaccination Clinic",
+    subheading: "Trusted local vaccination services for all ages.",
+    desc: "From seasonal flu jabs to private vaccinations not available on the NHS, our GPhC-registered pharmacists offer safe, professional vaccinations close to home. Catch up on missed doses or get advice on which vaccines are right for you.",
+      image: "/assets/communityImg.jpg",
+    link: "/vaccination-clinic",
   },
   {
     title: "Weight Loss Injections",
