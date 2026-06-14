@@ -767,7 +767,7 @@ export default function ServiceInfo({ service }) {
                                         "Weight Loss Injections":
                                             "/our-services/weight-loss-injections",
                                         "Travel Clinic": "/our-services/travel-clinic",
-                                        "Ear Wax Removal": "/our-services/ear-microsuction",
+                                        "Ear Wax Removal": "/our-services/ear-wax-removal",
                                         "Vaccination Clinic": "/our-services/vaccination-clinic",
                                     };
 
