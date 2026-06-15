@@ -94,7 +94,7 @@ export default function VaccinationComponent() {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-5 mb-5 font-instrument">
         {/* Featured card (Explore All) - spans 6 columns */}
         <div className="md:col-span-12">
-          <Link href="/vaccines" className="block">
+        <Link href="/vaccines?filterType=vaccination" className="block">
             <motion.div
               className="rounded-xl overflow-hidden relative h-[240px] font-instrument cursor-pointer w-full"
               style={{

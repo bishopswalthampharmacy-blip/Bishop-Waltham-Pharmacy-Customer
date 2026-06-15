@@ -51,13 +51,15 @@ const resolveCategory = (requested, vaccineList) => {
 };
 
 const buildVaccinationOnlyList = (vaccineList) => {
-  const merged = VACCINATION_MERGE_KEYS.flatMap((k) => vaccineList[k] ?? []);
+  const merged = Object.values(vaccineList)
+    .flat()
+    .filter((v) => v.serviceType === "Vaccination" || !v.serviceType);
+
   return {
     list: { "All Vaccines": merged },
     categories: [{ value: "All Vaccines", label: "All Vaccines" }],
   };
 };
-
 const buildFullList = (vaccineList, requestedCategory) => {
   const showHidden =
     requestedCategory &&
