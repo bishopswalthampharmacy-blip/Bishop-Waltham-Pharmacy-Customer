@@ -139,7 +139,7 @@ const BlogSection = () => {
                 variants={cardVariants}
               >
                 <Link
-                  href={`/blog/${blog.id}/`}
+                  href={`/blog/post/?id=${blog.id}`}
                   className={
                     blogs.length > 4
                       ? "block flex-shrink-0 w-80 h-full"
@@ -172,7 +172,7 @@ const BlogSection = () => {
                   variants={cardVariants}
                   className="flex-shrink-0 w-[80vw]"
                 >
-                  <Link href={`/blog/${blog.id}/`} className="block h-full">
+                  <Link href={`/blog/post/?id=${blog.id}`} className="block h-full">
                     <BlogCard blog={blog} />
                   </Link>
                 </motion.div>
