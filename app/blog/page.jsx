@@ -1,18 +1,29 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { fetchAllBlogs } from "@/lib/utils";
-import BlogSection from "@/components/BlogSection";
+import { useEffect, useState } from "react";
 
-export const metadata = {
-  title: "Blog - Bishops Waltham Pharmacy",
-  description:
-    "Read our latest blog posts on travel health, ear care, weight loss, vaccinations, and other pharmacy-related health topics.",
-  robots: "index, follow",
-};
+export default function BlogPage() {
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-export default async function BlogPage() {
-  const { blogs: allBlogs } = await fetchAllBlogs();
-  const blogs = allBlogs.filter((blog) => blog.isProd === true);
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await fetchAllBlogs();
+        const blogList = data?.blogs ?? (Array.isArray(data) ? data : []);
+        setBlogs(blogList.filter((blog) => blog.isProd === true));
+      } catch (err) {
+        setError(err.message || "Failed to load blogs");
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
 
   return (
     <main className="min-h-screen bg-white">
@@ -32,13 +43,25 @@ export default async function BlogPage() {
       {/* Blog Grid */}
       <section className="py-16 lg:px-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          {blogs.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">
-                No blogs found. Check back soon!
-              </p>
+          {loading && (
+            <div className="flex justify-center items-center min-h-[420px]">
+              <div className="w-8 h-8 border-4 border-[#5BB9EC] border-t-transparent rounded-full animate-spin" />
             </div>
-          ) : (
+          )}
+
+          {error && (
+            <div className="text-center py-20 text-red-500 text-sm">
+              Failed to load blogs: {error}
+            </div>
+          )}
+
+          {!loading && !error && blogs.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-gray-500 text-lg">No blogs found. Check back soon!</p>
+            </div>
+          )}
+
+          {!loading && !error && blogs.length > 0 && (
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {blogs.map((blog) => (
                 <Link key={blog.id} href={`/blog/post/?id=${blog.id}`}>
@@ -58,26 +81,20 @@ export default async function BlogPage() {
                         </div>
                       )}
                     </div>
+
                     {/* Content */}
                     <div className="flex flex-col flex-grow">
-                      {/* Category */}
                       <div className="mb-2">
                         <span className="inline-block bg-[#E8F4FF] text-[#037F91] text-xs font-semibold px-3 py-1 rounded-full">
                           {blog.category}
                         </span>
                       </div>
-
-                      {/* Title */}
                       <h2 className="text-lg font-bold text-[#037F91] mb-2 line-clamp-2 group-hover:text-[#025F6E] transition">
                         {blog.title}
                       </h2>
-
-                      {/* Excerpt */}
                       <p className="text-gray-600 text-sm mb-3 flex-grow line-clamp-2">
                         {blog.excerpt}
                       </p>
-
-                      {/* Read More */}
                       <div className="mt-auto pt-3 border-t border-blue-200">
                         <span className="text-[#037F91] font-semibold text-xs group-hover:text-[#025F6E] transition inline-flex items-center gap-1">
                           Read More →
