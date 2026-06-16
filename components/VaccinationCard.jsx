@@ -7,7 +7,7 @@ import Link from "next/link"
 
 export default function VaccinationCard({ vaccine, isHovered, onHoverStart, onHoverEnd }) {
   return (
-    <Link href="/vaccines">
+  <Link href="/vaccines?filterType=vaccination" className="block">
       <motion.div
         className={`bg-[${
           vaccine.featured

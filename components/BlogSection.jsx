@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchAllBlogs } from "@/lib/utils";
 
 const BlogSection = () => {
@@ -11,12 +11,11 @@ const BlogSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-useEffect(() => {
+ useEffect(() => {
   const fetchBlogs = async () => {
     try {
       const data = await fetchAllBlogs();
       const blogList = data?.blogs ?? (Array.isArray(data) ? data : []);
-
       setBlogs(blogList);
     } catch (err) {
       setError(err.message || "Failed to load blogs");
@@ -27,7 +26,6 @@ useEffect(() => {
 
   fetchBlogs();
 }, []);
-
 
 
   const cardVariants = {
@@ -43,6 +41,55 @@ useEffect(() => {
       },
     },
   };
+
+  // Shared card content (matches the /blog page card design)
+  const BlogCard = ({ blog }) => (
+    <div className="bg-[#F5F9FF] rounded-2xl p-4 shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col cursor-pointer group">
+      {/* Featured Image */}
+      <div className="relative h-48 w-full overflow-hidden rounded-lg mb-4 bg-gray-200">
+        {blog.image ? (
+          <Image
+            src={blog.image}
+            alt={`Blog post: ${blog.title}`}
+            fill
+            sizes="(max-width: 768px) 80vw, (max-width: 1024px) 45vw, 25vw"
+            className="object-cover group-hover:scale-110 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-500 text-sm">
+            No Image Available
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col flex-grow">
+        {/* Category */}
+        <div className="mb-2">
+          <span className="inline-block bg-[#E8F4FF] text-[#037F91] text-xs font-semibold px-3 py-1 rounded-full">
+            {blog.category}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h3 className="text-lg font-bold text-[#037F91] mb-2 line-clamp-2 group-hover:text-[#025F6E] transition">
+          {blog.title}
+        </h3>
+
+        {/* Excerpt */}
+        <p className="text-gray-600 text-sm mb-3 flex-grow line-clamp-2">
+          {blog.excerpt}
+        </p>
+
+        {/* Read More */}
+        <div className="mt-auto pt-3 border-t border-blue-200">
+          <span className="text-[#037F91] font-semibold text-xs group-hover:text-[#025F6E] transition inline-flex items-center gap-1">
+            Read More →
+          </span>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="bg-white py-12 px-4 sm:px-6 lg:px-20">
@@ -91,55 +138,17 @@ useEffect(() => {
               <motion.div
                 key={blog.id ?? index}
                 variants={cardVariants}
-                className={`group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 flex flex-col ${
-                  blogs.length > 4 ? "flex-shrink-0 w-72" : ""
-                }`}
               >
-                {blog.image ? (
-                  <Image
-                    src={blog.image}
-                    alt={`Blog post: ${blog.title}`}
-                    width={500}
-                    height={300}
-                    className="w-full h-36 object-cover rounded-lg mb-1.5"
-                  />
-                ) : (
-                  <div className="w-full h-36 bg-gray-200 rounded-lg mb-1.5 flex items-center justify-center text-gray-400 text-xs">
-                    No image
-                  </div>
-                )}
-
-                <p className="text-xs text-gray-500 mb-1 line-clamp-1">
-                  {blog.category}
-                </p>
-
-                <h3
-                  className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2"
-                  title={blog.title}
+                <Link
+                  href={`/blog/post/?id=${blog.id}`}
+                  className={
+                    blogs.length > 4
+                      ? "block flex-shrink-0 w-80 h-full"
+                      : "block h-full"
+                  }
                 >
-                  {blog.title}
-                </h3>
-
-                <p
-                  style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 5,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                  className="text-[12px] text-gray-600 mb-1 mt-1 text-justify"
-                >
-                  {blog.excerpt}
-                </p>
-
-                <div className="pt-1">
-                  <Link
-                    href={`/blog/${blog.id}/`}
-                    className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
-                  >
-                    Read More
-                  </Link>
-                </div>
+                  <BlogCard blog={blog} />
+                </Link>
               </motion.div>
             ))}
           </motion.div>
@@ -162,53 +171,11 @@ useEffect(() => {
                 <motion.div
                   key={blog.id ?? index}
                   variants={cardVariants}
-                  className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 flex flex-col flex-shrink-0 w-[72vw]"
+                  className="group bg-[#F5F9FF] rounded-2xl p-2.5 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 flex flex-col flex-shrink-0 w-72"
                 >
-                  {blog.image ? (
-                    <Image
-                      src={blog.image}
-                      alt={`Blog post: ${blog.title}`}
-                      width={500}
-                      height={300}
-                      className="w-full h-36 object-cover rounded-lg mb-1.5"
-                    />
-                  ) : (
-                    <div className="w-full h-36 bg-gray-200 rounded-lg mb-1.5 flex items-center justify-center text-gray-400 text-xs">
-                      No image
-                    </div>
-                  )}
-
-                  <p className="text-xs text-gray-500 mb-1 line-clamp-1">
-                    {blog.category}
-                  </p>
-
-                  <h3
-                    className="text-xs font-semibold text-[#034F96] mb-0.5 line-clamp-2"
-                    title={blog.title}
-                  >
-                    {blog.title}
-                  </h3>
-
-                  <p
-                    style={{
-                      display: "-webkit-box",
-                      WebkitLineClamp: 5,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                    }}
-                    className="text-[12px] text-gray-600 mb-1 mt-1 text-justify"
-                  >
-                    {blog.excerpt}
-                  </p>
-
-                  <div className="pt-1">
-                    <Link
-                      href={`/blog/${blog.id}/`}
-                      className="bg-white text-black rounded-full px-1.5 py-1 flex items-center justify-center shadow hover:bg-gray-100 transition w-full cursor-pointer whitespace-nowrap text-[11px] font-semibold"
-                    >
-                      Read More
-                    </Link>
-                  </div>
+                  <Link href={`/blog/post/?id=${blog.id}`} className="block h-full">
+                    <BlogCard blog={blog} />
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>
@@ -219,9 +186,8 @@ useEffect(() => {
             {blogs.map((_, i) => (
               <span
                 key={i}
-                className={`block rounded-full transition-all ${
-                  i === 0 ? "w-4 h-1.5 bg-[#034F96]" : "w-1.5 h-1.5 bg-gray-300"
-                }`}
+                className={`block rounded-full transition-all ${i === 0 ? "w-4 h-1.5 bg-[#034F96]" : "w-1.5 h-1.5 bg-gray-300"
+                  }`}
               />
             ))}
           </div>

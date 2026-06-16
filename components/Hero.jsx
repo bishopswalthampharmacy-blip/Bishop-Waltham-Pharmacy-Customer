@@ -152,7 +152,7 @@ const Hero = ({ onHeroLoaded }) => {
                   className="bg-white text-black rounded-full px-3 py-2 flex items-center shadow hover:bg-gray-100 transition w-fit cursor-pointer"
                 >
                   <span className="pl-3 pr-4 text-sm font-semibold">
-                    Book a Vaccination
+                    Book an Appointment
                   </span>
                   <span className="bg-[#8DBBFF] p-1.5 rounded-full flex items-center justify-center">
                     <ArrowRight size={14} className="text-white" />

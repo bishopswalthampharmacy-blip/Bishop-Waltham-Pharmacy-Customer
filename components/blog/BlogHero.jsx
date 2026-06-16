@@ -1,49 +1,62 @@
-import Image from "next/image";
+"use client"
+
+import Image from "next/image"
+import Link from "next/link"
 
 export default function BlogHero({ blog }) {
-  const heroImage =
-    blog?.images?.hero?.trim?.() ||
-    blog?.image?.trim?.() ||
-    null;
-
   return (
-    <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+    <section className="relative bg-gradient-to-r from-[#037F91] to-[#025F6E] text-white py-12 md:py-20 lg:px-20 px-4 sm:px-6">
       {/* Background Image Overlay */}
       <div className="absolute inset-0 z-0">
-        {heroImage ? (
-          <Image
-            src={heroImage}
-            alt={`Hero image for ${blog?.title || "Blog Post"}`}
-            fill
-            priority
-            className="object-cover"
-          />
-        ) : (
-          <div className="w-full h-full bg-gray-300" />
-        )}
-
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/50" />
+        <Image
+          src={blog.images?.hero || blog.image}
+          alt={`Hero image for ${blog.title}`}
+          fill
+          className="object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#037F91] to-[#025F6E]"></div>
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-        {blog?.category && (
-          <span className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-4">
+      <div className="relative z-10 max-w-6xl mx-auto">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 mb-6 text-blue-100 text-sm">
+          <Link href="/" className="hover:text-white transition">Home</Link>
+          <span>/</span>
+          <Link href="/blog/" className="hover:text-white transition">Blog</Link>
+          <span>/</span>
+          <span className="text-white truncate">{blog.title}</span>
+        </div>
+
+        {/* Category Badge */}
+        <div className="mb-4">
+          <span className="inline-block bg-white/20 backdrop-blur-sm text-blue-100 text-xs font-semibold px-4 py-1 rounded-full border border-white/30">
             {blog.category}
           </span>
-        )}
+        </div>
 
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-          {blog?.title}
+        {/* Title */}
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+          {blog.title}
         </h1>
 
-        {blog?.description && (
-          <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            {blog.description}
-          </p>
-        )}
+        {/* Meta Information */}
+        <div className="flex flex-wrap gap-4 text-blue-100 text-sm">
+          <span>By {blog.author}</span>
+          {blog.publishedDate && (
+            <>
+              <span>•</span>
+              <span>{new Date(blog.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            </>
+          )}
+          {blog.updatedDate && blog.updatedDate !== blog.publishedDate && (
+            <>
+              <span>•</span>
+              <span>Updated: {new Date(blog.updatedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            </>
+          )}
+        </div>
       </div>
     </section>
-  );
+  )
 }

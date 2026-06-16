@@ -1,6 +1,8 @@
-import Link from "next/link";
-import Image from "next/image";
-import { fetchAllBlogs } from "@/lib/utils";
+import Link from "next/link"
+import Image from "next/image"
+import { fetchAllBlogs } from "@/lib/utils"
+import BlogSection from "@/components/BlogSection"
+
 
 export const metadata = {
   title: "Blog - Bishops Waltham Pharmacy",
@@ -10,8 +12,8 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-  const { blogs: allBlogs } = await fetchAllBlogs();
-  const blogs = allBlogs || [];
+const { blogs: allBlogs } = await fetchAllBlogs()
+// const blogs = allBlogs.filter((blog) => blog.isProd === true) 
 
   return (
     <main className="min-h-screen bg-white">
@@ -40,24 +42,17 @@ export default async function BlogPage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {blogs.map((blog) => (
-                <Link key={blog.id} href={`/blog/${blog.id}/`}>
+                <Link key={blog.id} href={`/blog/post/?id=${blog.id}`}>
                   <div className="bg-[#F5F9FF] rounded-2xl p-4 shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col cursor-pointer group">
                     {/* Featured Image */}
                     <div className="relative h-48 w-full overflow-hidden rounded-lg mb-4 bg-gray-200">
-                      {blog.image ? (
-                        <Image
-                          src={blog.image}
-                          alt={`Blog post: ${blog.title || "Blog"}`}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-500 text-sm">
-                          No Image Available
-                        </div>
-                      )}
+                      <Image
+                        src={blog.image}
+                        alt={`Blog post: ${blog.title}`}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
                     </div>
-
                     {/* Content */}
                     <div className="flex flex-col flex-grow">
                       {/* Category */}
