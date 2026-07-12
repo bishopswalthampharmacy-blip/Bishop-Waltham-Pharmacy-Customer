@@ -84,35 +84,35 @@ const blogData = {
 
   "3": {
     id: "3",
-    title: "Weight Loss Injections: How They Work & Effectiveness",
-    excerpt: "Discover how weight loss injections like Wegovy and Mounjaro work, their effectiveness, and whether they're right for you.",
-    description: "Comprehensive guide to weight loss injections. Learn about Wegovy, Mounjaro, how they work, and their effectiveness in weight management.",
+    title: "Weight Loss Treatment: How They Work & Effectiveness",
+    excerpt: "Discover how weight loss treatments like Wegovy and Mounjaro work, their effectiveness, and whether they're right for you.",
+    description: "Comprehensive guide to weight loss treatments. Learn about Wegovy, Mounjaro, how they work, and their effectiveness in weight management.",
     author: "Bishops Waltham Pharmacy",
     category: "Weight Management",
     image: "/wl3.webp",
     content: {
       introduction: {
         title: "Modern Weight Loss Solutions",
-        text: "Weight loss injections have revolutionized weight management for many people. Learn how these innovative treatments work and whether they might be suitable for your health goals."
+        text: "Weight loss treatments have revolutionized weight management for many people. Learn how these innovative treatments work and whether they might be suitable for your health goals."
       },
       sections: [
         {
-          title: "How Weight Loss Injections Work",
+          title: "How Weight Loss Treatments Work",
           text: "These injectable medications work by mimicking a hormone that regulates appetite and blood sugar. They help you feel fuller for longer, reduce cravings, and make it easier to maintain a healthy diet. When combined with exercise and lifestyle changes, they can lead to significant and sustainable weight loss."
         },
         {
           title: "Key Benefits",
-          text: "Weight loss injections offer significant weight loss results for many patients. They also reduce appetite and cravings, improve blood sugar control, provide convenient weekly dosing, and come with professional medical support throughout your treatment journey. Our pharmacy team monitors your progress and adjusts treatment as needed."
+          text: "Weight loss treatments offer significant weight loss results for many patients. They also reduce appetite and cravings, improve blood sugar control, provide convenient weekly dosing, and come with professional medical support throughout your treatment journey. Our pharmacy team monitors your progress and adjusts treatment as needed."
         },
         {
           title: "Is It Right for You?",
-          text: "Weight loss injections are most effective for people who have struggled with traditional diet and exercise approaches. Our pharmacists will conduct a thorough assessment to determine if this treatment is appropriate for your individual circumstances and health goals."
+          text: "Weight loss treatments are most effective for people who have struggled with traditional diet and exercise approaches. Our pharmacists will conduct a thorough assessment to determine if this treatment is appropriate for your individual circumstances and health goals."
         }
       ]
     },
     cta: {
       title: "Explore Weight Loss Options",
-      text: "Our pharmacy team can assess your needs and discuss whether weight loss injections are suitable for you. Book a consultation to learn more.",
+      text: "Our pharmacy team can assess your needs and discuss whether weight loss treatments are suitable for you. Book a consultation to learn more.",
       buttonText: "Book Consultation",
       buttonLink: "/booking/"
     }

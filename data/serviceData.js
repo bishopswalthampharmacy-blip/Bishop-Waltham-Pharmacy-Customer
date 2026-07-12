@@ -189,9 +189,9 @@ const serviceData = {
         ]
     },
     // Add more services here as needed
-    "weight-loss-injections": {
-        title: "Weight Loss Injections",
-        subtitle: "Wegovy & Mounjaro - Private Weight Loss Injections",
+    "weight-loss-treatment": {
+        title: "Weight Loss Treatment",
+        subtitle: "Wegovy & Mounjaro - Private Weight Loss Treatment",
         description: "Bishops Waltham Pharmacy now offers a trusted and clinically approved weight loss service using GLP-1 medications such as Wegovy (semaglutide) and Mounjaro (tirzepatide). These treatments are designed for adults struggling with obesity or weight-related health issues and work by regulating appetite and blood sugar levels.",
         content: {
             howItWorks: {
@@ -282,7 +282,7 @@ const serviceData = {
         },
         faqs: [
             {
-                q: "Are weight loss injections safe?",
+                q: "Are weight loss treatments safe?",
                 a: "When prescribed and monitored by qualified healthcare professionals, Wegovy and Mounjaro are generally safe for eligible individuals. We conduct thorough assessments to ensure suitability."
             },
             {

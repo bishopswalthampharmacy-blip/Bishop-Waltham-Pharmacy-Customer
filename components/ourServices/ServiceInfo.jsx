@@ -758,14 +758,14 @@ export default function ServiceInfo({ service }) {
                             </h3>
                             <ul className="space-y-2 lg:space-y-3">
                                 {[
-                                    "Weight Loss Injections",
+                                    "Weight Loss Treatment",
                                     "Travel Clinic",
                                     "Ear Wax Removal",
                                     "Vaccination Clinic",
                                 ].map((serviceName, index) => {
                                     const serviceLinks = {
-                                        "Weight Loss Injections":
-                                            "/our-services/weight-loss-injections",
+                                        "Weight Loss Treatment":
+                                            "/our-services/weight-loss-treatment",
                                         "Travel Clinic": "/our-services/travel-clinic",
                                         "Ear Wax Removal": "/our-services/ear-wax-removal",
                                         "Vaccination Clinic": "/our-services/vaccination-clinic",

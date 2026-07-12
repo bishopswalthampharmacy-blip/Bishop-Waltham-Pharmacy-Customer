@@ -8,11 +8,11 @@ import { useRef } from "react";
 
 const weightLossCards = [
   {
-    title: "Weight loss injections",
-    subheading: "Wegovy & Mounjaro - Private Weight Loss Injections",
+    title: "Weight loss treatment",
+    subheading: "Wegovy & Mounjaro - Private Weight Loss Treatment",
     desc: "Weekly or daily injectable pens that help reduce hunger and keep you fuller for longer. Proven to support significant weight loss when combined with a healthy diet and exercise.",
     image: "/wl3.webp",
-    link: "/our-services/weight-loss-injections",
+    link: "/our-services/weight-loss-treatment",
   },
   {
     title: "Travel Clinic",

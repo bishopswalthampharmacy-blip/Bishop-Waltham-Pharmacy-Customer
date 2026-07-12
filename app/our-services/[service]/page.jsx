@@ -6,7 +6,7 @@ export async function generateStaticParams() {
     return [
         { service: 'ear-wax-removal' },
         { service: 'travel-clinic' },
-        { service: 'weight-loss-injections' },
+        { service: 'weight-loss-treatment' },
         { service: 'vaccination-clinic' },
     ]
 }

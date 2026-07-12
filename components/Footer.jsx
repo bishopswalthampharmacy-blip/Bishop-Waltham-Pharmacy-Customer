@@ -733,7 +733,7 @@ export default function Footer() {
                     </li>
                     <li>
                       <Link
-                        href="/our-services/weight-loss-injections/"
+                        href="/our-services/weight-loss-treatment/"
                         className="text-gray-500 hover:text-[#3498db] text-sm group flex items-center"
                       >
                         <span className="relative overflow-hidden pr-1">
