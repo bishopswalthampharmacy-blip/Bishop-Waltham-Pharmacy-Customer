@@ -85,8 +85,8 @@ const blogData = {
   "3": {
     id: "3",
     title: "Weight Loss Treatment: How They Work & Effectiveness",
-    excerpt: "Discover how weight loss treatments like Wegovy and Mounjaro work, their effectiveness, and whether they're right for you.",
-    description: "Comprehensive guide to weight loss treatments. Learn about Wegovy, Mounjaro, how they work, and their effectiveness in weight management.",
+    excerpt: "Discover how weight loss treatments work, their effectiveness, and whether they're right for you.",
+    description: "Comprehensive guide to weight loss treatments. Learn how they work and their effectiveness in weight management.",
     author: "Bishops Waltham Pharmacy",
     category: "Weight Management",
     image: "/wl3.webp",

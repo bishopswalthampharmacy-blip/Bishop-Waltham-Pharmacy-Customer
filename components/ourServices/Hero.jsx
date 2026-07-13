@@ -224,11 +224,21 @@ export default function Hero({ service }) {
                                     />
                                 </div>
                                 <h3 className="text-lg font-bold text-[#0B5C64] mb-4 font-average">
-                                    Why Choose Our {service?.title}?
+                                    {service?.heroWhyChoose?.title || `Why Choose Our ${service?.title}?`}
                                 </h3>
-                                <p className="text-gray-700 mb-6 leading-relaxed font-average text-base">
-                                    {service?.description?.substring(0, 150)}...
-                                </p>
+                                {service?.heroWhyChoose ? (
+                                    <div className="mb-6 space-y-3">
+                                        {service.heroWhyChoose.paragraphs.map((paragraph, idx) => (
+                                            <p key={idx} className="text-gray-700 leading-relaxed font-average text-base">
+                                                {paragraph}
+                                            </p>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-gray-700 mb-6 leading-relaxed font-average text-base">
+                                        {service?.description?.substring(0, 150)}...
+                                    </p>
+                                )}
                                 <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-[#037F91] font-medium flex-wrap">
                                     <span className="flex items-center gap-1">
                                         <Clock className="w-3 h-3 sm:w-4 sm:h-4" />

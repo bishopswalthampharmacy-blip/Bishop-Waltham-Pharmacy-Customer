@@ -412,29 +412,31 @@ export default function ServiceInfo({ service }) {
                                         )}
 
                                         {/* How Medications Work */}
-                                        <motion.div
-                                            variants={itemVariants}
-                                            className="bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8"
-                                        >
-                                            <h3 className="text-xl md:text-2xl font-bold text-[#0B5C64] mb-4 font-average">
-                                                {service.content.howMedicationsWork.title}
-                                            </h3>
-                                            <p className="text-gray-700 leading-relaxed mb-6 font-average">
-                                                {service.content.howMedicationsWork.intro}
-                                            </p>
-                                            <ul className="space-y-3">
-                                                {service.content.howMedicationsWork.points.map(
-                                                    (point, idx) => (
-                                                        <li key={idx} className="flex items-start gap-3">
-                                                            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
-                                                            <span className="text-gray-700 font-average">
-                                                                {point}
-                                                            </span>
-                                                        </li>
-                                                    )
-                                                )}
-                                            </ul>
-                                        </motion.div>
+                                        {service.content.howMedicationsWork && (
+                                            <motion.div
+                                                variants={itemVariants}
+                                                className="bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8"
+                                            >
+                                                <h3 className="text-xl md:text-2xl font-bold text-[#0B5C64] mb-4 font-average">
+                                                    {service.content.howMedicationsWork.title}
+                                                </h3>
+                                                <p className="text-gray-700 leading-relaxed mb-6 font-average">
+                                                    {service.content.howMedicationsWork.intro}
+                                                </p>
+                                                <ul className="space-y-3">
+                                                    {service.content.howMedicationsWork.points.map(
+                                                        (point, idx) => (
+                                                            <li key={idx} className="flex items-start gap-3">
+                                                                <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
+                                                                <span className="text-gray-700 font-average">
+                                                                    {point}
+                                                                </span>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                </ul>
+                                            </motion.div>
+                                        )}
 
                                         {/* Who Is This For */}
                                         <motion.div
@@ -487,35 +489,37 @@ export default function ServiceInfo({ service }) {
                                         </motion.div>
 
                                         {/* Appointment Process */}
-                                        <motion.div
-                                            variants={itemVariants}
-                                            className="bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8"
-                                        >
-                                            <h3 className="text-xl md:text-2xl font-bold text-[#0B5C64] mb-4 font-average">
-                                                {service.content.appointmentProcess.title}
-                                            </h3>
-                                            <p className="text-gray-700 leading-relaxed mb-6 font-average">
-                                                {service.content.appointmentProcess.intro}
-                                            </p>
-                                            <ul className="space-y-3 mb-6">
-                                                {service.content.appointmentProcess.process.map(
-                                                    (step, idx) => (
-                                                        <li key={idx} className="flex items-start gap-3">
-                                                            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
-                                                            <span className="text-gray-700 font-average">
-                                                                {step}
-                                                            </span>
-                                                        </li>
-                                                    )
-                                                )}
-                                            </ul>
-                                            <div className="p-4 rounded-lg bg-green-50 border border-green-200">
-                                                <p className="text-green-800 font-average">
-                                                    <strong>Ongoing Support:</strong>{" "}
-                                                    {service.content.appointmentProcess.support}
+                                        {service.content.appointmentProcess && (
+                                            <motion.div
+                                                variants={itemVariants}
+                                                className="bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8"
+                                            >
+                                                <h3 className="text-xl md:text-2xl font-bold text-[#0B5C64] mb-4 font-average">
+                                                    {service.content.appointmentProcess.title}
+                                                </h3>
+                                                <p className="text-gray-700 leading-relaxed mb-6 font-average">
+                                                    {service.content.appointmentProcess.intro}
                                                 </p>
-                                            </div>
-                                        </motion.div>
+                                                <ul className="space-y-3 mb-6">
+                                                    {service.content.appointmentProcess.process.map(
+                                                        (step, idx) => (
+                                                            <li key={idx} className="flex items-start gap-3">
+                                                                <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
+                                                                <span className="text-gray-700 font-average">
+                                                                    {step}
+                                                                </span>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                </ul>
+                                                <div className="p-4 rounded-lg bg-green-50 border border-green-200">
+                                                    <p className="text-green-800 font-average">
+                                                        <strong>Ongoing Support:</strong>{" "}
+                                                        {service.content.appointmentProcess.support}
+                                                    </p>
+                                                </div>
+                                            </motion.div>
+                                        )}
 
                                         {/* Why Choose Us - Weight Loss */}
                                         <motion.div
