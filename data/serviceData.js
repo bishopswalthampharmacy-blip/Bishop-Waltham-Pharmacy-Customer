@@ -191,8 +191,9 @@ const serviceData = {
     // Add more services here as needed
     "weight-loss-injections": {
         title: "Weight Loss Injections",
-        subtitle: "Wegovy & Mounjaro - Private Weight Loss Injections",
-        description: "Bishops Waltham Pharmacy now offers a trusted and clinically approved weight loss service using GLP-1 medications such as Wegovy (semaglutide) and Mounjaro (tirzepatide). These treatments are designed for adults struggling with obesity or weight-related health issues and work by regulating appetite and blood sugar levels.",
+        subtitle: "Private Weight Loss Injections",
+        description: "Get-ChildItem -Recurse -Include *.js,*.jsx,*.mjs | Select-String -Pattern "clinically approved weight loss service"
+        ",
         content: {
             howItWorks: {
                 title: "How It Works?",
