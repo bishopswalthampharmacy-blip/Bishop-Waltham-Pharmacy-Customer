@@ -197,21 +197,27 @@ const serviceData = {
         content: {
             howItWorks: {
                 title: "How It Works?",
-                content: "Our weight loss service begins with a private consultation with one of our trained pharmacists, where we assess your suitability for either Wegovy (semaglutide) or Mounjaro (tirzepatide). If you're eligible, you'll receive guidance on how to administer the weekly injections safely at home. These treatments work by mimicking natural hormones that regulate appetite and blood sugar levels, helping you feel fuller for longer and reducing calorie intake. Throughout your journey, we provide ongoing support and regular reviews to monitor your progress and ensure the treatment is both safe and effective."
+                content: "Your weight management journey begins with a private consultation with one of our trained pharmacists to assess your medical history and determine whether treatment is clinically appropriate. If suitable, you'll receive guidance on how to use your treatment safely at home, along with advice on healthy lifestyle changes to support your weight management goals. Throughout your treatment, we provide regular reviews and ongoing clinical support to help monitor your progress and ensure your treatment remains appropriate"
             },
             whyItMatters: {
                 title: "Why It Matters?",
-                content: "Obesity is linked to serious health risks, including heart disease, diabetes, and reduced quality of life. For those who struggle to lose weight through diet and exercise alone, medically-supervised treatment can be life-changing. Wegovy and Mounjaro are two of the most powerful weight loss tools currently available in the UK, helping patients lose up to 15-20% of their body weight."
+                content: "Maintaining a healthy weight can reduce the risk of a range of long-term health conditions, including heart
+disease, type 2 diabetes, high blood pressure, and joint problems. For people who have found it difficult to
+achieve lasting results through diet and exercise alone, medically supervised weight management can
+provide valuable support.
+Our pharmacy offers a clinically guided programme designed to help you achieve sustainable weight loss
+safely and effectively."
             },
             whatWeOffer: {
                 title: "What We Offer",
-                intro: "Our weight loss programme includes:",
+                intro: "Our weight management service includes:",
                 services: [
-                    "Prescription injectable medication such as Wegovy (semaglutide) or Mounjaro (tirzepatide)",
-                    "1-to-1 lifestyle and dietary consultations with a trained pharmacist",
-                    "Training on how to use injectable pens confidently and safely",
-                    "Free needle tips with every prescription",
-                    "Sharps bin provided for safe needle disposal"
+                    "A private clinical assessment to determine your suitability for treatment",
+                    "Access to weight-loss treatment, where clinically appropriate",
+                    "One-to-one lifestyle and dietary advice from a trained pharmacist",
+                    "Guidance on the safe and correct use of treatment, where prescribed",
+                    "Regular follow-up reviews and ongoing clinical support",
+                    "Safe disposal advice and a sharps bin, where applicable"
                 ],
             },
             howMedicationsWork: {
@@ -239,15 +245,15 @@ const serviceData = {
             },
             appointmentProcess: {
                 title: "What Does the Appointment Involve?",
-                intro: "Your initial consultation is designed to be supportive, private, and free from judgement. It includes:",
+                intro: "Your initial consultation is private, supportive, and tailored to your individual needs. During the appointment, we will:",
                 process: [
-                    "A full health and lifestyle assessment",
-                    "Measurement of weight, height, and BMI",
-                    "Discussion of the most appropriate treatment options (e.g. Wegovy, Mounjaro)",
-                    "Goal setting and a tailored weight loss plan",
-                    "Hands-on training to ensure you're comfortable using the injectable pens"
+                    " Review your medical history, health, and lifestyle",
+                    " Measure your weight, height, and BMI",
+                    " Discuss suitable weight management options, where clinically appropriate",
+                    " Agree on realistic weight management goals and a personalised plan",
+                    " Provide guidance on the safe use of weight-loss treatment, where appropriate"
                 ],
-                support: "We'll also offer ongoing monthly support to help track your progress, adjust your plan, and answer any questions throughout your journey."
+                support: "Please note: Weight-loss treatment is available only following a clinical assessment and where it is considered clinically appropriate by a pharmacist."
             },
             whyChooseUs: {
                 title: "Why Choose Bishops Waltham Pharmacy?",
@@ -284,25 +290,26 @@ const serviceData = {
         faqs: [
             {
                 q: "Are weight loss injections safe?",
-                a: "When prescribed and monitored by qualified healthcare professionals, Wegovy and Mounjaro are generally safe for eligible individuals. We conduct thorough assessments to ensure suitability."
+                a: "Weight-loss treatment may be suitable for some individuals following a clinical assessment. We will review your medical history and discuss any potential benefits and risks before determining whether treatment is clinically appropriate."
             },
             {
                 q: "How long does it take to see results?",
-                a: "Results vary, but many patients see noticeable weight loss within the first few months when combined with a healthy diet and exercise. Maximum results typically occur over 12-18 months."
+                a: "Weight-loss outcomes vary from person to person. Achieving and maintaining a healthy weight depends on several factors, including lifestyle changes, adherence to the treatment plan, and individual circumstances."
             },
             {
-                q: "Do I need a prescription?",
-                a: "Yes, these are prescription medications that require consultation with a healthcare provider. We'll assess your suitability during your initial consultation."
+                q: "Do I need consultation?",
+                a: "Yes. All patients must complete a clinical assessment before any weight-loss treatment can be considered. This helps ensure the treatment is appropriate for your individual needs."
             },
             {
-                q: "What's the difference between Wegovy and Mounjaro?",
-                a: "Both are effective GLP-1 medications. Wegovy contains semaglutide, while Mounjaro contains tirzepatide. Our pharmacist will recommend the most suitable option based on your individual needs."
+                q: "How do you decide which treatment is suitable?",
+                a: " Our pharmacist will assess your medical history, current health, and individual circumstances to determine the most appropriate treatment option, where clinically appropriate"
             },
             {
-                q: "How much weight can I expect to lose?",
-                a: "Clinical studies show patients can lose up to 15-20% of their body weight. Individual results vary and depend on adherence to the treatment plan and lifestyle changes."
+                q: "Will I receive support during my treatment?",
+                a: "Yes. Our service includes regular follow-up reviews, ongoing clinical support, and lifestyle advice to help you work towards your weight management goals"
             }
         ]
+        support: "Please note: Weight-loss treatment is available only following a clinical assessment and where it is considered clinically appropriate by our pharmacist. Individual results vary, and treatment should be used alongside a healthy diet and regular physical activity."
     },
     "vaccination-clinic": {
         title: "Vaccination Clinic",
